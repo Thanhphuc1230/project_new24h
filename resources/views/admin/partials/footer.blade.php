@@ -195,12 +195,3 @@
     });
 </script>
 
-<script>
-    document.getElementById('my-select').addEventListener('change', function(event) {
-        var selectedOption = this.options[this.selectedIndex];
-        var href = selectedOption.getAttribute('data-href');
-        if (href) {
-            window.location.href = href;
-        }
-    });
-</script>

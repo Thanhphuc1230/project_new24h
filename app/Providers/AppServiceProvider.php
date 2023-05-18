@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 $mini_categories = collect();
             }
-            
+     
             $new_header = Category::select('name_cate', 'id_category', 'uuid')
                 ->where('parent_id', 1)
                 ->where('status_cate', 1)

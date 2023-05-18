@@ -12,11 +12,10 @@
                     <!--========== BEGIN .NEWS ==========-->
                     <div class="news">
                         <div class="panel-body">
-                            {{ csrf_field() }}
+                           @csrf
                             <div class="content-hot-new" id="post_data">
                             </div>
                         </div>
-                        
                         <!-- End .item -->
 
                     </div>

@@ -1,7 +1,7 @@
 @extends('website.master')
 @section('module', html_entity_decode($detail_new->title))
 @section('content')
-@include('website.partials.search')
+    @include('website.partials.search')
     <div id="main-section">
         <div class="container header_category">
             <!-- Begin .breadcrumb-line -->
@@ -45,7 +45,7 @@
                                     <div class="post-meta-comments"> <i class="fas fa-eye"></i>
                                         {{ $detail_new->new_view }} views
                                     </div>
-                                
+
                                 </div>
                             </div>
                             <div class="entry-main">
@@ -58,19 +58,25 @@
                             </div>
                         </div>
                         <div class="post-meta-comments">
-                            <form  action="{{ route('website.savePost', ['uuid' => $detail_new->uuid]) }}" method="post">
-                                @csrf
-                            <button class="btn btn-primary btn-black" type="submit" >Lưu bài viết
-                              </button>
-                            </form>
+                            @if (!Auth::user())
+                                <a href="{{ route('website.checkUser') }}" type="button"
+                                    class="btn btn-primary btn-black">Lưu bài viết</a>
+                            @else
+                                <form action="{{ route('website.savePost', ['uuid' => $detail_new->uuid]) }}"
+                                    method="post">
+                                    @csrf
+                                    <button class="btn btn-primary btn-black" type="submit">Lưu bài viết
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                         <div class="comment-section">
                             <h4>Chia sẻ bài viết</h4>
-                        <div class="social-btn-sp">
-                            {!! $shareButtons !!}
-                        </div> 
+                            <div class="social-btn-sp">
+                                {!! $shareButtons !!}
+                            </div>
                         </div>
-                        
+
                         <!--  End .post -->
 
                         <!--  Begin .comment-section -->
@@ -105,7 +111,7 @@
                             </ul>
                         </div>
                         <div class="comment-section">
-                                {!!$comments_user->links()!!}
+                            {!! $comments_user->links() !!}
                         </div>
                         <!--  End .comment-section -->
                         <!--  Begin .form-reply-section -->
@@ -166,7 +172,7 @@
                                             <div class="item-content">
 
                                                 <p><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{  html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                 </p>
                                                 <p><i class="fas fa-eye"></i>
                                                     {{ $item->new_view }} views</p>
@@ -177,23 +183,6 @@
                             </ul>
                         </div>
                         <!--========== END .SIDEBAR-POST ==========-->
-                        <!--========== BEGIN .SIDEBAR-CATEGORIES ==========-->
-                        <!-- Begin .block-title-1 -->
-                        <div class="block-title-1 center">
-                            <h3>Chủ đề tin tức</h3>
-                        </div>
-                        <!-- End .block-title-1 -->
-                        <div class="sidebar-categories">
-                            <ul class="list list-mark-1">
-                                @foreach ($new_header as $item)
-                                    <li><a
-                                            href="{{ route('website.category_news', ['name_cate' => Str::of($item->name_cate)->slug('-'), 'uuid' => $item->uuid]) }}">{{ $item->name_cate }}</a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <!--========== END .SIDEBAR-CATEGORIES ==========-->
-
                         <!--========== BEGIN .SIDEBAR-REVIEWS==========-->
                         <!-- Begin .block-title-3 -->
                         <div class="block-title-3">
@@ -217,7 +206,7 @@
                                                         alt=""></a></div>
                                             <div class="item-content">
                                                 <p><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{  html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                 </p>
                                             </div>
                                         </div>

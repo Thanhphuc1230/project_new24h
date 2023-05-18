@@ -28,7 +28,13 @@ use App\Http\Controllers\Login\SocialController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/clear', function() {
 
+    Artisan::call('cache:clear');
+    Artisan::call('config:cache');
+    Artisan::call('view:clear');
+    return "Cleared!";
+});
 
 Route::fallback(function () {
     return response()->view('website.modules.error.index', [], 404);
@@ -123,7 +129,7 @@ Route::name('website.')->group(function () {
 
     //account_user
     Route::group(['middleware' => 'auth'], function () {
-        Route::get('/profile/{uuid}', [ProfileController::class, 'profile'])->name('profile');
+        Route::get('/{uuid}', [ProfileController::class, 'profile'])->name('profile');
         Route::get('/delete/{uuid_history}',[ProfileController::class, 'deleteHistory'])->name('deleteHistory');
         Route::get('/edit_comment/{uuid}', [ProfileController::class, 'editComment'])->name('editComment');
         Route::get('/delete_comment/{uuid}', [ProfileController::class, 'deleteComment'])->name('deleteComment');
@@ -134,7 +140,6 @@ Route::name('website.')->group(function () {
         Route::post('/save_post/{uuid}', [NController::class, 'savePost'])->name('savePost');
         Route::get('/delete_save_post/{uuid_save_post}', [ProfileController::class, 'deleteSavePost'])->name('deleteSavePost');
 
-        Route::get('/user_logout', [ProfileController::class, 'logout'])->name('logout');
     });
    
 });

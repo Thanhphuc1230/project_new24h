@@ -25,7 +25,7 @@
 
                                     </ul>
                                     <ul class="nav flex-column dashboard-list">
-                                        <li> <a href="{{ route('website.logout') }}">Logout</a></li>
+                                        <li> <a href="{{ route('logout') }}">Logout</a></li>
                                     </ul>
                                 </div>
                             </div>

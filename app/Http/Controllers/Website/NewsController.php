@@ -60,7 +60,7 @@ class NewsController extends Controller
                 $news_view = News::where('uuid', $uuid)->firstOrFail();
                 $news_view->increment('new_view');
             }
-        }
+        } 
 
         $data['detail_new'] = DB::table('news')
             ->join('categories', 'categories.id_category', '=', 'news.category_id')
@@ -152,7 +152,6 @@ class NewsController extends Controller
                 DB::table('history')->insert($history_user);
             }
         }
-
         return view('website.modules.new.detail', $data)->withCookie($cookie);
     }
 
@@ -180,9 +179,7 @@ class NewsController extends Controller
             ->where('id_post', $uuid_post)
             ->where('user_id', Auth::user()->uuid)
             ->count();
-        if (!Auth::user()) {
-            return back()->with('error', 'Vui lòng đăng nhập để sử dụng chức năng này');
-        } else {
+      
             if ($post_save == 0) {
                 $data = [
                     'uuid' => Str::uuid(),
@@ -196,6 +193,5 @@ class NewsController extends Controller
             } else {
                 return back()->with('success', 'Bạn đã lưu bài viết này rồi');
             }
-        }
     }
 }

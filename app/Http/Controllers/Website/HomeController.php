@@ -90,7 +90,8 @@ class HomeController extends Controller
     }
 
     public function index()
-    {
+    {   
+
         $data = [];
 
         $data['breaking_news_left'] = News::with('category')
@@ -288,4 +289,5 @@ class HomeController extends Controller
             echo $output;
         }
     }
+
 }
