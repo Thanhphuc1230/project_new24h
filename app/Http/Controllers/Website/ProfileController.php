@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Website;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\Website\AccountRequest;
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Support\Facades\DB;
@@ -103,11 +104,11 @@ class ProfileController extends Controller
             ->where('uuid', $uuid)
             ->update($data);
 
-        return redirect('/profile/' . Auth::user()->uuid)->with('success', 'Chỉnh sửa comment thành công.');
+            return redirect()->back()->with('success', 'Cập nhật thông tin thành công.');
     }
 
-    public function updatedProfile(Request $request, $uuid)
-    {
+    public function updatedProfile(AccountRequest $request, $uuid)
+    {   
         $user_current = User::where('uuid', $uuid)->first();
         $data = $request->except('_token');
         $data['updated_at'] = new \DateTime();
@@ -122,21 +123,20 @@ class ProfileController extends Controller
         }
         User::where('uuid', $uuid)->update($data);
 
-        return redirect('/profile/' . Auth::user()->uuid)->with('success', 'Chỉnh sửa thông tin thành công.');
+        return redirect()->back()->with('success', 'Cập nhật thông tin thành công.');
     }
 
     public function updatedPassword(Request $request, $uuid)
-    {
+    {   
         $user = User::where('uuid', $uuid)->first();
-
-        // Check if old password is correct
-        if (!Hash::check($request->old_password, $user->password)) {
-            return redirect()
-                ->back()
-                ->with('error', 'Mật khẩu cũ sai');
+        if($user->password !== NULL){
+            if (!Hash::check($request->old_password, $user->password)) {
+                return redirect()
+                    ->back()
+                    ->with('error', 'Mật khẩu cũ sai');
+            }
         }
 
-        // Check if new password and confirm password match
         if ($request->password != $request->password_confirm) {
             return redirect()
                 ->back()
@@ -152,7 +152,7 @@ class ProfileController extends Controller
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return redirect('/profile/' . Auth::user()->uuid)->with('success', 'Password updated successfully.');
+        return redirect()->back()->with('success', 'Cập nhật mật khẩu thành công.');
     }
 
     public function updatedEmail(Request $request, $uuid)
@@ -203,13 +203,5 @@ class ProfileController extends Controller
         $user->save();
 
         return redirect('/')->with('success', 'Email đã được cập nhật');
-    }
-
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect('/get_login');
     }
 }

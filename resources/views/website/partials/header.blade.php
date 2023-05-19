@@ -155,4 +155,12 @@
         </ul>
     </div>
 @endif
+@if ($errors->any())
+<div class="alert alert-danger" role="alert" style="list-style:none">
+    <i class="ti-alert"></i>
+    @foreach ($errors->all() as $error)
+        <li> {{ $error }}</li>
+    @endforeach
+</div>
+@endif
 <section id="main-section">

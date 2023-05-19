@@ -2,7 +2,6 @@
 @section('module', 'Profile')
 @section('content')
     <section id="main-section">
-
         <div class="account_page_bg">
             <div class="container">
                 <section class="main_content_area">
@@ -19,9 +18,7 @@
                                         <li> <a href="#history" data-toggle="tab" class="nav-link">Lịch sử</a></li>
                                         <li> <a href="#comment" data-toggle="tab" class="nav-link">Comment</a></li>
                                         <li> <a href="#save" data-toggle="tab" class="nav-link">Lưu bài viết</a></li>
-                                        @if (Auth::user()->password !== null)
-                                            <li> <a href="#password" data-toggle="tab" class="nav-link">Bảo mật</a></li>
-                                        @endif
+                                        <li> <a href="#password" data-toggle="tab" class="nav-link">Bảo mật</a></li>
 
                                     </ul>
                                     <ul class="nav flex-column dashboard-list">
@@ -49,7 +46,7 @@
                                                             <label for="form_name">Họ và tên *</label>
                                                             <input id="form_name" type="text" name="fullname"
                                                                 class="form-control" value="{{ $profile->fullname }}"
-                                                                required="" data-error="fullname is required.">
+                                                                 data-error="fullname is required.">
                                                             <div class="help-block with-errors"></div>
                                                         </div>
                                                     </div>
@@ -67,7 +64,7 @@
                                                     <div class="col-md-6">
                                                         <div class="form-group">
                                                             <label for="form_email">Sđt *</label>
-                                                            <input id="form_email" type="text" name="phone"
+                                                            <input id="form_email" type="number" name="phone"
                                                                 class="form-control" placeholder="Please enter your phone *"
                                                                 required="" data-error="Valid email is required."
                                                                 value="{{ $profile->phone }}">
@@ -161,13 +158,13 @@
                                                             <td>{{ $comment->comment }}</td>
 
                                                             <td>
-                                                                    @if ($comment->status_comment == 0)
-                                                                        <p> Chưa duyệt</p>  
-                                                                    @elseif($comment->status_comment == 1)
-                                                                        <p style="color:green">Đã duyệt</p> 
-                                                                    @else
-                                                                        <p style="color:red">Đã bị Chặn</p> 
-                                                                    @endif
+                                                                @if ($comment->status_comment == 0)
+                                                                    <p> Chưa duyệt</p>
+                                                                @elseif($comment->status_comment == 1)
+                                                                    <p style="color:green">Đã duyệt</p>
+                                                                @else
+                                                                    <p style="color:red">Đã bị Chặn</p>
+                                                                @endif
 
                                                             </td>
                                                             <td>{{ $comment->created_at }}</td>
@@ -219,61 +216,62 @@
                                             @csrf
                                             <div class="messages"></div>
                                             <div class="controls">
-                                                <div class="row no-gutter">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="form_name">Mật khẩu cũ *</label>
-                                                            <input id="form_name" type="password" name="old_password"
-                                                                class="form-control"
-                                                                placeholder="Please enter your firstname *" required=""
-                                                                data-error="Firstname is required.">
-                                                            <div class="help-block with-errors"></div>
+                                                @if (Auth::user()->provider == null)
+                                                    <div class="row no-gutter">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label for="form_name">Mật khẩu cũ *</label>
+                                                                <input id="form_name" type="password" name="old_password"
+                                                                    class="form-control"
+                                                                    placeholder="Please enter your firstname *"
+                                                                    required="" data-error="Firstname is required.">
+                                                                <div class="help-block with-errors"></div>
+                                                            </div>
                                                         </div>
+                                                @endif
+                                            </div>
+                                            <div class="row no-gutter">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="form_email">Mật khẩu mới *</label>
+                                                        <input id="form_email" type="password" name="password"
+                                                            class="form-control"
+                                                            placeholder="Please enter your password *" required="">
+                                                        <div class="help-block with-errors"></div>
                                                     </div>
+                                                </div>
 
-                                                </div>
-                                                <div class="row no-gutter">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="form_email">Mật khẩu mới *</label>
-                                                            <input id="form_email" type="password" name="password"
-                                                                class="form-control"
-                                                                placeholder="Please enter your password *" required="">
-                                                            <div class="help-block with-errors"></div>
-                                                        </div>
+                                            </div>
+                                            <div class="row no-gutter">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label for="form_email">Nhập lại mật khẩu mới *</label>
+                                                        <input id="form_email" type="password" name="password_confirm"
+                                                            class="form-control"
+                                                            placeholder="Please enter your password_confirm *"
+                                                            required="">
+                                                        <div class="help-block with-errors"></div>
                                                     </div>
+                                                </div>
 
-                                                </div>
-                                                <div class="row no-gutter">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            <label for="form_email">Nhập lại mật khẩu mới *</label>
-                                                            <input id="form_email" type="password"
-                                                                name="password_confirm" class="form-control"
-                                                                placeholder="Please enter your password_confirm *"
-                                                                required="">
-                                                            <div class="help-block with-errors"></div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <div class="row no-gutter">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <button type="submit" class="btn btn-primary">Đổi mật
-                                                                khẩu</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row no-gutter">
+                                            </div>
+                                            <div class="row no-gutter">
+                                                <div class="row">
                                                     <div class="col-md-12">
-                                                        <p class="text-muted"><strong>*</strong>Bắt buộc phải điền
-                                                        </p>
+                                                        <button type="submit" class="btn btn-primary">Đổi mật
+                                                            khẩu</button>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </form>
-
+                                            <div class="row no-gutter">
+                                                <div class="col-md-12">
+                                                    <p class="text-muted"><strong>*</strong>Bắt buộc phải điền
+                                                    </p>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    </form>
+                                    @if (Auth::user()->provider == null)
                                         <h2 class="no-margin text-bold">Cập nhật email mới<small>Bold 20px</small></h2>
                                         <form id="contact-form" method="post"
                                             action="{{ route('website.updatedEmail', ['uuid' => $profile->uuid]) }}">
@@ -307,7 +305,8 @@
                                                 <div class="row no-gutter">
                                                     <div class="row">
                                                         <div class="col-md-12">
-                                                            <button type="submit" class="btn btn-primary">Cập nhật email
+                                                            <button type="submit" class="btn btn-primary">Cập nhật
+                                                                email
                                                                 mới</button>
                                                         </div>
                                                     </div>
@@ -320,15 +319,16 @@
                                                 </div>
                                             </div>
                                         </form>
-                                    </div>
-
+                                    @endif
                                 </div>
 
                             </div>
+
                         </div>
                     </div>
-                </section>
             </div>
-        </div>
+    </section>
+    </div>
+    </div>
     </section>
 @endsection

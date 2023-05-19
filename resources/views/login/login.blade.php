@@ -29,19 +29,19 @@
             </a>
         </div>
         <div class="text-center">
-            <a href="{{ route('provider-auth', ['provider' => 'facebook']) }}" type="button"
+            {{-- <a href="{{ route('provider-auth', ['provider' => 'facebook']) }}" type="button"
                 class="btn btn-secondary btn-floating mx-1">
-                <i class="fa-brands fa-facebook"></i>
+                <i class="fa-brands fa-facebook"></i> </a> --}}
 
-                <a href="{{ route('provider-auth', ['provider' => 'google']) }}" type="button"
-                    class="btn btn-secondary btn-floating mx-1">
-                    <i class="fab fa-google"></i>
-                </a>
+            <a href="{{ route('provider-auth', ['provider' => 'google']) }}" type="button"
+                class="btn btn-secondary btn-floating mx-1">
+                <i class="fab fa-google"></i>
+            </a>
 
-                <a href="{{ route('provider-auth', ['provider' => 'github']) }}" type="button"
-                    class="btn btn-secondary btn-floating mx-1">
-                    <i class="fab fa-github"></i>
-                </a>
+            <a href="{{ route('provider-auth', ['provider' => 'github']) }}" type="button"
+                class="btn btn-secondary btn-floating mx-1">
+                <i class="fab fa-github"></i>
+            </a>
         </div>
     </form>
 @endsection

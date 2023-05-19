@@ -68,32 +68,33 @@ class CrawlerController extends Controller
     
           $i++;
         }
+        $name = DB::table('categories')->where('id_category',$category_id)->value('name_cate');
         if($i == 0 ){
-            echo 'cant get post ';
+            echo 'cant get post of '.$name;
         }else{
-            echo 'success ' .$i .' post';
+            echo 'success ' .$i .' post of '.$name.'<br>';
         }
        
     }
     public function featchAllTuoiTre () 
     {
-        // $result = DB::table('categories')->where('parent_id',1 )->get();
-        // foreach ($result as $item) {
-        //     $link = $item->link;
-        //     $category_id = $item->id_category;
+        $result = DB::table('categories')->where('parent_id',1 )->get();
+        foreach ($result as $item) {
+            $link = $item->link;
+            $category_id = $item->id_category;
            
-        //     if($item->parent_id == 1){
-        //         $where_in = $item->id_category;
-        //     }else{
-        //         $where_in = $item->parent_id;
-        //     }
+            if($item->parent_id == 1){
+                $where_in = $item->id_category;
+            }else{
+                $where_in = $item->parent_id;
+            }
 
-        //     $this->index ($category_id, $link,$where_in );
-        // }
-            $link= 'https://tuoitre.vn/thoi-su.htm';
-            $category_id = 2;
-            $where_in = 2;
+            $this->index ($category_id, $link,$where_in );
+        }
+        //     $link= 'https://tuoitre.vn/thoi-su.htm';
+        //     $category_id = 2;
+        //     $where_in = 2;
 
-        $this->index ($category_id, $link,$where_in );
+        // $this->index ($category_id, $link,$where_in );
     }
 }
