@@ -38,7 +38,7 @@ class VerifyEmail extends Mailable
      */
     public function build()
     {
-        $token = $this->user->email_verification_token;
+        $token = $this->user->email_token;
     
         return $this->subject('Verify Your Email')
                     ->view('emails.update-email')

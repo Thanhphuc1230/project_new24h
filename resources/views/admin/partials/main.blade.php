@@ -10,8 +10,6 @@
     <div class="line_icon open_miniSide d-none d-lg-block">
     <img src="{{ asset('style/img/line_img.png') }}" alt="">
     </div>
-  
-    
     </div>
     </div>
     </div>

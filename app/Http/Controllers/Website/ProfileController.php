@@ -177,7 +177,7 @@ class ProfileController extends Controller
         $token = Str::random(60);
 
         // Update the user's email verification token and save the user
-        $user->email_verification_token = $token;
+        $user->email_token = $token;
         $user->save();
 
         // Send a verification email to the new email
@@ -190,7 +190,7 @@ class ProfileController extends Controller
 
     public function verifyEmail(Request $request, $token)
     {
-        $user = User::where('email_verification_token', $token)->first();
+        $user = User::where('email_token', $token)->first();
 
         if (!$user) {
             return response()->view('website.modules.error.index', [], 404);
@@ -198,7 +198,7 @@ class ProfileController extends Controller
         $newEmail = $request->query('new_email');
         $user->email = $newEmail;
         $user->email_verified_at = now();
-        $user->email_verification_token = null;
+        $user->email_token = null;
         $user->updated_at = new \DateTime();
         $user->save();
 

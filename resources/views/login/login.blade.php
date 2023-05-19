@@ -28,7 +28,7 @@
                 Forgot password
             </a>
         </div>
-        <div class="text-center">
+        <div class="text-center login-social">
             {{-- <a href="{{ route('provider-auth', ['provider' => 'facebook']) }}" type="button"
                 class="btn btn-secondary btn-floating mx-1">
                 <i class="fa-brands fa-facebook"></i> </a> --}}

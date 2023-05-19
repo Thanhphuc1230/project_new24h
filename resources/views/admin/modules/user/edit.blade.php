@@ -64,7 +64,7 @@
                                 <div class="mb-3">
                                     <h6 class="card-subtitle mb-2">Avatar-Current</h6>
                                     @php
-                                        $avatar = !empty($user->avatar) ? $user->avatar : 'default.png';
+                                        $avatar = !empty($user->avatar) ? $user->avatar : 'default_user.png';
                                     @endphp
 
                                     <div>

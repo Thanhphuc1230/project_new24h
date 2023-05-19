@@ -9,7 +9,7 @@
     </div>
     <ul id="sidebar_menu">
         <li class="">
-            <a aria-expanded="false">
+            <a aria-expanded="false" href="{{ route('admin.profile_admin.profile') }}">
                 <div class="nav_icon_small">
                     <img src="{{ asset('style/img/menu-icon/4.svg') }}" alt="">
                 </div>

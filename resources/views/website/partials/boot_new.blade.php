@@ -29,8 +29,11 @@
                                     <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                         </a></h3>
                                 </div>
+                                <p> <i class="fa fa-clock-o"></i> <span
+                                    class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                 <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                        {{ $item->intro }}</a></p>
+                                        {{Str::words($item->intro, 20) }}</a></p>
 
                                 <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                         target="_blank"><span
@@ -82,8 +85,11 @@
                                     <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                         </a></h3>
                                 </div>
+                                <p> <i class="fa fa-clock-o"></i> <span
+                                    class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                 <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                        {{ $item->intro }}</a></p>
+                                        {{Str::words($item->intro, 20) }}</a></p>
 
                                 <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                         target="_blank"><span
@@ -134,8 +140,11 @@
                                     <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                         </a></h3>
                                 </div>
+                                <p> <i class="fa fa-clock-o"></i> <span
+                                    class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                 <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                        {{ $item->intro }}</a></p>
+                                        {{Str::words($item->intro, 20) }}</a></p>
 
                                 <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                         target="_blank"><span
@@ -186,8 +195,11 @@
                                     <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                         </a></h3>
                                 </div>
+                                <p> <i class="fa fa-clock-o"></i> <span
+                                    class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                 <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                        {{ $item->intro }}</a></p>
+                                        {{Str::words($item->intro, 20) }}</a></p>
 
                                 <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                         target="_blank"><span
@@ -238,8 +250,11 @@
                                     <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                         </a></h3>
                                 </div>
+                                <p> <i class="fa fa-clock-o"></i> <span
+                                    class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                 <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                        {{ $item->intro }}</a></p>
+                                        {{Str::words($item->intro, 20) }}</a></p>
 
                                 <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                         target="_blank"><span
@@ -290,8 +305,11 @@
                                     <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                         </a></h3>
                                 </div>
+                                <p> <i class="fa fa-clock-o"></i> <span
+                                    class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                 <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                        {{ $item->intro }}</a></p>
+                                        {{Str::words($item->intro, 20) }}</a></p>
 
                                 <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                         target="_blank"><span
@@ -342,8 +360,11 @@
                                     <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                         </a></h3>
                                 </div>
+                                <p> <i class="fa fa-clock-o"></i> <span
+                                    class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                 <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                        {{ $item->intro }}</a></p>
+                                        {{Str::words($item->intro, 20) }}</a></p>
 
                                 <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                         target="_blank"><span

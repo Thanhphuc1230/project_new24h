@@ -129,8 +129,11 @@
                                         <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                             </a></h3>
                                     </div>
+                                    <p> <i class="fa fa-clock-o"></i> <span
+                                            class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                        <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                     <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                            {{ $item->intro }}</a></p>
+                                            {{ Str::words($item->intro, 20) }}</a></p>
 
                                     <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                             target="_blank"><span
@@ -142,8 +145,9 @@
                         @endforeach
 
                     </div>
-                    <div class="button-load-more"><a href="{{ route('website.category_news',['name_cate'=> Str::of($new_header[1]->name_cate)->slug('-'),'uuid'=>$new_header[1]->uuid]) }}" type="button"
-                            class="btn btn-default active">Xem thêm</a></div>
+                    <div class="button-load-more"><a
+                            href="{{ route('website.category_news', ['name_cate' => Str::of($new_header[1]->name_cate)->slug('-'), 'uuid' => $new_header[1]->uuid]) }}"
+                            type="button" class="btn btn-default active">Xem thêm</a></div>
                     <!--========== End .NEWS ==========-->
                 </div>
                 <!--========== End .COL-MD-8 ==========-->
@@ -228,8 +232,11 @@
                                         <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                             </a></h3>
                                     </div>
+                                    <p> <i class="fa fa-clock-o"></i> <span
+                                        class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                    <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                     <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                            {{ $item->intro }}</a></p>
+                                            {{Str::words($item->intro, 20) }}</a></p>
 
                                     <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                             target="_blank"><span
@@ -241,8 +248,9 @@
                         @endforeach
 
                     </div>
-                    <div class="button-load-more"><a href="{{ route('website.category_news',['name_cate'=> Str::of($new_header[2]->name_cate)->slug('-'),'uuid'=>$new_header[2]->uuid]) }}" type="button"
-                        class="btn btn-default active">Xem thêm</a></div>
+                    <div class="button-load-more"><a
+                            href="{{ route('website.category_news', ['name_cate' => Str::of($new_header[2]->name_cate)->slug('-'), 'uuid' => $new_header[2]->uuid]) }}"
+                            type="button" class="btn btn-default active">Xem thêm</a></div>
                     <!--========== End .NEWS ==========-->
                 </div>
                 <!--========== End .COL-MD-8 ==========-->
@@ -282,8 +290,11 @@
                                         <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                             </a></h3>
                                     </div>
+                                    <p> <i class="fa fa-clock-o"></i> <span
+                                        class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                    <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
                                     <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                            {{ $item->intro }}</a></p>
+                                            {{Str::words($item->intro, 20) }}</a></p>
 
                                     <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                             target="_blank"><span
@@ -295,8 +306,9 @@
                         @endforeach
 
                     </div>
-                    <div class="button-load-more"><a href="{{ route('website.category_news',['name_cate'=> Str::of($new_header[3]->name_cate)->slug('-'),'uuid'=>$new_header[3]->uuid]) }}" type="button"
-                        class="btn btn-default active">Xem thêm</a></div>
+                    <div class="button-load-more"><a
+                            href="{{ route('website.category_news', ['name_cate' => Str::of($new_header[3]->name_cate)->slug('-'), 'uuid' => $new_header[3]->uuid]) }}"
+                            type="button" class="btn btn-default active">Xem thêm</a></div>
                     <!--========== End .NEWS ==========-->
                 </div>
                 <!--========== End .COL-MD-8 ==========-->

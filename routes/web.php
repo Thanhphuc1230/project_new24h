@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\CkeditorController;
 use App\Http\Controllers\Admin\CommentController;
+use App\Http\Controllers\Admin\ProfileController as PController;
 
 use App\Http\Controllers\Website\HomeController;
 use App\Http\Controllers\Website\NewsController as NController;
@@ -28,7 +29,7 @@ use App\Http\Controllers\Login\SocialController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/clear', function() {
+Route::post('/clear', function() {
 
     Artisan::call('cache:clear');
     Artisan::call('config:cache');
@@ -78,6 +79,7 @@ Route::prefix('admin')->name('admin.')->middleware('check_login')->group(functio
         }
     );
     Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
+        Route::get('/profile', 'profile')->name('profile');
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::get('/status_user/{uuid}/{status}', 'status_user')->name('status_user');
@@ -85,6 +87,13 @@ Route::prefix('admin')->name('admin.')->middleware('check_login')->group(functio
         Route::get('/edit/{uuid}', 'edit')->name('edit');
         Route::post('/update/{uuid}', 'update')->name('update');
         Route::get('/destroy/{uuid}', 'destroy')->name('destroy');
+
+    });
+    Route::controller(PController::class)->prefix('profile_admin')->name('profile_admin.')->group(function () {
+        Route::get('/profile', 'profile')->name('profile');
+        Route::post('/updated_profile', 'updatedProfile')->name('updatedProfile');
+        Route::post('/updated_password', 'updatedPassword')->name('updatedPassword');
+        Route::post('/updated_email','updatedEmail')->name('updatedEmail');
 
     });
     Route::post('ckeditor/image_upload', [CkeditorController::class, 'upload'])->name('upload');

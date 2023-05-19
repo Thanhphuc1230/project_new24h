@@ -9,31 +9,12 @@
         <div class="container">
             <!-- Begin .left-top-menu -->
             <ul class="left-top-menu">
-                <li> <a href="#" class="facebook"><i class="fa fa-facebook"></i></a></li>
-                <li> <a href="#" class="twitter"><i class="fa fa-twitter"></i></a> </li>
-                <li> <a href="#" class="youtube"> <i class="fa fa-youtube"></i></a> </li>
-                <li> <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a> </li>
-                <li> <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> </li>
-                <li> <a href="#" class="instagram"> <i class="fa fa-instagram"></i></a> </li>
-                <li class="address"><a href="#"><i class="fa fa-phone"></i> +00 (123) 456 7890</a></li>
-                <li class="address"><a href="#"><i class="fa fa-envelope-o"></i> info@domain.com</a></li>
+                <li> <a href="https://www.facebook.com/Tphuc1505/" class="facebook"><i class="fa fa-facebook"></i></a></li>
+                <li> <a href="https://www.linkedin.com/in/daothanhphuc/" class="linkedin"><i class="fa fa-linkedin"></i></a> </li>
+                <li class="address"><a href="tel:+84706405646"><i class="fa fa-phone"></i>0706405646</a></li>
+                <li class="address"><a href="mailto:thanhphuc15052001@gmail.com"><i class="fa fa-envelope-o"></i>thanhphuc15052001@gmail.com</a></li>
             </ul>
             <!-- End .left-top-menu -->
-            <!-- Begin .right-top-menu -->
-            <ul class="right-top-menu pull-right">
-                <li class="contact"><a href="contact.html"><i class="fa fa-map-marker fa-i"></i></a></li>
-                <li class="about"><a href="{{ route('getLogin') }}"><i class="fa fa-user fa-i"></i></a> </li>
-                <li>
-                    <div class="search-container">
-                        <div class="search-icon-btn"> <span style="cursor:pointer"><i class="fa fa-search"></i></span>
-                        </div>
-                        <div class="search-input">
-                            <input type="search" class="search-bar" placeholder="Search..." title="Search" />
-                        </div>
-                    </div>
-                </li>
-            </ul>
-            <!-- End .right-top-menu -->
         </div>
         <!-- End .container -->
     </div>
@@ -44,7 +25,7 @@
         <div class="header-logo"><a href="{{ route('website.index') }}"><img src="{{ asset('website/img/logo.png') }} "
                     alt="Site Logo" />
                 <h1>24h <span>News</span></h1>
-                <h4>Your 24h News Source</h4>
+                <h4>Tuoitre.asia</h4>
             </a></div>
         <!-- End .header-logo -->
 
@@ -56,7 +37,7 @@
                 <div class="sidenav-header-logo"><a href="{{ route('website.index') }}"><img
                             src="{{ asset('website/img/logo.png') }} " alt="Site Logo" />
                         <h2>24h <span>News</span></h2>
-                        <h5>Your 24h News Source</h5>
+                        <h5>Tuoitre.asia</h5>
                     </a></div>
             </div>
             <div class="sidenav" data-sidenav data-sidenav-toggle="#sidenav-toggle">
@@ -66,7 +47,7 @@
                     <div class="sidenav-header-logo"><a href="{{ route('website.index') }}"><img
                                 src="{{ asset('website/img/logo.png') }} " alt="Site Logo" />
                             <h2>24h <span>News</span></h2>
-                            <h5>Your 24h News Source</h5>
+                            <h5>Tuoitre.asia</h5>
                         </a></div>
                 </div>
                 <ul class="sidenav-menu">

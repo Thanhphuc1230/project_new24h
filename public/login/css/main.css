@@ -409,3 +409,6 @@ iframe {
 a:hover {
     color: black !important;
 }
+.login-social {
+    padding-top: 10px;
+}

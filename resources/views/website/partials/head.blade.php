@@ -33,19 +33,16 @@
     <link rel="stylesheet" href="{{ asset('website/css/responsive.css') }} ">
     <link rel="stylesheet" href="{{ asset('website/css/jquery-ui.min.css') }} ">
     <link rel="stylesheet" href="{{ asset('website/css/weather-icons.min.css') }} ">
-    
+
     <!--[if lt IE 9]>
       <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js ') }} "></script>
       <![endif]-->
-      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.0/lazysizes.min.js" async=""></script>
-      <script src="https://kit.fontawesome.com/9d4570d54a.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.2.0/lazysizes.min.js" async=""></script>
+    <script src="https://kit.fontawesome.com/9d4570d54a.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div id="pageloader">
-        <div class="loader-item"> <img src="{{ asset('website/img/load.gif') }}" alt='loader' /> </div>
-    </div>
     <!--========== BEGIN #WRAPPER ==========-->
     <div id="wrapper" data-color="red">
         <!--========== BEGIN #HEADER ==========-->
