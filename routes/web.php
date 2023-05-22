@@ -29,7 +29,7 @@ use App\Http\Controllers\Login\SocialController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::post('/clear', function() {
+Route::post('/clear/data/123', function() {
 
     Artisan::call('cache:clear');
     Artisan::call('config:cache');
@@ -132,7 +132,7 @@ Route::name('website.')->group(function () {
     Route::get('/hot-news', [HomeController::class, 'hotNews'])->name('hotNews');
     Route::post('/hot-news/load-data', [HomeController::class,'loadMoreData'])->name('load-data');
     //News
-    Route::get('/detail/{uuid}', [NController::class, 'detailNew'])->name('detailNew');
+    Route::get('/{name_post}/{uuid}', [NController::class, 'detailNew'])->name('detailNew');
     Route::post('/postComment/{uuidOfNew}', [NController::class, 'postComment'])->name('postComment');
     Route::get('/get-data', [CrawlerController::class, 'featchAllTuoiTre'])->name('getData');
 

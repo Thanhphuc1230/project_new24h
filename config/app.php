@@ -172,6 +172,8 @@ return [
         Biscolab\ReCaptcha\ReCaptchaServiceProvider::class,
         Jorenvh\Share\Providers\ShareServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+        Illuminate\Session\SessionServiceProvider::class,
+        Intervention\Image\ImageServiceProvider::class
     ])->toArray(),
 
     /*
@@ -190,6 +192,7 @@ return [
         'Share' => Jorenvh\Share\ShareFacade::class,
         'ReCaptcha' => Biscolab\ReCaptcha\Facades\ReCaptcha::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Image' => Intervention\Image\Facades\Image::class
     ])->toArray(),
 
 ];

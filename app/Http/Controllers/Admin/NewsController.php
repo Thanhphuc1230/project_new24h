@@ -59,10 +59,12 @@ class NewsController extends Controller
 
         $data['created_at'] = new \DateTime(); 
         $data['uuid'] = Str::uuid();
+        $data['uuid_author'] = Auth::user()->uuid;
         $imageName = time().'-'.$request->avatar->getClientOriginalName();  
         $request->avatar->move(public_path('images/news'), $imageName);
         $data['avatar'] = $imageName;
-        DB::table('news')->insert($data);
+
+        News::insert($data);
         
         return redirect()->back()->with('success', 'Đã đăng bài viết thành công');
     }

@@ -8,6 +8,7 @@ use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Image;
 class UserController extends Controller
 {
     /**
@@ -20,7 +21,7 @@ class UserController extends Controller
             return redirect()->route('admin.news.index');
         }
 
-        $data['users'] = User::select('uuid', 'fullname', 'email', 'created_at', 'level', 'status_user')->get();
+        $data['users'] = User::select('uuid', 'fullname', 'email','avatar','created_at', 'level', 'status_user')->get();
         return view('admin.modules.user.index', $data);
     }
     /**
@@ -33,8 +34,18 @@ class UserController extends Controller
         $data['created_at'] = new \DateTime();
         $data['uuid'] = Uuid::uuid4()->toString();
         $data['status_user'] = '1';
-        $imageName = time() . '-' . $request->avatar->getClientOriginalName();
-        $request->avatar->move(public_path('images/users'), $imageName);
+
+        $image = $request->avatar;
+        $imageName = time() . '-' . $image->getClientOriginalName();
+
+        $destinationPath = public_path('/images/users');
+        $imgFile = Image::make($image->getRealPath());
+        $imgFile
+            ->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($destinationPath . '/' . $imageName);
+
         $data['avatar'] = $imageName;
 
         User::insert($data);
@@ -44,14 +55,13 @@ class UserController extends Controller
             ->with('success', 'Thêm thành viên thành công');
     }
 
-    public function status_user($uuid,$status)
-    {   
+    public function status_user($uuid, $status)
+    {
         if (Auth::user()->level !== 1) {
             session()->flash('error_level', 'Bạn không đủ quyền hạn để thưc hiện');
             return redirect()->route('admin.news.index');
         }
-        User::where('uuid',$uuid)->update(['status_user'=>$status]);
- 
+        User::where('uuid', $uuid)->update(['status_user' => $status]);
 
         return redirect()
             ->back()
@@ -64,6 +74,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::where('uuid', $id);
+
         if ($user->exists()) {
             $data['user'] = $user->first();
             return view('admin.modules.user.edit', $data);
@@ -115,6 +126,4 @@ class UserController extends Controller
     {
         //
     }
-
-    
 }

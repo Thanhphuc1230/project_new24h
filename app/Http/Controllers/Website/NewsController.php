@@ -14,6 +14,7 @@ use Illuminate\Support\Str;
 use App\Models\Comment;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 class NewsController extends Controller
 {
     public function getChildCategory($id_category)
@@ -31,37 +32,21 @@ class NewsController extends Controller
         return $data;
     }
 
-    public function detailNew(Request $request, $uuid)
+    public function detailNew(Request $request, $name_post, $uuid)
     {
         if (!Uuid::isValid($uuid)) {
             return new Response(view('website.modules.error.index'), 404);
         }
         $news = News::where('uuid', $uuid)->firstOrFail();
 
-        // Get cookie
-        $cookie_name = $request->ip();
-
-        // Check if the user has the cookie
-        $has_cookie = $request->hasCookie($cookie_name);
-
-        if (!$has_cookie) {
-            // Set the cookie to expire in 30 seconds
-            $cookie = Cookie::make($cookie_name, '1', 30);
-        } else {
-            // Get the value of the cookie
-            $cookie_value = $request->cookie($cookie_name);
-            if ($cookie_value >= 2) {
-                // Do not increment view count if user refreshes page more than once within 30 seconds
-                $cookie = Cookie::make($cookie_name, $cookie_value, 30);
-                return redirect()->back();
-            } else {
-                // Increment view count if user stays on page for more than 30 seconds
-                $cookie = Cookie::make($cookie_name, '2', 30);
-                $news_view = News::where('uuid', $uuid)->firstOrFail();
-                $news_view->increment('new_view');
-            }
-        } 
-
+        // Set session for + view
+        $sessionKey = 'post_' . $uuid;
+        $sessionView = Session::get($sessionKey);
+       
+        if (!$sessionView) {
+            Session::put($sessionKey, true);
+        $news->increment('new_view');
+        }
         $data['detail_new'] = DB::table('news')
             ->join('categories', 'categories.id_category', '=', 'news.category_id')
             ->select('news.*', 'categories.name_cate')
@@ -127,13 +112,11 @@ class NewsController extends Controller
             ->count();
 
         // Share button
-        $data['shareButtons'] = \Share::page(url(route('website.detailNew', ['uuid' => $uuid])))
+        $data['shareButtons'] = \Share::page(url(route('website.detailNew', ['name_post' => $name_post, 'uuid' => $uuid])))
             ->facebook()
             ->twitter()
             ->linkedin()
-            ->telegram()
-            ->whatsapp()
-            ->reddit();
+            ->telegram();
 
         //make history for user
         if (Auth::user()) {
@@ -152,7 +135,7 @@ class NewsController extends Controller
                 DB::table('history')->insert($history_user);
             }
         }
-        return view('website.modules.new.detail', $data)->withCookie($cookie);
+        return view('website.modules.new.detail', $data);
     }
 
     public function postComment(Request $request, $id)
@@ -179,19 +162,19 @@ class NewsController extends Controller
             ->where('id_post', $uuid_post)
             ->where('user_id', Auth::user()->uuid)
             ->count();
-      
-            if ($post_save == 0) {
-                $data = [
-                    'uuid' => Str::uuid(),
-                    'id_post' => $uuid_post,
-                    'user_id' => Auth::user()->uuid,
-                    'status_save' => 1,
-                    'created_at' => new \DateTime(),
-                ];
-                DB::table('save_post')->insert($data);
-                return back()->with('success', 'Đã lưu bài viết thành công');
-            } else {
-                return back()->with('success', 'Bạn đã lưu bài viết này rồi');
-            }
+
+        if ($post_save == 0) {
+            $data = [
+                'uuid' => Str::uuid(),
+                'id_post' => $uuid_post,
+                'user_id' => Auth::user()->uuid,
+                'status_save' => 1,
+                'created_at' => new \DateTime(),
+            ];
+            DB::table('save_post')->insert($data);
+            return back()->with('success', 'Đã lưu bài viết thành công');
+        } else {
+            return back()->with('success', 'Bạn đã lưu bài viết này rồi');
+        }
     }
 }

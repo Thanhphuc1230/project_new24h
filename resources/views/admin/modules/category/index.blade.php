@@ -51,7 +51,7 @@
                                                         <div class="mb-3">
                                                             <h6 class="card-subtitle mb-2">Thể loại chủ đè</h6>
                                                             <input type="text" name="name_cate" class="form-control"
-                                                                placeholder="vd: Pháp luật">
+                                                                placeholder="vd: Pháp luật"  value="{{ old('name_cate') }}">
                                                         </div>
                                                         <div class="mb-3">
                                                             <h6 class="card-subtitle mb-2">Chi tiết</h6>
@@ -61,7 +61,7 @@
                                                                     {{$category->name_cate}}</option>
                                                                 }
                                                                 @endforeach
-                                                                <option selected="" value="0">Chủ đề mới</option>
+                                                                <option selected="" value="1">Chủ đề mới</option>
                                                             </select>
                                                         </div>
                                                         <div class="mb-3">

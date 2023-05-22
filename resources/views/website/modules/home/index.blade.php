@@ -18,7 +18,7 @@
                         @foreach ($breaking_news_left as $item)
                             <div class="item">
                                 <div class="item-image-1"><a class="img-link"
-                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                             class="img-responsive img-full"
                                             @php if (substr($item->avatar, 0, 8) === "https://")
                                 {
@@ -31,11 +31,12 @@
                                 </div>
                                 <div class="item-content">
                                     <div class="title-left title-style04 underline04">
-                                        <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}
+                                        <h3><a
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}
                                                 </strong></a>
                                         </h3>
                                     </div>
-                                    <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"
+                                    <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
                                             class="external-link">{{ Str::words($item->intro, 15) }}</a>
                                     </p>
                                     <div><a
@@ -57,7 +58,7 @@
                         @foreach ($breaking_news_right as $item)
                             <div class="item">
                                 <div class="item-image-1"><a class="img-link"
-                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                             class="img-responsive img-full" loading="lazy"
                                             @php if (substr($item->avatar, 0, 8) === "https://")
                                 {
@@ -70,11 +71,12 @@
                                 </div>
                                 <div class="item-content">
                                     <div class="title-left title-style04 underline04">
-                                        <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}
+                                        <h3><a
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}
                                                 </strong></a>
                                         </h3>
                                     </div>
-                                    <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"
+                                    <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
                                             class="external-link">{{ Str::words($item->intro, 15) }}</a>
                                     </p>
                                     <div><a
@@ -113,7 +115,7 @@
                             <!-- Begin .item-->
                             <div class="item">
                                 <div class="item-image-2"><a class="img-link"
-                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                             class="img-responsive img-full" loading="lazy"
                                             @php if (substr($item->avatar, 0, 8) === "https://")
                                 {
@@ -126,13 +128,16 @@
                                 </div>
                                 <div class="item-content">
                                     <div class="title-left title-style04 underline04">
-                                        <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
+                                        <h3><a
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                             </a></h3>
                                     </div>
                                     <p> <i class="fa fa-clock-o"></i> <span
                                             class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
-                                        <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
-                                    <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
+                                        <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong>
+                                    </p>
+                                    <p><a
+                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
                                             {{ Str::words($item->intro, 20) }}</a></p>
 
                                     <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
@@ -168,7 +173,7 @@
                                     <li>
                                         <div class="item">
                                             <div class="item-image"><a class="img-link"
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                                         class="img-responsive img-full" loading="lazy"
                                                         @php if (substr($item->avatar, 0, 8) ===
                                             "https://") {
@@ -180,7 +185,7 @@
                                             </div>
                                             <div class="item-content">
                                                 <h4 class="ellipsis"><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode($item->title) }}</a>
+                                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode($item->title) }}</a>
                                                 </h4>
                                                 <p class="ellipsis"><i class="fas fa-eye"></i> {{ $item->new_view }} views
                                                 </p>
@@ -199,8 +204,326 @@
             </div>
         </div>
     </section>
-
-    {{-- Law --}}
+   
+    <section class="module highlight">
+        <div class="container">
+            <div class="row no-gutter">
+                <!--========== BEGIN .COL-MD-8 ==========-->
+                <div class="col-md-8">
+                    <div class="module-title">
+                        <h3 class="title"><span class="bg-12">Pháp Luật</span></h3>
+                    </div>
+                    <!--========== BEGIN .NEWS ==========-->
+                    <div class="news">
+                        <!-- Begin .item -->
+                        @if (count($law_news) > 0)
+                            <div class="item">
+                                <div class="item-image-1"><a class="img-link"
+                                        href="{{ route('website.detailNew', ['name_post' => Str::of($law_news[0]->title)->slug('-'), 'uuid' => $law_news[0]->uuid]) }}"><img
+                                            class="img-responsive img-full"
+                                            @php if (substr($law_news[0]->avatar, 0, 8) === "https://")
+                                                {
+                                                echo 'src="'. $law_news[0]->avatar.'"';
+                                                } else {
+                                                echo 'src="' . asset('images/news/'.$law_news[0]->avatar) . '" ';
+                                                } @endphp
+                                            alt=""></a></div>
+                                <div class="item-content">
+                                    <div class="title-left title-style04 underline04">
+                                        <h3><a
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($law_news[0]->title)->slug('-'), 'uuid' => $law_news[0]->uuid]) }}"><strong>{{ html_entity_decode($law_news[0]->title) }}</strong></a>
+                                        </h3>
+                                        <br>
+                                        <div class="post-meta-elements">
+                                            <div class="post-meta-author"> <i
+                                                    class="fa fa-user"></i><a>{{ $law_news[0]->author }}</a> </div>
+                                            <div class="post-meta-date"> <i
+                                                    class="fa fa-calendar"></i>{{ date('d.m.Y | H:i A', strtotime($law_news[0]->created_at)) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($law_news[0]->title)->slug('-'), 'uuid' => $law_news[0]->uuid]) }}"
+                                            class="external-link"><strong>{{ Str::words($law_news[0]->intro, 20) }}</strong></a>
+                                    </p>
+                                    <div> <a
+                                            href="{{ route('website.detailNew', ['name_post' => Str::of($law_news[0]->title)->slug('-'), 'uuid' => $law_news[0]->uuid]) }}"><span
+                                                class="read-more">Continue reading</span></a> </div>
+                                </div>
+                            </div>
+                            <!-- End .item -->
+                            <div class="news-block">
+                                @foreach ($law_news as $key => $item)
+                                    @if ($key !== 0)
+                                        <div class="item-block">
+                                            <div class="item-image"><a class="img-link"
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
+                                                        class="img-responsive img-full" loading="lazy"
+                                                        @php if (substr($item->avatar, 0, 8) ===
+                                                    "https://") {
+                                                    echo 'src="'. $item->avatar.'"';
+                                                    } else {
+                                                    echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                    } @endphp
+                                                        alt=""></a></div>
+                                            <div class="item-content">
+                                                <p><span
+                                                        class="day">{{ date('d/m/Y ', strtotime($item->created_at)) }}</span>
+                                                </p>
+                                                <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
+                                                        class="external-link"><strong>{{ $item['category']->name_cate }}-</strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                    <!--========== END .NEWS ==========-->
+                    <div class="module-title">
+                        <h3 class="title"><span class="bg-12">Kinh doanh</span></h3>
+                    </div>
+                    <!--========== BEGIN .NEWS ==========-->
+                    <div class="news">
+                        <!-- Begin .item -->
+                        @if (count($business_news) > 0)
+                            <div class="item">
+                                <div class="item-image-1"><a class="img-link"
+                                        href="{{ route('website.detailNew', ['name_post' => Str::of($business_news[0]->title)->slug('-'), 'uuid' => $law_news[0]->uuid]) }}"><img
+                                            class="img-responsive img-full"
+                                            @php if (substr($business_news[0]->avatar, 0, 8) === "https://")
+                                                {
+                                                echo 'src="'. $business_news[0]->avatar.'"';
+                                                } else {
+                                                echo 'src="' . asset('images/news/'.$business_news[0]->avatar) . '" ';
+                                                } @endphp
+                                            alt=""></a></div>
+                                <div class="item-content">
+                                    <div class="title-left title-style04 underline04">
+                                        <h3><a
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($business_news[0]->title)->slug('-'), 'uuid' => $business_news[0]->uuid]) }}"><strong>{{ html_entity_decode($business_news[0]->title) }}</strong></a>
+                                        </h3>
+                                        <br>
+                                        <div class="post-meta-elements">
+                                            <div class="post-meta-author"> <i
+                                                    class="fa fa-user"></i><a>{{ $business_news[0]->author }}</a> </div>
+                                            <div class="post-meta-date"> <i
+                                                    class="fa fa-calendar"></i>{{ date('d.m.Y | H:i A', strtotime($business_news[0]->created_at)) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($business_news[0]->title)->slug('-'), 'uuid' => $business_news[0]->uuid]) }}"
+                                            class="external-link"><strong>{{ Str::words($business_news[0]->intro, 20) }}</strong></a>
+                                    </p>
+                                    <div> <a
+                                            href="{{ route('website.detailNew', ['name_post' => Str::of($business_news[0]->title)->slug('-'), 'uuid' => $business_news[0]->uuid]) }}"><span
+                                                class="read-more">Continue reading</span></a> </div>
+                                </div>
+                            </div>
+                            <!-- End .item -->
+                            <div class="news-block">
+                                @foreach ($business_news as $key => $item)
+                                    @if ($key !== 0)
+                                        <div class="item-block">
+                                            <div class="item-image"><a class="img-link"
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
+                                                        class="img-responsive img-full" loading="lazy"
+                                                        @php if (substr($item->avatar, 0, 8) ===
+                                                    "https://") {
+                                                    echo 'src="'. $item->avatar.'"';
+                                                    } else {
+                                                    echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                    } @endphp
+                                                        alt=""></a></div>
+                                            <div class="item-content">
+                                                <p><span
+                                                        class="day">{{ date('d/m/Y ', strtotime($item->created_at)) }}</span>
+                                                </p>
+                                                <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
+                                                        class="external-link"><strong>{{ $item['category']->name_cate }}-</strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        @endif
+                    </div>
+                    <!--========== END .NEWS ==========-->
+                </div>
+                <!--========== END .COL-MD-8 ==========-->
+                <!--========== BEGIN .COL-MD-4 ==========-->
+                <div class="col-md-4">
+                    <!--========== BEGIN .TABS ==========-->
+                    <div class="sidebar-tabs">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="tabbable">
+                                    <!-- Begin .nav nav-tabs -->
+                                    <ul class="nav nav-tabs nav-tabs-solid nav-justified">
+                                        <li class="active"><a href="#solid-justified-tab1" data-toggle="tab">Văn Hóa</a>
+                                        </li>
+                                        <li><a href="#solid-justified-tab2" data-toggle="tab">Du lịch</a></li>
+                                        <li><a href="#solid-justified-tab3" data-toggle="tab">Sức khỏe</a></li>
+                                    </ul>
+                                    <!-- End .nav nav-tabs -->
+                                    <div class="tab-content">
+                                        <!-- Begin #tab1 -->
+                                        <div class="tab-pane active" id="solid-justified-tab1">
+                                            <ul>
+                                                @foreach ($boot_new['culture_news'] as $item)
+                                                    <li><a
+                                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
+                                                            <div class="img-responsive"><img loading="lazy"
+                                                                    @php if (substr($item->avatar, 0, 8) === "https://")
+                                                                        {
+                                                                        echo 'src="'. $item->avatar.'"';
+                                                                        } else {
+                                                                        echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                                        } @endphp
+                                                                    height="56px" alt=""></div>
+                                                            <p>{{ html_entity_decode(Str::words($item->title, 10)) }}</p>
+                                                            <span>{{ date('d/m/Y', strtotime($item->created_at)) }}</span>
+                                                        </a></li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <!-- End #tab1 -->
+                                        <!-- Begin #tab2 -->
+                                        <div class="tab-pane" id="solid-justified-tab2">
+                                            <ul>
+                                                @foreach ($boot_new['travel_news'] as $item)
+                                                    <li><a
+                                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
+                                                            <div class="img-responsive"><img loading="lazy"
+                                                                    @php if (substr($item->avatar, 0, 8) === "https://")
+                                                                {
+                                                                echo 'src="'. $item->avatar.'"';
+                                                                } else {
+                                                                echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                                } @endphp
+                                                                    height="56px" alt=""></div>
+                                                            <p>{{ html_entity_decode(Str::words($item->title, 10)) }}</p>
+                                                            <span>{{ date('d/m/Y', strtotime($item->created_at)) }}</span>
+                                                        </a></li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <!-- End #tab2 -->
+                                        <!-- Begin #tab3 -->
+                                        <div class="tab-pane" id="solid-justified-tab3">
+                                            <ul>
+                                                @foreach ($boot_new['health_news'] as $item)
+                                                    <li><a
+                                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
+                                                            <div class="img-responsive"><img loading="lazy"
+                                                                    @php if (substr($item->avatar, 0, 8) === "https://")
+                                                                {
+                                                                echo 'src="'. $item->avatar.'"';
+                                                                } else {
+                                                                echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                                } @endphp
+                                                                    height="56px" alt=""></div>
+                                                            <p>{{ html_entity_decode(Str::words($item->title, 10)) }}</p>
+                                                            <span>{{ date('d/m/Y', strtotime($item->created_at)) }}</span>
+                                                        </a></li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <!-- End #tab3 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-tabs">
+                        <div class="panel">
+                            <div class="panel-body">
+                                <div class="tabbable">
+                                    <!-- Begin .nav nav-tabs -->
+                                    <ul class="nav nav-tabs nav-tabs-solid nav-justified">
+                                        <li class="active"><a href="#solid-justified-tabCN" data-toggle="tab">Công
+                                                nghệ</a>
+                                        </li>
+                                        <li><a href="#solid-justified-tabTT" data-toggle="tab">Thể thao</a></li>
+                                        <li><a href="#solid-justified-tabGT" data-toggle="tab">Giải trí</a></li>
+                                    </ul>
+                                    <!-- End .nav nav-tabs -->
+                                    <div class="tab-content">
+                                        <!-- Begin #tab1 -->
+                                        <div class="tab-pane active" id="solid-justified-tabCN">
+                                            <ul>
+                                                @foreach ($boot_new['technology_news'] as $item)
+                                                    <li><a
+                                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
+                                                            <div class="img-responsive"><img loading="lazy"
+                                                                    @php if (substr($item->avatar, 0, 8) === "https://")
+                                                                        {
+                                                                        echo 'src="'. $item->avatar.'"';
+                                                                        } else {
+                                                                        echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                                        } @endphp
+                                                                    height="56px" alt=""></div>
+                                                            <p>{{ html_entity_decode(Str::words($item->title, 10)) }}</p>
+                                                            <span>{{ date('d/m/Y', strtotime($item->created_at)) }}</span>
+                                                        </a></li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <!-- End #tab1 -->
+                                        <!-- Begin #tab2 -->
+                                        <div class="tab-pane" id="solid-justified-tabTT">
+                                            <ul>
+                                                @foreach ($boot_new['sport_news'] as $item)
+                                                    <li><a
+                                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
+                                                            <div class="img-responsive"><img loading="lazy"
+                                                                    @php if (substr($item->avatar, 0, 8) === "https://")
+                                                                {
+                                                                echo 'src="'. $item->avatar.'"';
+                                                                } else {
+                                                                echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                                } @endphp
+                                                                    height="56px" alt=""></div>
+                                                            <p>{{ html_entity_decode(Str::words($item->title, 10)) }}</p>
+                                                            <span>{{ date('d/m/Y', strtotime($item->created_at)) }}</span>
+                                                        </a></li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <!-- End #tab2 -->
+                                        <!-- Begin #tab3 -->
+                                        <div class="tab-pane" id="solid-justified-tabGT">
+                                            <ul>
+                                                @foreach ($boot_new['entertainment_news'] as $item)
+                                                    <li><a
+                                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
+                                                            <div class="img-responsive"><img loading="lazy"
+                                                                    @php if (substr($item->avatar, 0, 8) === "https://")
+                                                                {
+                                                                echo 'src="'. $item->avatar.'"';
+                                                                } else {
+                                                                echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                                } @endphp
+                                                                    height="56px" alt=""></div>
+                                                            <p>{{ html_entity_decode(Str::words($item->title, 10)) }}</p>
+                                                            <span>{{ date('d/m/Y', strtotime($item->created_at)) }}</span>
+                                                        </a></li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        <!-- End #tab3 -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--========== END .TABS ==========-->
+                </div>
+                <!--========== END .COL-MD-4 ==========-->
+            </div>
+        </div>
+    </section>
     <section class="module">
         <div class="container">
             <div class="row no-gutter">
@@ -209,14 +532,14 @@
                     <!--========== BEGIN .NEWS ==========-->
                     <div class="news">
                         <div class="module-title">
-                            <h3 class="title"><span class="bg-11">Pháp luật</span></h3>
+                            <h3 class="title"><span class="bg-11">Thời sự</span></h3>
                             <h3 class="subtitle">Tin tức mới nhất</h3>
                         </div>
-                        @foreach ($law_news as $item)
+                        @foreach ($boot_new['local_news'] as $item)
                             <!-- Begin .item-->
                             <div class="item">
                                 <div class="item-image-2"><a class="img-link"
-                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                        href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"><img
                                             class="img-responsive img-full" loading="lazy"
                                             @php if (substr($item->avatar, 0, 8) === "https://")
                                 {
@@ -229,15 +552,15 @@
                                 </div>
                                 <div class="item-content">
                                     <div class="title-left title-style04 underline04">
-                                        <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
+                                        <h3><a href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
                                             </a></h3>
                                     </div>
                                     <p> <i class="fa fa-clock-o"></i> <span
                                         class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
                                     <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
-                                    <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
+                                    <p><a href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}">
                                             {{Str::words($item->intro, 20) }}</a></p>
-
+    
                                     <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                             target="_blank"><span
                                                 class="read-more">{{ $item['category']->name_cate }}</span></a>
@@ -246,76 +569,16 @@
                             </div>
                             <!-- End .item-->
                         @endforeach
-
+    
                     </div>
-                    <div class="button-load-more"><a
-                            href="{{ route('website.category_news', ['name_cate' => Str::of($new_header[2]->name_cate)->slug('-'), 'uuid' => $new_header[2]->uuid]) }}"
-                            type="button" class="btn btn-default active">Xem thêm</a></div>
+                    <div class="button-load-more"><a href="{{ route('website.category_news',['name_cate'=> Str::of($new_header[0]->name_cate)->slug('-'),'uuid'=>$new_header[0]->uuid]) }}" type="button"
+                        class="btn btn-default active">Xem thêm</a></div>
                     <!--========== End .NEWS ==========-->
                 </div>
                 <!--========== End .COL-MD-8 ==========-->
-
+              
             </div>
         </div>
     </section>
-
-    <section class="module">
-        <div class="container">
-            <div class="row no-gutter">
-                <!--========== BEGIN .COL-MD-8 ==========-->
-                <div class="col-md-8">
-                    <!--========== BEGIN .NEWS ==========-->
-                    <div class="news">
-                        <div class="module-title">
-                            <h3 class="title"><span class="bg-11">Kinh doanh</span></h3>
-                            <h3 class="subtitle">Tin tức mới nhất</h3>
-                        </div>
-                        @foreach ($business_news as $item)
-                            <!-- Begin .item-->
-                            <div class="item">
-                                <div class="item-image-2"><a class="img-link"
-                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
-                                            class="img-responsive img-full" loading="lazy"
-                                            @php if (substr($item->avatar, 0, 8) === "https://")
-                                {
-                                echo 'src="'. $item->avatar.'"';
-                                } else {
-                                echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
-                                } @endphp
-                                            alt=""></a><span><a class="label-2"
-                                            href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}">{{ $item['category']->name_cate }}</a></span>
-                                </div>
-                                <div class="item-content">
-                                    <div class="title-left title-style04 underline04">
-                                        <h3><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
-                                            </a></h3>
-                                    </div>
-                                    <p> <i class="fa fa-clock-o"></i> <span
-                                        class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
-                                    <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong></p>
-                                    <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">
-                                            {{Str::words($item->intro, 20) }}</a></p>
-
-                                    <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
-                                            target="_blank"><span
-                                                class="read-more">{{ $item['category']->name_cate }}</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End .item-->
-                        @endforeach
-
-                    </div>
-                    <div class="button-load-more"><a
-                            href="{{ route('website.category_news', ['name_cate' => Str::of($new_header[3]->name_cate)->slug('-'), 'uuid' => $new_header[3]->uuid]) }}"
-                            type="button" class="btn btn-default active">Xem thêm</a></div>
-                    <!--========== End .NEWS ==========-->
-                </div>
-                <!--========== End .COL-MD-8 ==========-->
-
-            </div>
-        </div>
-    </section>
-    @include('website.partials.boot_new')
     @include('website.partials.copyrights')
 @endsection

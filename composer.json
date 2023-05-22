@@ -9,6 +9,7 @@
         "anhskohbo/no-captcha": "^3.5",
         "biscolab/laravel-recaptcha": "^6.0",
         "guzzlehttp/guzzle": "^7.2",
+        "intervention/image": "^2.7",
         "jorenvanhocht/laravel-share": "^4.2",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",

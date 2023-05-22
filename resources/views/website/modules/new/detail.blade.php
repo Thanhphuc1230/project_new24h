@@ -1,5 +1,7 @@
 @extends('website.master')
 @section('module', html_entity_decode($detail_new->title))
+@section('image_new', $detail_new->avatar)
+@section('title', $detail_new->title)
 @section('content')
     @include('website.partials.search')
     <div id="main-section">
@@ -31,15 +33,14 @@
                                 <h2 class="entry-title">{{ html_entity_decode($detail_new->title) }}</h2>
                             </div>
                             <div class="entry-main">
-
                                 <div class="post-meta-elements">
                                     <div class="post-meta-author"> <i class="fa fa-user"></i><a href="#">By
                                             {{ $detail_new->author }}</a> </div>
                                     <div class="post-meta-date"> <i
                                             class="fa fa-calendar"></i>{{ date('d-m-Y h:i A', strtotime($detail_new->created_at)) }}
                                     </div>
-                                    <div class="post-meta-comments"><i class="fa fa-eye"
-                                            aria-hidden="true"></i>{{ $count_comment }}
+                                    <div class="post-meta-comments"><i class="fa-regular fa-comment"></i>
+                                        {{ $count_comment }}
                                         Comments
                                     </div>
                                     <div class="post-meta-comments"> <i class="fas fa-eye"></i>
@@ -91,7 +92,7 @@
                                     <li>
                                         <div class="comment clearfix">
                                             @php
-                                                $avatar = !empty($comment->avatar) ? $user->avatar : 'default_user.png';
+                                                $avatar = !empty($comment->avatar) ? $comment->avatar : 'default_user.png';
                                             @endphp
                                             <div class="avatar"><img src="{{ asset('images/users/' . $avatar) }}"
                                                     alt="avatar" class="img-responsive"></div>
@@ -160,7 +161,7 @@
                                     <li>
                                         <div class="item">
                                             <div class="item-image"><a class="img-link"
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                                         class="img-responsive img-full"
                                                         @php if (substr($item->avatar, 0, 8) === "https://")
                                                         {
@@ -172,7 +173,7 @@
                                             <div class="item-content">
 
                                                 <p><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                 </p>
                                                 <p><i class="fas fa-eye"></i>
                                                     {{ $item->new_view }} views</p>
@@ -195,7 +196,7 @@
                                     <li>
                                         <div class="item">
                                             <div class="item-image"><a class="img-link"
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                                         class="img-responsive img-full"
                                                         @php if (substr($item->avatar, 0, 8) === "https://")
                                                         {
@@ -206,7 +207,7 @@
                                                         alt=""></a></div>
                                             <div class="item-content">
                                                 <p><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -236,7 +237,7 @@
                             @foreach ($featured_posts as $item)
                                 <div class="entry-block">
                                     <div class="entry-image"><a class="img-link"
-                                            href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                                 class="img-responsive img-full"
                                                 @php if (substr($item->avatar, 0, 8)
                                     === "https://") {
@@ -249,16 +250,17 @@
                                     <div class="entry-content">
                                         <div class="title-left title-style04 underline04">
                                             <h3><a
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong></a>
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong></a>
                                             </h3>
                                             <i
                                                 class="fa fa-clock-o"></i>{{ date('d-m-Y ', strtotime($item->created_at)) }}<span
                                                 class="hour">{{ date('h:i A', strtotime($item->created_at)) }}</span>
                                         </div>
 
-                                        <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"
+                                        <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
                                                 class="external-link">{{ Str::words($item->intro, 35) }}</a></p>
-                                        <div> <a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><span
+                                        <div> <a
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><span
                                                     class="read-more">Continue reading</span></a> </div>
                                     </div>
                                 </div>
@@ -286,7 +288,7 @@
                             @foreach ($featured_posts_bot as $item)
                                 <div class="entry-block">
                                     <div class="entry-image"><a class="img-link"
-                                            href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                                 class="img-responsive img-full"
                                                 @php if (substr($item->avatar, 0, 8)
                                     === "https://") {
@@ -299,16 +301,17 @@
                                     <div class="entry-content">
                                         <div class="title-left title-style04 underline04">
                                             <h3><a
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong></a>
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong></a>
                                             </h3>
                                             <i
                                                 class="fa fa-clock-o"></i>{{ date('d-m-Y ', strtotime($item->created_at)) }}<span
                                                 class="hour">{{ date('h:i A', strtotime($item->created_at)) }}</span>
                                         </div>
 
-                                        <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"
+                                        <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
                                                 class="external-link">{{ Str::words($item->intro, 35) }}</a></p>
-                                        <div> <a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><span
+                                        <div> <a
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><span
                                                     class="read-more">Continue reading</span></a> </div>
                                     </div>
                                 </div>

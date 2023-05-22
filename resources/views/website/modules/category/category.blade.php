@@ -31,7 +31,7 @@
                         @foreach ($new_top as $item)
                             <div class="entry-block-small">
                                 <div class="entry-image"><a class="img-link"
-                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                        href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"><img
                                             class="img-responsive img-full"
                                             @php if (substr($item->avatar, 0, 8) === "https://") {
                                                 echo 'src="'. $item->avatar.'" ';
@@ -41,7 +41,7 @@
                                             alt=""></a></div>
                                 <div class="entry-content">
                                     <h3><a
-                                            href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 12)) }}</a>
+                                            href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 12)) }}</a>
                                     </h3>
                                     <br>
                                     <div class="post-meta-elements">
@@ -49,9 +49,9 @@
                                                 class="fa fa-calendar"></i>{{ date('d-m-Y ', strtotime($item->created_at)) }}
                                         </div>
                                     </div>
-                                    <p><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"
+                                    <p><a href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"
                                             class="external-link">{{ Str::words($item->intro, 15) }}</a></p>
-                                    <div> <a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><span
+                                    <div> <a href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"><span
                                                 class="read-more">Continue reading</span></a> </div>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                                     <li style="margin: 0px;">
                                         <div class="item">
                                             <div class="item-image"><a class="img-link"
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                                    href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"><img
                                                         class="img-responsive img-full"
                                                         @php if (substr($item->avatar, 0, 8) === "https://") {
                                                             echo 'src="'. $item->avatar.'" ';
@@ -86,7 +86,7 @@
                                                         alt=""></a></div>
                                             <div class="item-content">
                                                 <h4 class="ellipsis"><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}
+                                                        href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}
                                                     </a>
                                                 </h4>
                                                 <p class="ellipsis"><i class="fas fa-eye"></i> {{ $item->new_view }} views
@@ -123,7 +123,7 @@
                             <!-- Begin .item-->
                             <div class="item">
                                 <div class="item-image-2"><a class="img-link" laza
-                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                        href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"><img
                                             class="img-responsive img-full" loading="lazy"
                                             @php if (substr($item->avatar, 0, 8) === "https://") {
                                                 echo 'src="'. $item->avatar.'" ';
@@ -136,11 +136,11 @@
                                 <div class="item-content">
                                     <div class="title-left title-style04 underline04">
                                         <h3><a
-                                                href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong></a>
+                                                href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong></a>
                                         </h3>
                                     </div>
                                     <p><a
-                                            href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ Str::words($item->intro, 20) }}</a>
+                                            href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}">{{ Str::words($item->intro, 20) }}</a>
                                     </p>
 
                                     <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
@@ -172,7 +172,7 @@
                                     <li>
                                         <div class="item">
                                             <div class="item-image"><a class="img-link"
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                                    href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"><img
                                                         class="img-responsive img-full"  loading="lazy"
                                                         @php if (substr($item->avatar, 0, 8) === "https://") {
                                                             echo 'src="'. $item->avatar.'" ';
@@ -182,10 +182,10 @@
                                                         alt=""></a></div>
                                             <div class="item-content">
                                                 <h4 class="ellipsis"><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                                        href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                 </h4>
                                                 <p class="ellipsis"><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ Str::words($item->intro, 15) }}</a>
+                                                        href="{{ route('website.detailNew', ['name_post'=>Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}">{{ Str::words($item->intro, 15) }}</a>
                                                 </p>
                                             </div>
                                         </div>

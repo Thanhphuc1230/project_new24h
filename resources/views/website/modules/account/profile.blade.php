@@ -46,7 +46,7 @@
                                                             <label for="form_name">Họ và tên *</label>
                                                             <input id="form_name" type="text" name="fullname"
                                                                 class="form-control" value="{{ $profile->fullname }}"
-                                                                 data-error="fullname is required.">
+                                                                data-error="fullname is required.">
                                                             <div class="help-block with-errors"></div>
                                                         </div>
                                                     </div>
@@ -121,7 +121,7 @@
                                                     @foreach ($history as $item)
                                                         <tr>
                                                             <td>{{ $loop->iteration }}</td>
-                                                            <td><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"
+                                                            <td><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"
                                                                     style="color:#8fbc8f">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                             </td>
                                                             <td>{{ $item->created_at }}</td>
@@ -152,7 +152,7 @@
                                                     @foreach ($comments as $comment)
                                                         <tr>
                                                             <td>{{ $loop->iteration }}</td>
-                                                            <td><a href="{{ route('website.detailNew', ['uuid' => $comment->uuid]) }}"
+                                                            <td><a href="{{ route('website.detailNew', ['name_post' => Str::of($comment->title)->slug('-'), 'uuid' => $comment->uuid]) }}"
                                                                     style="color:#8fbc8f">{{ html_entity_decode(Str::words($comment->title, 15)) }}</a>
                                                             </td>
                                                             <td>{{ $comment->comment }}</td>
@@ -195,7 +195,7 @@
                                                     @foreach ($save_post as $item)
                                                         <tr>
                                                             <td>{{ $loop->iteration }}</td>
-                                                            <td><a href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"
+                                                            <td><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"
                                                                     style="color:#8fbc8f">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                             </td>
                                                             <td>{{ $item->created_at }}</td>

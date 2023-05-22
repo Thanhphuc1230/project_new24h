@@ -41,7 +41,7 @@ class CategoryController extends Controller
         ];
         Category::create($category);
         
-        return redirect()->route('admin.categories.index')->with('success', 'Successful category create.');
+        return redirect()->route('admin.categories.index')->with('success', 'Thêm chủ đề thành công');
     }
 
     public function status_categories($uuid,$status){

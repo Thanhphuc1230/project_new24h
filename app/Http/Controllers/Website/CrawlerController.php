@@ -78,7 +78,7 @@ class CrawlerController extends Controller
     }
     public function featchAllTuoiTre () 
     {
-        $result = DB::table('categories')->where('parent_id',1 )->get();
+        $result = DB::table('categories')->where('parent_id','>=',1 )->get();
         foreach ($result as $item) {
             $link = $item->link;
             $category_id = $item->id_category;

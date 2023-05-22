@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Admin\ProfileRequest;
+use App\Http\Requests\Website\UpdatedEmailRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -68,23 +69,11 @@ class ProfileController extends Controller
         return redirect()->back()->with('success', 'Cập nhật mật khẩu thành công.');
     }
     
-    public function updatedEmail(Request $request)
+    public function updatedEmail(UpdatedEmailRequest $request)
     {   $uuid = Auth::user()->uuid;
         $user = Auth::user();
         $currentEmail = $user->email;
         $newEmail = $request->input('email');
-
-        // Validate the email
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|unique:users,email',
-        ]);
-
-        if ($validator->fails()) {
-            return redirect()
-                ->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
 
         // Generate a new email verification token
         $token = Str::random(60);

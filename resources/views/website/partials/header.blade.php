@@ -11,8 +11,8 @@
             <ul class="left-top-menu">
                 <li> <a href="https://www.facebook.com/Tphuc1505/" class="facebook"><i class="fa fa-facebook"></i></a></li>
                 <li> <a href="https://www.linkedin.com/in/daothanhphuc/" class="linkedin"><i class="fa fa-linkedin"></i></a> </li>
-                <li class="address"><a href="tel:+84706405646"><i class="fa fa-phone"></i>0706405646</a></li>
-                <li class="address"><a href="mailto:thanhphuc15052001@gmail.com"><i class="fa fa-envelope-o"></i>thanhphuc15052001@gmail.com</a></li>
+                <li class="address"><a href="tel:+84706405646"><i class="fa fa-phone"></i> 0706405646</a></li>
+                <li class="address"><a href="mailto:thanhphuc15052001@gmail.com"><i class="fa fa-envelope-o"></i> thanhphuc15052001@gmail.com</a></li>
             </ul>
             <!-- End .left-top-menu -->
         </div>

@@ -18,7 +18,7 @@ class HomeController extends Controller
             ->where('status', 1)
             ->where('where_in', 2)
             ->latest('created_at')
-            ->limit(5)
+            ->limit(10)
             ->get();
 
         $data['technology_news'] = News::with('category')
@@ -112,27 +112,27 @@ class HomeController extends Controller
         $data['nation_news'] = News::with('category')
             ->where('status', 1)
             ->where('where_in', 3)
-            ->inRandomOrder()
+            ->latest('created_at')
             ->limit(5)
             ->get();
         $data['law_news'] = News::with('category')
             ->where('status', 1)
             ->where('where_in', 4)
-            ->inRandomOrder()
-            ->limit(3)
+            ->latest('created_at')
+            ->limit(9)
             ->get();
         //get value of status_cate
         // $data['statusOfLaw'] = $data['law_news']->first()->category->status_cate;
         $data['business_news'] = News::with('category')
             ->where('status', 1)
             ->where('where_in', 5)
-            ->inRandomOrder()
-            ->limit(3)
+            ->latest('created_at')
+            ->limit(9)
             ->get();
         $data['entertainmentAndCulture'] = News::with('category')
             ->where('status', 1)
             ->where('where_in', 9)
-            ->inRandomOrder()
+            ->latest('created_at')
             ->limit(4)
             ->get();
 
@@ -151,7 +151,6 @@ class HomeController extends Controller
 
     public function category_news($category, $uuid)
     {   
-
         $id = DB::table('categories')
             ->where('uuid', $uuid)
             ->value('id_category');
@@ -263,13 +262,13 @@ class HomeController extends Controller
                     <div class="content-hot-new">
                     <p><b>'.$this->getTimeAgoString($item->time_diff).'</b></p>
                     <div class="item">
-                    <div class="item-image-2"><a class="img-link" href="'.route('website.detailNew', ['uuid' => $item->uuid]).'"><img class="img-responsive img-full"  '.(substr($item->avatar, 0, 8) === "https://" ? 'src="'.$item->avatar.'" ' : 'src="'.asset('images/news/'.$item->avatar).'" ' ).' alt=""></a></div>
+                    <div class="item-image-2"><a class="img-link" href="'.route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->uuid]).'"><img class="img-responsive img-full"  '.(substr($item->avatar, 0, 8) === "https://" ? 'src="'.$item->avatar.'" ' : 'src="'.asset('images/news/'.$item->avatar).'" ' ).' alt=""></a></div>
                     <div class="item-content">
                       <div class="title-left title-style04 underline04">
-                        <h3><a href="'.route('website.detailNew', ['uuid' => $item->uuid]).'"><strong>'.html_entity_decode(Str::words($item->title, 15)).'</strong></a></h3>
+                        <h3><a href="'.route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->uuid]).'"><strong>'.html_entity_decode(Str::words($item->title, 15)).'</strong></a></h3>
                       </div>
                       <p> <i class="fa fa-clock-o"></i> <span class="date"><strong>'.$item->created_at.'</strong></span></p>
-                      <p><a href="'.route('website.detailNew', ['uuid' => $item->uuid]).'">'.Str::words($item->intro, 20).'</a></p>
+                      <p><a href="'.route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->uuid]).'">'.Str::words($item->intro, 20).'</a></p>
                     </div>
                   </div>
                     ';

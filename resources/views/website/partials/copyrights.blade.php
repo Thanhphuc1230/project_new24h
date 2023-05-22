@@ -6,16 +6,14 @@
                 <div class="row no-gutter">
                     <div class="col-sm-6 col-md-3">
                         <h3 class="title-left title-style03 underline03">About Us</h3>
-                        <p class="about-us">When you’re building a website, it’s tempting to get distracted by all the
-                            bells and whistles of the design process and forget all about creating compelling
-                            content.<br>
-                            But having awesome content on your website is crucial to making inbound marketing
-                            work for your business.<br>
-                            We know ... easier said than done. </p>
+                        <p class="about-us">Trang này là project cá nhân em lấy nguồn theo <a
+                                href="https://tuoitre.vn/" style="color:blue">tuoitre.com</a>.<br>
+                        <br>
+                             </p>
                         <div class="site-logo"><a href="{{ route('website.index') }}"><img
                                     src="{{ asset('website/img/logo.png') }}" alt="Side Logo" loading="lazy" />
                                 <h3>24h <span>News</span></h3>
-                                <p>Your 24h News Source</p>
+                                <p>Tuoitre.asia</p>
                             </a></div>
                     </div>
                     <div class="col-sm-6 col-md-3">
@@ -26,7 +24,7 @@
                                     <li>
                                         <div class="item">
                                             <div class="item-image"><a class="img-link"
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                                         class="img-responsive img-full" loading="lazy"
                                                         @php if (substr($item->avatar, 0,
                                                 8) === "https://") {
@@ -37,7 +35,7 @@
                                                         alt=""></a></div>
                                             <div class="item-content">
                                                 <p class="ellipsis"><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode($item->title) }}</a>
+                                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode($item->title) }}</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -54,7 +52,7 @@
                                     <li>
                                         <div class="item">
                                             <div class="item-image"><a class="img-link"
-                                                    href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}"><img
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
                                                         class="img-responsive img-full" loading="lazy"
                                                         @php if (substr($item->avatar, 0,
                                                 8) === "https://") {
@@ -65,7 +63,7 @@
                                                         alt=""></a></div>
                                             <div class="item-content">
                                                 <p class="ellipsis"><a
-                                                        href="{{ route('website.detailNew', ['uuid' => $item->uuid]) }}">{{ html_entity_decode($item->title) }}</a>
+                                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode($item->title) }}</a>
                                                 </p>
                                             </div>
                                         </div>
@@ -91,6 +89,9 @@
     <!-- End .parallax -->
 </footer>
 <!--========== END #FOOTER==========-->
+<button onclick="scrollToTop(1500)" id="moveToTopBtn" title="Go to top">
+    <i class="fas fa-arrow-up"></i> <!-- Font Awesome icon -->
+  </button>
 <!--========== BEGIN #COPYRIGHTS==========-->
 <div id="copyrights">
     <!-- Begin .container -->
