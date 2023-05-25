@@ -19,7 +19,19 @@ class ProfileController extends Controller
         $data['admin'] = User::where('uuid',Auth::user()->uuid)->first();
         return view('admin.modules.profile.index',$data);
     }
-
+    public function deleteHistory($uuid_history)
+    {
+        dd(123);
+        // $history_user = DB::table('history')->where('uuid', $uuid_history);
+        // if ($history_user->exists()) {
+        //     $history_user->delete();
+        //     return redirect()
+        //         ->back()
+        //         ->with('success', 'Xoá lịch sử xem bài viết thành công');
+        // } else {
+        //     dd(123);
+        // }
+    }
     public function updatedProfile(ProfileRequest $request)
     {   
         $uuid = Auth::user()->uuid;

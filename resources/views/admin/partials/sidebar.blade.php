@@ -31,7 +31,7 @@
         <li class="">
             <a aria-expanded="false" href="{{ route('admin.categories.index') }}">
                 <div class="nav_icon_small">
-                    <img src="{{ asset('style/img/menu-icon/4.svg') }}" alt="">
+                    <img src="{{ asset('style/img/menu-icon/13.svg') }}" alt="">
                 </div>
                 <div class="nav_title">
                     <span>Chủ đề </span>
@@ -41,7 +41,7 @@
         <li class="">
             <a aria-expanded="false" href="{{ route('admin.news.index') }}">
                 <div class="nav_icon_small">
-                    <img src="{{ asset('style/img/menu-icon/4.svg') }}" alt="">
+                    <img src="{{ asset('style/img/menu-icon/11.svg') }}" alt="">
                 </div>
                 <div class="nav_title">
                     <span>Bài biết</span>
@@ -51,7 +51,7 @@
         <li class="">
             <a aria-expanded="false" href="{{ route('admin.comment.index') }}">
                 <div class="nav_icon_small">
-                    <img src="{{ asset('style/img/menu-icon/4.svg') }}" alt="">
+                    <img src="{{ asset('style/img/menu-icon/20.svg') }}" alt="">
                 </div>
                 <div class="nav_title">
                     <span>Bình luận<nav></nav></span>
@@ -61,7 +61,7 @@
         <li class="">
             <a aria-expanded="false" href="{{ route('admin.users.index') }}">
                 <div class="nav_icon_small">
-                    <img src="{{ asset('style/img/menu-icon/4.svg') }}" alt="">
+                    <img src="{{ asset('style/img/menu-icon/5.svg') }}" alt="">
                 </div>
                 <div class="nav_title">
                     <span>Users</span>

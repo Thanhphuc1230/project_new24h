@@ -34,7 +34,7 @@
                             </div>
                             <div class="entry-main">
                                 <div class="post-meta-elements">
-                                    <div class="post-meta-author"> <i class="fa fa-user"></i><a href="#">By
+                                    <div class="post-meta-author"> <i class="fa fa-user"></i><a >By
                                             {{ $detail_new->author }}</a> </div>
                                     <div class="post-meta-date"> <i
                                             class="fa fa-calendar"></i>{{ date('d-m-Y h:i A', strtotime($detail_new->created_at)) }}
@@ -152,44 +152,9 @@
                     <!--========== BEGIN .COL-MD-4==========-->
                     <div class="col-md-4">
                         <div class="title-style02">
-                            <h3><strong>Tin tức nổi bật</strong> </h3>
+                            <h3><strong>Có thể bạn muốn đọc</strong> </h3>
                         </div>
                         <!-- End .title-style02 -->
-                        <div class="sidebar-post ">
-                            <ul>
-                                @foreach ($news_updated as $item)
-                                    <li>
-                                        <div class="item">
-                                            <div class="item-image"><a class="img-link"
-                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
-                                                        class="img-responsive img-full"
-                                                        @php if (substr($item->avatar, 0, 8) === "https://")
-                                                        {
-                                                        echo 'src="'. $item->avatar.'"';
-                                                        } else {
-                                                        echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
-                                                        } @endphp
-                                                        alt=""></a></div>
-                                            <div class="item-content">
-
-                                                <p><a
-                                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
-                                                </p>
-                                                <p><i class="fas fa-eye"></i>
-                                                    {{ $item->new_view }} views</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <!--========== END .SIDEBAR-POST ==========-->
-                        <!--========== BEGIN .SIDEBAR-REVIEWS==========-->
-                        <!-- Begin .block-title-3 -->
-                        <div class="block-title-3">
-                            <h3>Có thể bạn muốn đọc</h3>
-                        </div>
-                        <!-- End .block-title-3 -->
                         <div class="sidebar-post detail-post-you-like">
                             <ul>
                                 @foreach ($maybeYouLike as $item)
@@ -207,14 +172,17 @@
                                                         alt=""></a></div>
                                             <div class="item-content">
                                                 <p><a
-                                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode(Str::words($item->title, 10)) }}</a>
                                                 </p>
+                                                <p><a>{{ date('d.m.Y ', strtotime($item->created_at)) }}</a></p>
                                             </div>
                                         </div>
                                     </li>
                                 @endforeach
                             </ul>
                         </div>
+                        <!--========== END .SIDEBAR-POST ==========-->
+
                     </div>
                     <!--========== END .COL-MD-4 ==========-->
                 </div>
@@ -222,108 +190,105 @@
             <!--========== END .CONTAINER ==========-->
         </section>
         <!--========== END .MODULE ==========-->
-        <!--========== BEGIN .MODULE ==========-->
+        {{-- tin cùng chuyên mục --}}
         <section class="module highlight">
             <div class="container">
                 <div class="row no-gutter">
-                    <!--========== BEGIN .COL-MD-12 ==========-->
+                    <!--========== BEGIN .COL-MD-8 ==========-->
                     <div class="col-md-12">
                         <div class="module-title">
-                            <h3 class="title"><span class="bg-1">24h News</span></h3>
-                            <h3 class="subtitle">Các tin tức liên quan</h3>
+                            <h3 class="title"><span class="bg-1">Tin tức cùng chuyên mục</span></h3>
                         </div>
-                        <!--========== BEGIN .ARTICLE ==========-->
-                        <div class="article">
-                            @foreach ($featured_posts as $item)
-                                <div class="entry-block">
-                                    <div class="entry-image"><a class="img-link"
+                        <!--========== BEGIN .NEWS ==========-->
+                        <div class="news">
+                            <div class="news-block">
+                                @foreach ($featured_posts as $item)
+                                    <div class="item-block">
+                                        <div class="item-image"><a class="img-link"
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
+                                                    class="img-responsive img-full"
+                                                    @php if (substr($item->avatar, 0, 8)
+                                                    === "https://") {
+                                                    echo 'src="'. $item->avatar.'"';
+                                                    } else {
+                                                    echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
+                                                    } @endphp
+                                                    loading="lazy" alt=""></a></div>
+                                        <div class="item-content">
+                                            <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
+                                                    class="external-link"><strong>{{ $item['category']->name_cate }}
+                                                        -</strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                        <!--========== END .NEWS ==========-->
+                    </div>
+                    <!--========== END .COL-MD-8 ==========-->
+                </div>
+            </div>
+        </section>
+        <section class="module">
+            <div class="container">
+                <div class="row no-gutter">
+                    <!--========== BEGIN .COL-MD-8 ==========-->
+                    <div class="col-md-8">
+                        <!--========== BEGIN .NEWS ==========-->
+                        <div class="news">
+                            <div class="module-title">
+                                <h3 class="title"><span class="bg-11">Xem thêm</span></h3>
+                            </div>
+                            @foreach ($readMore as $item)
+                                <!-- Begin .item-->
+                                <div class="item">
+                                    <div class="item-image-2"><a class="img-link"
                                             href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
-                                                class="img-responsive img-full"
-                                                @php if (substr($item->avatar, 0, 8)
-                                    === "https://") {
+                                                class="img-responsive img-full" loading="lazy"
+                                                @php if (substr($item->avatar, 0, 8) === "https://")
+                                    {
                                     echo 'src="'. $item->avatar.'"';
                                     } else {
                                     echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
                                     } @endphp
-                                                alt=""></a>
+                                                alt=""></a><span><a class="label-2"
+                                                href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}">{{ $item['category']->name_cate }}</a></span>
                                     </div>
-                                    <div class="entry-content">
+                                    <div class="item-content">
                                         <div class="title-left title-style04 underline04">
                                             <h3><a
-                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong></a>
-                                            </h3>
-                                            <i
-                                                class="fa fa-clock-o"></i>{{ date('d-m-Y ', strtotime($item->created_at)) }}<span
-                                                class="hour">{{ date('h:i A', strtotime($item->created_at)) }}</span>
+                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong>
+                                                </a></h3>
                                         </div>
-
-                                        <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
-                                                class="external-link">{{ Str::words($item->intro, 35) }}</a></p>
-                                        <div> <a
-                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><span
-                                                    class="read-more">Continue reading</span></a> </div>
+                                        <p> <i class="fa fa-clock-o"></i> <span
+                                                class="date"><strong>{{ date('d-m-Y', strtotime($item->created_at)) }}</strong></span>
+                                            <strong>{{ date('H:i A', strtotime($item->created_at)) }}</strong>
+                                        </p>
+                                        <p><a
+                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
+                                                {{ Str::words($item->intro, 20) }}</a></p>
+    
+                                        <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
+                                                target="_blank"><span
+                                                    class="read-more">{{ $item['category']->name_cate }}</span></a>
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- End .item-->
                             @endforeach
+    
                         </div>
-                        <!--========== END .ARTICLE ==========-->
+                        <div class="button-load-more"><a
+                                href="{{ route('website.category_news', ['name_cate' => Str::of($detail_new['category']->name_cate)->slug('-'), 'uuid' =>$detail_new['category']->uuid]) }}"
+                                type="button" class="btn btn-default active">Xem thêm</a></div>
+                        <!--========== End .NEWS ==========-->
                     </div>
-                    <!--========== END .COL-MD-12 ==========-->
+                    <!--========== End .COL-MD-8 ==========-->
                 </div>
             </div>
         </section>
-        <!--========== END .MODULE ==========-->
-        <!--========== BEGIN .MODULE ==========-->
-        <section class="module highlight">
-            <div class="container">
-                <div class="row no-gutter">
-                    <!--========== BEGIN .COL-MD-12 ==========-->
-                    <div class="col-md-12">
-                        <div class="module-title">
-                            <h3 class="title"><span class="bg-1">24h News</span></h3>
-                            <h3 class="subtitle">Các tin tức mới nhất</h3>
-                        </div>
-                        <!--========== BEGIN .ARTICLE ==========-->
-                        <div class="article">
-                            @foreach ($featured_posts_bot as $item)
-                                <div class="entry-block">
-                                    <div class="entry-image"><a class="img-link"
-                                            href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><img
-                                                class="img-responsive img-full"
-                                                @php if (substr($item->avatar, 0, 8)
-                                    === "https://") {
-                                    echo 'src="'. $item->avatar.'"';
-                                    } else {
-                                    echo 'src="' . asset('images/news/'.$item->avatar) . '" ';
-                                    } @endphp
-                                                alt=""></a>
-                                    </div>
-                                    <div class="entry-content">
-                                        <div class="title-left title-style04 underline04">
-                                            <h3><a
-                                                    href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}</strong></a>
-                                            </h3>
-                                            <i
-                                                class="fa fa-clock-o"></i>{{ date('d-m-Y ', strtotime($item->created_at)) }}<span
-                                                class="hour">{{ date('h:i A', strtotime($item->created_at)) }}</span>
-                                        </div>
 
-                                        <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
-                                                class="external-link">{{ Str::words($item->intro, 35) }}</a></p>
-                                        <div> <a
-                                                href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"><span
-                                                    class="read-more">Continue reading</span></a> </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <!--========== END .ARTICLE ==========-->
-                    </div>
-                    <!--========== END .COL-MD-12 ==========-->
-                </div>
-            </div>
-        </section>
-        <!--========== END .MODULE ==========-->
     </div>
     @include('website.partials.copyrights')
 @endsection

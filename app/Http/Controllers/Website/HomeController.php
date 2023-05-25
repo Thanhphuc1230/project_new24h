@@ -185,6 +185,7 @@ class HomeController extends Controller
         $data['maybeYouLike'] = News::with('category')
             ->whereNotIn('uuid', $uuidOfNewTop)
             ->whereNotIn('uuid', $uuidOfNewMid)
+            ->where('category_id',$id)
             ->where('status', 1)
             ->latest('created_at')
             ->inRandomOrder()

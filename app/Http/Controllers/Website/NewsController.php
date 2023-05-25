@@ -47,12 +47,12 @@ class NewsController extends Controller
             Session::put($sessionKey, true);
         $news->increment('new_view');
         }
-        $data['detail_new'] = DB::table('news')
-            ->join('categories', 'categories.id_category', '=', 'news.category_id')
-            ->select('news.*', 'categories.name_cate')
-            ->where('news.uuid', $uuid)
-            ->first();
+        // end session
 
+        // content news
+        $data['detail_new'] = News::with('category')
+            ->where('uuid', $uuid)
+            ->first();
         $data['count_comment'] = DB::table('comments')
             ->where('post_id_comment', $uuid)
             ->where('status_comment', 1)
@@ -69,27 +69,24 @@ class NewsController extends Controller
             ->get();
         $uuidOfNewUpdated = $data['news_updated']->pluck('uuid')->toArray();
         //featured_posts in bot of detail
-        $data['featured_posts'] = DB::table('news')
+        $data['featured_posts'] = News::with('category')
             ->where('category_id', $category_id)
             ->where('uuid', '!=', $uuid)
             ->where('status', 1)
-            ->limit(3)
+            ->limit(8)
             ->get();
         $uuidOfFeaturedPost = $data['featured_posts']->pluck('uuid')->toArray();
-        //featured_posts in bot 2 of detail
-        $data['featured_posts_bot'] = DB::table('news')
-            ->join('categories', 'categories.id_category', '=', 'news.category_id')
-            ->select('news.*', 'categories.name_cate')
-            ->where('news.uuid', '!=', $uuid)
-            ->whereNotIn('news.uuid', $uuidOfFeaturedPost)
-            ->where('news.status', 1)
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
 
-        $uuidOfFeaturedPostBot = $data['featured_posts_bot']->pluck('uuid')->toArray();
+        $data['readMore'] = News::with('category')
+            ->whereNotIn('uuid',$uuidOfFeaturedPost)
+            ->where('category_id', $category_id)
+            ->where('uuid', '!=', $uuid)
+            ->where('status', 1)
+            ->limit(8)
+            ->get();
+            $uuidOfReadMore =  $data['readMore']->pluck('uuid')->toArray();
         //all uuid of detail post
-        $uuidOfPostInDetail = array_merge([$uuid], $uuidOfFeaturedPost, $uuidOfFeaturedPostBot, $uuidOfNewUpdated);
+        $uuidOfPostInDetail = array_merge([$uuid], $uuidOfFeaturedPost, $uuidOfNewUpdated,$uuidOfReadMore);
 
         $data['maybeYouLike'] = News::with('category')
             ->whereNotIn('news.uuid', $uuidOfPostInDetail)
@@ -176,5 +173,19 @@ class NewsController extends Controller
         } else {
             return back()->with('success', 'Bạn đã lưu bài viết này rồi');
         }
+    }
+
+    public function deleteHistory($uuid_history)
+    {
+        dd(123);
+        // $history_user = DB::table('history')->where('uuid', $uuid_history);
+        // if ($history_user->exists()) {
+        //     $history_user->delete();
+        //     return redirect()
+        //         ->back()
+        //         ->with('success', 'Xoá lịch sử xem bài viết thành công');
+        // } else {
+        //     dd(123);
+        // }
     }
 }

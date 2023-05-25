@@ -6,7 +6,6 @@
         <div class="container">
             <div class="module-title">
                 <h3 class="title"><span class="bg-1">Hot news</span></h3>
-                <h3 class="subtitle">Tin tức mới nhất</h3>
             </div>
             <!--========== BEGIN .ROW ==========-->
             <div class="row no-gutter">
@@ -109,7 +108,6 @@
                     <div class="news">
                         <div class="module-title">
                             <h3 class="title"><span class="bg-11"> Thế Giới</span></h3>
-                            <h3 class="subtitle">Tin tức mới nhất</h3>
                         </div>
                         @foreach ($nation_news as $item)
                             <!-- Begin .item-->
@@ -278,6 +276,8 @@
                                 @endforeach
                             </div>
                         @endif
+                        <div class="button-load-more"><a href="{{ route('website.category_news',['name_cate'=> Str::of($new_header[0]->name_cate)->slug('-'),'uuid'=>$new_header[0]->uuid]) }}" type="button"
+                            class="btn btn-default active">Xem thêm</a></div>
                     </div>
                     <!--========== END .NEWS ==========-->
                     <div class="module-title">
@@ -348,6 +348,8 @@
                                 @endforeach
                             </div>
                         @endif
+                        <div class="button-load-more"><a href="{{ route('website.category_news',['name_cate'=> Str::of($new_header[1]->name_cate)->slug('-'),'uuid'=>$new_header[1]->uuid]) }}" type="button"
+                            class="btn btn-default active">Xem thêm</a></div>
                     </div>
                     <!--========== END .NEWS ==========-->
                 </div>
@@ -386,6 +388,7 @@
                                                             <span>{{ date('d/m/Y', strtotime($item->created_at)) }}</span>
                                                         </a></li>
                                                 @endforeach
+
                                             </ul>
                                         </div>
                                         <!-- End #tab1 -->
@@ -533,7 +536,6 @@
                     <div class="news">
                         <div class="module-title">
                             <h3 class="title"><span class="bg-11">Thời sự</span></h3>
-                            <h3 class="subtitle">Tin tức mới nhất</h3>
                         </div>
                         @foreach ($boot_new['local_news'] as $item)
                             <!-- Begin .item-->

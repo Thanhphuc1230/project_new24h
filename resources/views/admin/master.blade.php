@@ -1,37 +1,34 @@
-{{-- @php
-$admin = Auth::user();
-if($admin == NULL){
-    return back(); 
-}
-@endphp --}}
-
 @include('admin.partials.head')
 </head>
 
 <body class="crm_body_bg">
+ 
+        @include('admin.partials.sidebar')
 
-    @include('admin.partials.sidebar')
 
+        @include('admin.partials.main')
 
-    @include('admin.partials.main')
+        {{-- content --}}
 
-    {{-- content --}}
+        @if (Session::get('success'))
+            <div class="alert alert-success" role="alert">
+                <h4 class="alert-heading">Well done!</h4>
 
-    @if (Session::get('success'))
-        <div class="alert alert-success" role="alert">
-            <h4 class="alert-heading">Well done!</h4>
-
-            {{ Session::get('success') }}
-        </div>
-    @endif
-    @if (Session::get('error_level'))
-        <div class="alert alert-danger" role="alert">
-            <h4 class="alert-heading"> {{ Session::get('error_level') }}!</h4>
-        </div>
-    @endif
-    @yield('content')
-    {{-- end-content --}}
-    @include('admin.partials.footer')
+                {{ Session::get('success') }}
+            </div>
+        @endif
+        @if (Session::get('error_level'))
+            <div class="alert alert-danger" role="alert">
+                <h4 class="alert-heading"> {{ Session::get('error_level') }}! @if(session('login_failed_attempts'))
+                        Số lần nhập sai: {{ session('login_failed_attempts') }}
+                @endif</h4>
+            </div>
+        @endif
+        
+        @yield('content')
+        @include('admin.partials.checkAdmin')
+        {{-- end-content --}}
+        @include('admin.partials.footer')
 
 
 </body>

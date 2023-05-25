@@ -17,14 +17,14 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 class ProfileController extends Controller
 {
-    public function profile($uuid)
+
+    public function profile()
     {   
+        $uuid = Auth::user()->uuid;
         $data['profile'] = User::where('uuid', $uuid)->first();
-        if (!$data['profile']) {
-            return response()->view('website.modules.error.index', [], 404);
-        }
         $data['comments'] = DB::table('comments')
             ->join('news', 'comments.post_id_comment', '=', 'news.uuid')
             ->select('news.uuid', 'news.title', 'comments.uuid as Cuuid', 'comments.comment', 'comments.status_comment', 'comments.created_at')
@@ -35,7 +35,7 @@ class ProfileController extends Controller
             ->select('news.uuid', 'news.title', 'history.created_at', 'history.uuid as Huuid')
             ->where('history.user_id', $uuid)
             ->get();
-
+        
         $data['save_post'] = DB::table('save_post')
             ->join('news', 'save_post.id_post', '=', 'news.uuid')
             ->select('news.uuid', 'news.title', 'save_post.created_at', 'save_post.uuid as Suuid')
@@ -45,9 +45,9 @@ class ProfileController extends Controller
     }
 
     public function deleteHistory($uuid_history)
-    {
-        $history_user = Db::table('history')->where('uuid', $uuid_history);
+    {    
 
+        $history_user = DB::table('history')->where('uuid', $uuid_history);
         if ($history_user->exists()) {
             $history_user->delete();
             return redirect()
@@ -59,9 +59,9 @@ class ProfileController extends Controller
     }
 
     public function deleteComment($uuid_comment)
-    {
-        $comment_user = Db::table('comments')->where('uuid', $uuid_comment);
+    {      
 
+        $comment_user = DB::table('comments')->where('uuid', $uuid_comment);
         if ($comment_user->exists()) {
             $comment_user->delete();
             return redirect()
@@ -71,7 +71,6 @@ class ProfileController extends Controller
             return response()->view('website.modules.error.index', [], 404);
         }
     }
-
     public function deleteSavePost($uuid_save_post)
     {
         $save_post = Db::table('save_post')->where('uuid', $uuid_save_post);
@@ -86,7 +85,7 @@ class ProfileController extends Controller
     }
 
     public function editComment($uuid)
-    {
+    {   
         $data['comment_user'] = DB::table('comments')
             ->join('news', 'comments.post_id_comment', '=', 'news.uuid')
             ->select('news.uuid', 'news.title', 'comments.uuid as Cuuid', 'comments.comment', 'comments.status_comment', 'comments.created_at')
@@ -94,6 +93,7 @@ class ProfileController extends Controller
             ->first();
         return view('website.modules.account.edit_profile', $data);
     }
+
 
     public function updatedComment(Request $request, $uuid)
     {
@@ -106,7 +106,7 @@ class ProfileController extends Controller
             ->where('uuid', $uuid)
             ->update($data);
 
-            return redirect()->back()->with('success', 'Cập nhật thông tin thành công.');
+            return redirect()->route('website.profile')->with('success', 'Cập nhật thông tin thành công.');
     }
 
     public function updatedProfile(AccountRequest $request, $uuid)

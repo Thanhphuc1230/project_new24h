@@ -121,7 +121,7 @@ class NewsController extends Controller
         }
         News::where('uuid', $id)->update($data);
       
-       return redirect()->route('admin.news.index')->with('success', 'Successful news update.');
+       return redirect()->route('admin.news.index')->with('success', 'Cập nhật bài viết thành công.');
     }
 
     /**
@@ -129,10 +129,10 @@ class NewsController extends Controller
      */
     public function destroy(string $id)
     {
-        $category =  News::where('uuid', $id);
-        if ($category->exists()) {
-            $category->delete();
-            return redirect()->route('admin.news.index')->with('success', 'Successful news deletion.');
+        $news =  News::where('uuid', $id);
+        if ($news->exists()) {
+            $news->delete();
+            return redirect()->route('admin.news.index')->with('success', 'Xóa bài viết thành công.');
         } else {
             abort(404);
         }

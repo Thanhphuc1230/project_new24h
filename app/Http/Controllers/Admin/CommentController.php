@@ -77,7 +77,11 @@ class CommentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->except('_token');
+        $data['updated_at'] = new \DateTime();
+        Comment::where('uuid', $id)->update($data);
+
+       return redirect()->route('admin.comment.index')->with('success', 'Cập nhật Comment người dùng thành công.');
     }
 
     /**

@@ -103,10 +103,8 @@
         <!--  Begin .footer-social-icons -->
         <div class="footer-social-icons">
             <ul>
-                <li> <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a> </li>
-                <li> <a href="#" class="facebook"><i class="fa fa-facebook"></i></a> </li>
-                <li> <a href="#" class="twitter"><i class="fa fa-twitter"></i></a> </li>
-                <li> <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a> </li>
+                <li> <a href="https://www.facebook.com/Tphuc1505/" class="facebook"><i class="fa fa-facebook"></i></a> </li>
+                <li> <a href="https://www.linkedin.com/in/daothanhphuc/" class="linkedin"><i class="fa fa-linkedin"></i></a> </li>
             </ul>
         </div>
         <!--  End .footer-social-icons -->

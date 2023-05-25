@@ -9,15 +9,15 @@
         </div>
         <div class="container-login100-form-btn m-t-32">
             <button class="login100-form-btn" type="submit">
-                Forgot password
+                Quên mật khẩu
             </button>
         </div>
         <div class="container-login100-form-btn m-t-32" style="display:flex; justify-content:space-around">
             <a href="{{ route('getLogin') }}" style="font-size:17px">
-                Login
+                Đăng nhập
             </a>
             <a href="{{ route('getRegister') }}" style="font-size:17px">
-                Register
+                Đăng ký
             </a>
         </div>
     </form>

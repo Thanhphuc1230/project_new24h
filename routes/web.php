@@ -8,10 +8,11 @@ use App\Http\Controllers\Admin\NewsController;
 use App\Http\Controllers\Admin\CkeditorController;
 use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ProfileController as PController;
+use App\Http\Controllers\Admin\CrawlerController;
+use App\Http\Controllers\Admin\AdminBaseController;
 
 use App\Http\Controllers\Website\HomeController;
 use App\Http\Controllers\Website\NewsController as NController;
-use App\Http\Controllers\Website\CrawlerController;
 use App\Http\Controllers\Website\ProfileController;
 use App\Http\Controllers\Website\SearchController;
 
@@ -29,7 +30,7 @@ use App\Http\Controllers\Login\SocialController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::post('/clear/data/123', function() {
+Route::get('/clear/data/123', function() {
 
     Artisan::call('cache:clear');
     Artisan::call('config:cache');
@@ -66,12 +67,15 @@ Route::post('password/reset', [LoginController::class, 'resetPassword'])->name('
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 Route::prefix('admin')->name('admin.')->middleware('check_login')->group(function () {
-
+    
+    Route::post('/check-session-and-logout',[AdminBaseController::class, 'checkSessionAndLogout'])->name('checkSessionAndLogout');
+    
+    //check level admin
+    Route::middleware('admin.authorization')->group(function () {
     Route::controller(CategoryController::class)->prefix('categories')->name('categories.')->group(
         function () {
             Route::get('/', 'index')->name('index');
             Route::get('/status_categories/{uuid}/{status}', 'status_categories')->name('status_categories');
-            Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');
             Route::get('/edit/{uuid}', 'edit')->name('edit');
             Route::post('/update/{uuid}', 'update')->name('update');
@@ -81,7 +85,6 @@ Route::prefix('admin')->name('admin.')->middleware('check_login')->group(functio
     Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
         Route::get('/profile', 'profile')->name('profile');
         Route::get('/', 'index')->name('index');
-        Route::get('/create', 'create')->name('create');
         Route::get('/status_user/{uuid}/{status}', 'status_user')->name('status_user');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{uuid}', 'edit')->name('edit');
@@ -89,6 +92,20 @@ Route::prefix('admin')->name('admin.')->middleware('check_login')->group(functio
         Route::get('/destroy/{uuid}', 'destroy')->name('destroy');
 
     });
+    Route::controller(CommentController::class)->prefix('comment')->name('comment.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/status_comment/{uuid}/{status}', 'status_comment')->name('status_comment');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{uuid}', 'edit')->name('edit');
+        Route::post('/update/{uuid}', 'update')->name('update');
+        Route::get('/destroy/{uuid}', 'destroy')->name('destroy');
+
+    });
+
+    Route::get('/get-data', [CrawlerController::class, 'featchAllTuoiTre'])->name('getData');
+    });
+
+
     Route::controller(PController::class)->prefix('profile_admin')->name('profile_admin.')->group(function () {
         Route::get('/profile', 'profile')->name('profile');
         Route::post('/updated_profile', 'updatedProfile')->name('updatedProfile');
@@ -101,23 +118,13 @@ Route::prefix('admin')->name('admin.')->middleware('check_login')->group(functio
     Route::controller(NewsController::class)->prefix('news')->name('news.')->group(function () {
         Route::get('/', 'index')->name('index');
         Route::get('/status_news/{uuid}/{status}', 'status_news')->name('status_news');
-        Route::get('/create', 'create')->name('create');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{uuid}', 'edit')->name('edit');
         Route::post('/update/{uuid}', 'update')->name('update');
         Route::get('/destroy/{uuid}', 'destroy')->name('destroy');
 
     });
-    Route::controller(CommentController::class)->prefix('comment')->name('comment.')->group(function () {
-        Route::get('/', 'index')->name('index');
-        Route::get('/status_comment/{uuid}/{status}', 'status_comment')->name('status_comment');
-        Route::get('/create', 'create')->name('create');
-        Route::post('/store', 'store')->name('store');
-        Route::get('/edit/{uuid}', 'edit')->name('edit');
-        Route::post('/update/{uuid}', 'update')->name('update');
-        Route::get('/destroy/{uuid}', 'destroy')->name('destroy');
-
-    });
+ 
 });
 Route::name('website.')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
@@ -134,22 +141,31 @@ Route::name('website.')->group(function () {
     //News
     Route::get('/{name_post}/{uuid}', [NController::class, 'detailNew'])->name('detailNew');
     Route::post('/postComment/{uuidOfNew}', [NController::class, 'postComment'])->name('postComment');
-    Route::get('/get-data', [CrawlerController::class, 'featchAllTuoiTre'])->name('getData');
+
 
     //account_user
-    Route::group(['middleware' => 'auth'], function () {
-        Route::get('/{uuid}', [ProfileController::class, 'profile'])->name('profile');
-        Route::get('/delete/{uuid_history}',[ProfileController::class, 'deleteHistory'])->name('deleteHistory');
-        Route::get('/edit_comment/{uuid}', [ProfileController::class, 'editComment'])->name('editComment');
-        Route::get('/delete_comment/{uuid}', [ProfileController::class, 'deleteComment'])->name('deleteComment');
+    // Route::group(['middleware' => 'auth'], function () {
+        Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+        Route::get('/test', [ProfileController::class, 'test'])->name('test');
+
+
+        Route::delete('/delete/{uuid_history}',[ProfileController::class, 'deleteHistory'])->name('deleteHistory');
+
+
+        Route::get('/edit_comment/{uuid}/edit', [ProfileController::class, 'editComment'])->name('editComment');
+        Route::delete('/delete_comment/{uuid_comment}', [ProfileController::class, 'deleteComment'])->name('deleteComment');
+
         Route::post('/updated_comment/{uuid}', [ProfileController::class, 'updatedComment'])->name('updatedComment');
+
         Route::post('/updated_profile/{uuid}', [ProfileController::class, 'updatedProfile'])->name('updatedProfile');
         Route::post('/updated_password/{uuid}', [ProfileController::class, 'updatedPassword'])->name('updatedPassword');
         Route::post('/updated_email/{uuid}', [ProfileController::class, 'updatedEmail'])->name('updatedEmail');
         Route::post('/save_post/{uuid}', [NController::class, 'savePost'])->name('savePost');
-        Route::get('/delete_save_post/{uuid_save_post}', [ProfileController::class, 'deleteSavePost'])->name('deleteSavePost');
 
-    });
+
+        Route::delete('/delete_save_post/{uuid_save_post}', [ProfileController::class, 'deleteSavePost'])->name('deleteSavePost');
+
+    // });
    
 });
 

@@ -25,22 +25,23 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         View::composer('website.*', function ($view) {
-            $uuid = request()->segment(count(request()->segments()));
+            $uuidOfCate = request()->segment(count(request()->segments()));
+         
             $currentRouteName = \Request::route()->getName();
     
             if ($currentRouteName == 'website.category_news') {
-                $check = DB::table('categories')->where('uuid', $uuid)->first();
+                $check = DB::table('categories')->where('uuid', $uuidOfCate)->first();
     
                 if ($check && $check->parent_id != 1) {
-                    $id = DB::table('categories')->where('uuid', $uuid)->value('parent_id');
+                    $id = DB::table('categories')->where('uuid', $uuidOfCate)->value('parent_id');
                     $mini_categories = Category::select('name_cate', 'id_category', 'uuid')
                         ->where('parent_id', $id)
                         ->get();
                 } else {
-                    $id = DB::table('categories')->where('uuid', $uuid)->value('id_category');
+                    $id = DB::table('categories')->where('uuid', $uuidOfCate)->value('id_category');
                 }
             
-                $mini_categories = $uuid != 0 ? Category::select('name_cate', 'id_category','uuid')->where('parent_id', $id)->get() : collect();
+                $mini_categories = $uuidOfCate != 0 ? Category::select('name_cate', 'id_category','uuid')->where('parent_id', $id)->get() : collect();
             } else {
                 $mini_categories = collect();
             }
@@ -67,8 +68,7 @@ class AppServiceProvider extends ServiceProvider
                 ->inRandomOrder()
                 ->limit(5)
                 ->get();
-        
-            $view->with(compact('mini_categories', 'new_header', 'latest_news', 'latest_news_2'));
+            $view->with(compact('mini_categories', 'new_header', 'latest_news', 'latest_news_2','uuidOfCate'));
         });
     }
 }

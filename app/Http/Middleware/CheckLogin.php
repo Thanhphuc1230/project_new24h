@@ -15,7 +15,7 @@ class CheckLogin
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
+    {   
         if (Auth::check() && (Auth::user()->level == 1 || Auth::user()->level == 2 )) {
             return $next($request);
          }

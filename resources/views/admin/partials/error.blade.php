@@ -15,3 +15,10 @@
         </ul>
     </div>
 @endif
+@if (Session::get('check_level'))
+    <div class="alert alert-danger">
+        <ul>
+            <li>{!! Session::get('check_level') !!}</li>
+        </ul>
+    </div>
+@endif

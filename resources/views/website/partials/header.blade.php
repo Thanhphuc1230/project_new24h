@@ -1,5 +1,17 @@
 @php
     use Illuminate\Support\Str;
+    use App\Models\Category;
+    function getOldActive($uuid)
+    {
+        $parentIdOfCategory = Category::where('uuid', $uuid)->value('parent_id');
+        if ($parentIdOfCategory == 1) {
+            return $uuid;
+        } else {
+            $parentIdOfChild = Category::where('uuid', $uuid)->value('parent_id');
+            $uuid = Category::where('id_category', $parentIdOfChild)->value('uuid');
+            return $uuid;
+        }
+    }
 @endphp
 
 <header id="header">
@@ -10,9 +22,11 @@
             <!-- Begin .left-top-menu -->
             <ul class="left-top-menu">
                 <li> <a href="https://www.facebook.com/Tphuc1505/" class="facebook"><i class="fa fa-facebook"></i></a></li>
-                <li> <a href="https://www.linkedin.com/in/daothanhphuc/" class="linkedin"><i class="fa fa-linkedin"></i></a> </li>
+                <li> <a href="https://www.linkedin.com/in/daothanhphuc/" class="linkedin"><i
+                            class="fa fa-linkedin"></i></a> </li>
                 <li class="address"><a href="tel:+84706405646"><i class="fa fa-phone"></i> 0706405646</a></li>
-                <li class="address"><a href="mailto:thanhphuc15052001@gmail.com"><i class="fa fa-envelope-o"></i> thanhphuc15052001@gmail.com</a></li>
+                <li class="address"><a href="mailto:thanhphuc15052001@gmail.com"><i class="fa fa-envelope-o"></i>
+                        thanhphuc15052001@gmail.com</a></li>
             </ul>
             <!-- End .left-top-menu -->
         </div>
@@ -58,7 +72,7 @@
                         </li>
                     @endforeach
                     @if (Auth::user())
-                        <li><a href="{{ route('website.profile', ['uuid' => Auth::user()->uuid]) }}">Profile</a></li>
+                        <li><a href="{{ route('website.profile') }}">Profile</a></li>
                     @else
                         <li><a href="{{ route('getLogin') }}">Login</a></li>
                     @endif
@@ -76,14 +90,15 @@
             <div class="container">
                 <!-- Begin .nav navbar-nav -->
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="{{ route('website.index') }}">Home</a></li>
+                    <li @if ($uuidOfCate == null) class="active" @endif><a
+                            href="{{ route('website.index') }}">Home</a></li>
                     @foreach ($new_header as $item)
-                        <li><a
+                        <li @if ($item->uuid == getOldActive($uuidOfCate)) class="active" @endif><a
                                 href="{{ route('website.category_news', ['name_cate' => Str::of($item->name_cate)->slug('-'), 'uuid' => $item->uuid]) }}">{{ $item->name_cate }}</a>
                         </li>
                     @endforeach
                     @if (Auth::user())
-                        <li><a href="{{ route('website.profile', ['uuid' => Auth::user()->uuid]) }}">Profile</a></li>
+                        <li><a href="{{ route('website.profile') }}">Profile</a></li>
                     @else
                         <li><a href="{{ route('getLogin') }}">Login</a></li>
                     @endif
@@ -137,11 +152,11 @@
     </div>
 @endif
 @if ($errors->any())
-<div class="alert alert-danger" role="alert" style="list-style:none">
-    <i class="ti-alert"></i>
-    @foreach ($errors->all() as $error)
-        <li> {{ $error }}</li>
-    @endforeach
-</div>
+    <div class="alert alert-danger" role="alert" style="list-style:none">
+        <i class="ti-alert"></i>
+        @foreach ($errors->all() as $error)
+            <li> {{ $error }}</li>
+        @endforeach
+    </div>
 @endif
 <section id="main-section">

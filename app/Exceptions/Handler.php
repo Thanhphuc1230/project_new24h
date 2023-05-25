@@ -24,7 +24,7 @@ class Handler extends ExceptionHandler
         });
     }
     public function render($request, Throwable $exception)
-    {
+    {   
         if ($exception instanceof NotFoundHttpException && !$request->expectsJson()) {
             return response()->view('website.modules.error.index', [], 404);
         }

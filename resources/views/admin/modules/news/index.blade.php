@@ -4,6 +4,7 @@
 @section('content')
 <div class="white_card card_height_100 mb_30">
     <div class="white_card_header">
+        @include('admin.partials.error')
     </div>
     <div class="white_card_body">
         <div class="QA_section">
@@ -227,19 +228,23 @@
                                     {{  html_entity_decode($new->title) }}</td>
                                 <td>
                                     @php
-                                    if($new->status == 0){
-                                    @endphp
-                                    <a onclick="return confirm('Xác nhận kích hoạt bài viết ?')"
-                                        href="{{ route('admin.news.status_news',['uuid' => $new->uuid,'status'=>1]) }} "
-                                        class="status_btn" style="background:#FA8072 !important">Unactive</a>
-                                    @php
-                                    }else{
-                                    @endphp
-                                    <a onclick="return confirm('Xác nhận tắt kích hoạt bài viết ?')"
-                                        href="{{ route('admin.news.status_news',['uuid' => $new->uuid,'status'=>0]) }} "
-                                        class="status_btn">Active</a>
-                                    @php
-                                    }
+                                    if ($new->status == 0) {
+                                        if (session('user_check')) {
+                                            echo '<a onclick="return confirm(\'Xác nhận kích hoạt bài viết ?\')"
+                                            href="' . route('admin.news.status_news', ['uuid' => $new->uuid, 'status' => 1]) . '"
+                                            class="status_btn" style="background:#FA8072 !important">Unactive</a>';
+                                                    } else {
+                                                        echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="status_btn" style="background:#FA8072!important">Unactive</a>';
+                                                    }
+                                    } else {
+                                        if (session('user_check')) {
+                                            echo '<a onclick="return confirm(\'Xác nhận tắt kích hoạt bài viết ?\')"
+                                            href="' . route('admin.news.status_news', ['uuid' => $new->uuid, 'status' => 0]) . '"
+                                            class="status_btn">Active</a>';
+                                                    } else {
+                                                        echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck"class="status_btn">Active</a>';
+                                                    }
+                                                }
                                     @endphp
 
                                 </td>
@@ -253,11 +258,15 @@
                                 </td>
                                 <td>
                                     <div class="action_btns d-flex">
-                                        <a href="{{ route('admin.news.edit', ['uuid' => $new->uuid]) }}"
-                                            class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a onclick="return confirm('Xác nhận xóa bài viết ?')"
-                                            href="{{ route('admin.news.destroy', ['uuid' => $new->uuid]) }}"
-                                            class="action_btn"> <i class="fas fa-trash"></i> </a>
+                                        @php
+                                            if (session('admin_check')) {
+                                                echo '<a href="' . route('admin.news.edit', ['uuid' => $new->uuid]) . '" class="action_btn mr_10"><i class="far fa-edit"></i></a>';
+                                                echo '<a onclick="return confirm(\'Xác nhận xóa bài viết ?\')" href="' . route('admin.news.destroy', ['uuid' => $new->uuid]) . '" class="action_btn"><i class="fas fa-trash"></i></a>';
+                                            } else {
+                                                echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="action_btn mr_10"><i class="far fa-edit"></i></a>';
+                                                echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="action_btn"><i class="fas fa-trash"></i></a>';
+                                            }
+                                        @endphp
                                     </div>
                                 </td>
                             </tr>

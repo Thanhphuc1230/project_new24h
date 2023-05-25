@@ -124,6 +124,16 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = User::where('uuid', $id);
+        $history_user = DB::table('history')->where('user_id',$id);
+        $save_post = DB::table('save_post')->where('user_id',$id);
+        if ($user->exists()) {
+            $user->delete();
+            $history_user->delete();
+            $save_post->delete();
+            return redirect()->route('admin.categories.index')->with('success', 'Xóa người dùng thành công.');
+        } else {
+            abort(404);
+        }
     }
 }

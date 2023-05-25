@@ -121,12 +121,19 @@
                                                     @foreach ($history as $item)
                                                         <tr>
                                                             <td>{{ $loop->iteration }}</td>
-                                                            <td><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"
+                                                            <td><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
                                                                     style="color:#8fbc8f">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                             </td>
                                                             <td>{{ $item->created_at }}</td>
-                                                            <td><a
-                                                                    href="{{ route('website.deleteHistory', ['uuid_history' => $item->Huuid]) }}">Delete</a>
+                                                            <td>
+                                                                <form
+                                                                    action="{{ route('website.deleteHistory', ['uuid_history' => $item->Huuid]) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có chắc muốn lịch sử')">Delete</button>
+                                                                </form>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -169,9 +176,15 @@
                                                             </td>
                                                             <td>{{ $comment->created_at }}</td>
                                                             <td><a
-                                                                    href="{{ route('website.editComment', ['uuid' => $comment->Cuuid]) }}">Edit</a>
-                                                                <a href="{{ route('website.deleteComment', ['uuid' => $comment->Cuuid]) }} "
-                                                                    onclick="return confirm('Bạn có chắc muốn xóa comment ?')">Delete</a>
+                                                                    href="{{ route('website.editComment', ['uuid' => $comment->Cuuid]) }}"><button>Edit</button></a>
+                                                                <form
+                                                                    action="{{ route('website.deleteComment', ['uuid_comment' => $comment->Cuuid]) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có chắc muốn xóa comment ?')">Delete</button>
+                                                                </form>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -195,13 +208,19 @@
                                                     @foreach ($save_post as $item)
                                                         <tr>
                                                             <td>{{ $loop->iteration }}</td>
-                                                            <td><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->uuid]) }}"
+                                                            <td><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}"
                                                                     style="color:#8fbc8f">{{ html_entity_decode(Str::words($item->title, 15)) }}</a>
                                                             </td>
                                                             <td>{{ $item->created_at }}</td>
                                                             <td>
-                                                                <a href="{{ route('website.deleteSavePost', ['uuid_save_post' => $item->Suuid]) }}"
-                                                                    onclick="return confirm('Bạn có chắc muốn xóa bài viết đã lưu?')">Delete</a>
+                                                                <form
+                                                                    action="{{ route('website.deleteSavePost', ['uuid_save_post' => $item->Suuid]) }}"
+                                                                    method="POST">
+                                                                    @csrf
+                                                                    @method('DELETE')
+                                                                    <button type="submit"
+                                                                        onclick="return confirm('Bạn có chắc muốn xóa bài viết đã lưu?')">Delete</button>
+                                                                </form>
                                                             </td>
                                                         </tr>
                                                     @endforeach
@@ -210,20 +229,20 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="password">
-                                        <h2 class="no-margin text-bold">Cập nhật mật khẩu mới<small>Bold 20px</small></h2>
+                                        <h2 class="no-margin text-bold">Cập nhật mật khẩu mới</h2>
                                         <form id="contact-form" method="post"
                                             action="{{ route('website.updatedPassword', ['uuid' => $profile->uuid]) }}">
                                             @csrf
                                             <div class="messages"></div>
                                             <div class="controls">
-                                                @if (Auth::user()->provider == null)
+                                                @if (Auth::user()->password !== null)
                                                     <div class="row no-gutter">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="form_name">Mật khẩu cũ *</label>
                                                                 <input id="form_name" type="password" name="old_password"
                                                                     class="form-control"
-                                                                    placeholder="Please enter your firstname *"
+                                                                    placeholder="Please enter your old password *"
                                                                     required="" data-error="Firstname is required.">
                                                                 <div class="help-block with-errors"></div>
                                                             </div>

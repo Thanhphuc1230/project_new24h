@@ -161,33 +161,46 @@
                                     else{
                                     @endphp
                                     User
-                                    @php } @endphp</td>
+                                    @php } @endphp
+                                    </td>
                                 <td>
                                     @php
-                                    if($user->status_user == 1){
-                                    @endphp
-                                    <a onclick="return confirm('Xác nhận chặn người dùng ?')"
-                                        href="{{ route('admin.users.status_user',['uuid' => $user->uuid,'status'=>0]) }} "
-                                        class="status_btn">Active</a>
-                                    @php
-                                    }else{
-                                    @endphp
-                                    <a onclick="return confirm('Xác nhân cho phép người dùng hoạt động trở lại ?')"
-                                        href="{{ route('admin.users.status_user',['uuid' => $user->uuid,'status'=>1]) }}"
-                                        class="status_btn" style="background: red !important">Unactive</a>
-                                    @php
-                                    }
+                                        if ($user->status_user == 0) {
+                                            if (session('user_check')) {
+                                                echo '<a onclick="return confirm(\'Xác nhận kích hoạt người dùng ?\')"
+                                            href="' .
+                                                    route('admin.user.status_user', ['uuid' => $user->uuid, 'status' => 1]) .
+                                                    '"
+                                            class="status_btn" style="background:#FA8072 !important">Unactive</a>';
+                                            } else {
+                                                echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="status_btn" style="background:#FA8072!important">Unactive</a>';
+                                            }
+                                        } else {
+                                            if (session('user_check')) {
+                                                echo '<a onclick="return confirm(\'Xác nhận tắt kích hoạt bài viết ?\')"
+                                            href="' .
+                                                    route('admin.user.status_user', ['uuid' => $user->uuid, 'status' => 0]) .
+                                                    '"
+                                            class="status_btn">Active</a>';
+                                            } else {
+                                                echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck"class="status_btn">Active</a>';
+                                            }
+                                        }
                                     @endphp
 
                                 </td>
                                 <td>{{ date('d/m/Y', strtotime($user->created_at )) }}</td>
                                 <td>
                                     <div class="action_btns d-flex">
-                                        <a href="{{ route('admin.users.edit', ['uuid' => $user->uuid]) }}"
-                                            class="action_btn mr_10"> <i class="far fa-edit"></i> </a>
-                                        <a onclick="return confirm('Xác nhận xóa thành viên, sẽ xóa luôn các đơn hàng của người dùng và không thể khôi phục lại ?')"
-                                            href="{{ route('admin.users.destroy', ['uuid' => $user->uuid]) }}"
-                                            class="action_btn"> <i class="fas fa-trash"></i> </a>
+                                        @php
+                                        if (session('admin_check')) {
+                                            echo '<a href="' . route('admin.users.edit', ['uuid' => $user->uuid]) . '" class="action_btn mr_10"><i class="far fa-edit"></i></a>';
+                                            echo '<a onclick="return confirm(\'Xác nhận xóa người dùng ?\')" href="' . route('admin.users.destroy', ['uuid' => $user->uuid]) . '" class="action_btn"><i class="fas fa-trash"></i></a>';
+                                        } else {
+                                            echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="action_btn mr_10"><i class="far fa-edit"></i></a>';
+                                            echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="action_btn"><i class="fas fa-trash"></i></a>';
+                                        }
+                                    @endphp
                                     </div>
                                 </td>
                             </tr>

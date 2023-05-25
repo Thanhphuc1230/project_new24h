@@ -16,7 +16,7 @@
             @foreach($name as $item)
             <div class="item">
                 <div class="item-image-1"><a class="img-link"
-                        href="{{ route('website.detailNew', ['uuid' => $item->Nuuid]) }}"><img loading="lazy"
+                        href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->Nuuid]) }}"><img loading="lazy"
                             class="img-responsive img-full"
                             @php if (substr($item->avatar, 0, 8) === "https://")
                     {
@@ -29,11 +29,11 @@
                 </div>
                 <div class="item-content">
                     <div class="title-left title-style04 underline04">
-                        <h3><a href="{{ route('website.detailNew', ['uuid' => $item->Nuuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}
+                        <h3><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->Nuuid]) }}"><strong>{{ html_entity_decode(Str::words($item->title, 15)) }}
                                 </strong></a>
                         </h3>
                     </div>
-                    <p><a href="{{ route('website.detailNew', ['uuid' => $item->Nuuid]) }}"
+                    <p><a href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'),'uuid' => $item->Nuuid]) }}"
                             class="external-link">{{ Str::words($item->intro, 15) }}</a>
                     </p>
                     <div><a
