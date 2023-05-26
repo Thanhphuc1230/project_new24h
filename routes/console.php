@@ -18,10 +18,4 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-artisan::command('logs:clean', function() {
-    
-    exec('rm -f ' . storage_path('logs/*.log'));
-    exec('rm -f ' . base_path('*.log'));
-    $this->comment('Logs cleaned!');
-    
-})->describe('Clean the log files');
+
