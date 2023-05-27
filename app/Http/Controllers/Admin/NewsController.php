@@ -117,6 +117,10 @@ class NewsController extends Controller
             $imageName = time().'-'.$request->avatar->getClientOriginalName();  
             $request->avatar->move(public_path('images/news'), $imageName);
             $data['avatar'] = $imageName;
+
+            if ($user_current->avatar && file_exists($image_path)) {
+                unlink($image_path);
+            }
       
         }
         News::where('uuid', $id)->update($data);

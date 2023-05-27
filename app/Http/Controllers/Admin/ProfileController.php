@@ -19,19 +19,7 @@ class ProfileController extends Controller
         $data['admin'] = User::where('uuid',Auth::user()->uuid)->first();
         return view('admin.modules.profile.index',$data);
     }
-    public function deleteHistory($uuid_history)
-    {
-        dd(123);
-        // $history_user = DB::table('history')->where('uuid', $uuid_history);
-        // if ($history_user->exists()) {
-        //     $history_user->delete();
-        //     return redirect()
-        //         ->back()
-        //         ->with('success', 'Xoá lịch sử xem bài viết thành công');
-        // } else {
-        //     dd(123);
-        // }
-    }
+    
     public function updatedProfile(ProfileRequest $request)
     {   
         $uuid = Auth::user()->uuid;
@@ -46,6 +34,10 @@ class ProfileController extends Controller
             $imageName = time() . '-' . $request->avatar->getClientOriginalName();
             $request->avatar->move(public_path('images/users'), $imageName);
             $data['avatar'] = $imageName;
+            //delete old images
+            if ($user_current->avatar && file_exists($image_path)) {
+                unlink($image_path);
+            }
         }
         User::where('uuid', $uuid)->update($data);
 
@@ -117,5 +109,17 @@ class ProfileController extends Controller
         $user->save();
 
         return redirect('admin.profile_admin.profile')->with('success', 'Email đã được cập nhật');
+    }
+    public function deleteHistory($uuid_history)
+    {
+        $history_user = DB::table('history')->where('uuid', $uuid_history);
+        if ($history_user->exists()) {
+            $history_user->delete();
+            return redirect()
+                ->back()
+                ->with('success', 'Xoá lịch sử xem bài viết thành công');
+        } else {
+            return response()->view('website.modules.error.index', [], 404);
+        }
     }
 }

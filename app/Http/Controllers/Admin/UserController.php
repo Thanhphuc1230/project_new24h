@@ -16,12 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->level !== 1) {
-            session()->flash('error_level', 'Bạn không đủ quyền truy cập');
-            return redirect()->route('admin.news.index');
-        }
-
-        $data['users'] = User::select('uuid', 'fullname', 'email','avatar','created_at', 'level', 'status_user')->get();
+        $data['users'] = User::select('uuid', 'fullname', 'email', 'avatar', 'created_at', 'level', 'status_user')->get();
         return view('admin.modules.user.index', $data);
     }
     /**
@@ -30,9 +25,9 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $data = $request->except('_token', 'password_confirmation');
-        $data['password'] = bcrypt($request->password);
+        $data['password'] = Hash::make($request->password);
         $data['created_at'] = new \DateTime();
-        $data['uuid'] = Uuid::uuid4()->toString();
+        $data['uuid'] = Str::uuid();
         $data['status_user'] = '1';
 
         $image = $request->avatar;
@@ -57,10 +52,6 @@ class UserController extends Controller
 
     public function status_user($uuid, $status)
     {
-        if (Auth::user()->level !== 1) {
-            session()->flash('error_level', 'Bạn không đủ quyền hạn để thưc hiện');
-            return redirect()->route('admin.news.index');
-        }
         User::where('uuid', $uuid)->update(['status_user' => $status]);
 
         return redirect()
@@ -112,6 +103,10 @@ class UserController extends Controller
             $imageName = time() . '-' . $request->avatar->getClientOriginalName();
             $request->avatar->move(public_path('images/users'), $imageName);
             $data['avatar'] = $imageName;
+
+            if ($user_current->avatar && file_exists($image_path)) {
+                unlink($image_path);
+            }
         }
 
         User::where('uuid', $id)->update($data);
@@ -125,13 +120,15 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::where('uuid', $id);
-        $history_user = DB::table('history')->where('user_id',$id);
-        $save_post = DB::table('save_post')->where('user_id',$id);
+        $history_user = DB::table('history')->where('user_id', $id);
+        $save_post = DB::table('save_post')->where('user_id', $id);
         if ($user->exists()) {
             $user->delete();
             $history_user->delete();
             $save_post->delete();
-            return redirect()->route('admin.categories.index')->with('success', 'Xóa người dùng thành công.');
+            return redirect()
+                ->route('admin.categories.index')
+                ->with('success', 'Xóa người dùng thành công.');
         } else {
             abort(404);
         }

@@ -122,6 +122,10 @@ class ProfileController extends Controller
             $imageName = time() . '-' . $request->avatar->getClientOriginalName();
             $request->avatar->move(public_path('images/users'), $imageName);
             $data['avatar'] = $imageName;
+            //delete old images
+            if ($user_current->avatar && file_exists($image_path)) {
+                unlink($image_path);
+            }
         }
         User::where('uuid', $uuid)->update($data);
 

@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\NewController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\CommentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,3 +24,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //API
 Route::apiResource('categories', CategoryController::class);
 Route::apiResource('news', NewController::class);
+Route::apiResource('users', UserController::class);
+Route::apiResource('comments', CommentController::class);

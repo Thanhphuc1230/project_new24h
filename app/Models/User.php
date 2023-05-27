@@ -29,6 +29,8 @@ class User extends Authenticatable
         'level'
     ];
 
+    
+
     /**
      * The attributes that should be hidden for serialization.
      *

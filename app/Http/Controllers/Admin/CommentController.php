@@ -18,8 +18,7 @@ class CommentController extends Controller
             session()->flash('error_level', 'Bạn không đủ quyền truy cập');
             return redirect()->route('admin.news.index');
         }
-        $data['comments'] = DB::table('comments')
-        ->join('news', 'comments.post_id_comment', '=', 'news.uuid')
+        $data['comments'] = Comment::join('news', 'comments.post_id_comment', '=', 'news.uuid')
         ->join('users', 'comments.user_id_comment', '=', 'users.uuid')
         ->select('comments.*', 'news.title', 'users.email')
         ->get();
