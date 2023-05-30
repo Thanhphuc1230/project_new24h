@@ -13,70 +13,73 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 class NewsController extends Controller
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
-    {   
-       
-        $data['categories_select'] = Category::select('id_category', 'name_cate','parent_id')
-        ->where('id_category','>',1) 
-        ->where('status_cate',1)
-        ->get();
-        $data['select_where_in'] = Category::select('id_category', 'name_cate','parent_id')
-        ->where('id_category','>',1) 
-        ->where('status_cate',1)
-        ->where('parent_id',1)
-        ->get();
-        if(Auth::user()->level !==1){
-            $data['news'] = DB::table('news')
-            ->join('categories', 'news.category_id', '=', 'categories.id_category')
-            ->select('news.*', 'categories.name_cate')
-            ->orderBy('categories.name_cate', 'asc')
-            ->where('uuid_author',Auth::user()->uuid)
+    {
+        $data['categories_select'] = Category::select('id_category', 'name_cate', 'parent_id')
+            ->where('id_category', '>', 1)
+            ->where('status_cate', 1)
             ->get();
-        }else{
-            $data['news'] = DB::table('news')
-            ->join('categories', 'news.category_id', '=', 'categories.id_category')
-            ->select('news.*', 'categories.name_cate')
-            ->orderBy('categories.name_cate', 'asc')
+        $data['select_where_in'] = Category::select('id_category', 'name_cate', 'parent_id')
+            ->where('id_category', '>', 1)
+            ->where('status_cate', 1)
+            ->where('parent_id', 1)
             ->get();
+        if (Auth::user()->level !== 1) {
+            $data['news'] = DB::table('news')
+                ->join('categories', 'news.category_id', '=', 'categories.id_category')
+                ->select('news.*', 'categories.name_cate')
+                ->orderBy('categories.name_cate', 'asc')
+                ->where('uuid_author', Auth::user()->uuid)
+                ->get();
+        } else {
+            $data['news'] = DB::table('news')
+                ->join('categories', 'news.category_id', '=', 'categories.id_category')
+                ->select('news.*', 'categories.name_cate')
+                ->orderBy('categories.name_cate', 'asc')
+                ->get();
         }
-    
 
-        return view('admin.modules.news.index',$data);
+        return view('admin.modules.news.index', $data);
     }
     /**
      * Store a newly created resource in storage.
      */
     public function store(NewsRequest $request)
-    {   
+    {
         $data = $request->except('_token');
 
-        if(Auth::user()->level !== 1){
+        if (Auth::user()->level !== 1) {
             $data['status'] = 0;
         }
 
-        $data['created_at'] = new \DateTime(); 
+        $data['created_at'] = new \DateTime();
         $data['uuid'] = Str::uuid();
         $data['uuid_author'] = Auth::user()->uuid;
-        $imageName = time().'-'.$request->avatar->getClientOriginalName();  
+        $imageName = time() . '-' . $request->avatar->getClientOriginalName();
         $request->avatar->move(public_path('images/news'), $imageName);
         $data['avatar'] = $imageName;
 
         News::insert($data);
-        
-        return redirect()->back()->with('success', 'Đã đăng bài viết thành công');
+
+        return redirect()
+            ->back()
+            ->with('success', 'Đã đăng bài viết thành công');
     }
-  
-    public function status_news($uuid,$status){
+
+    public function status_news($uuid, $status)
+    {
         if (Auth::user()->level !== 1) {
             session()->flash('error_level', 'Bạn không đủ quyền hạn để thưc hiện');
             return redirect()->route('admin.news.index');
         }
-        News::where('uuid',$uuid)->update(['status'=>$status]);
+        News::where('uuid', $uuid)->update(['status' => $status]);
 
-        return redirect()->back()->with('success', 'Kích hoạt sản phẩm thành công');
+        return redirect()
+            ->back()
+            ->with('success', 'Kích hoạt sản phẩm thành công');
     }
 
     /**
@@ -84,15 +87,15 @@ class NewsController extends Controller
      */
     public function edit(string $id)
     {
-        $new =News::where('uuid', $id);
+        $new = News::where('uuid', $id);
 
         if ($new->exists()) {
             $data['new'] = $new->first();
-            $data['category_selected'] = Category::select('id_category', 'name_cate','parent_id')
-            ->where('id_category','>',1) 
-            ->where('status_cate',1)
-            ->get();
-            return view('admin.modules.news.edit',$data);
+            $data['category_selected'] = Category::select('id_category', 'name_cate', 'parent_id')
+                ->where('id_category', '>', 1)
+                ->where('status_cate', 1)
+                ->get();
+            return view('admin.modules.news.edit', $data);
         } else {
             abort(404);
         }
@@ -109,23 +112,23 @@ class NewsController extends Controller
 
         $data['updated_at'] = new \DateTime();
         if (empty($request->avatar)) {
-            $data['avatar'] = $new_current->avatar; 
-            
+            $data['avatar'] = $new_current->avatar;
         } else {
-            $image_path = public_path('images/news') . "/" . $new_current->avatar;
+            $image_path = public_path('images/news') . '/' . $new_current->avatar;
 
-            $imageName = time().'-'.$request->avatar->getClientOriginalName();  
+            $imageName = time() . '-' . $request->avatar->getClientOriginalName();
             $request->avatar->move(public_path('images/news'), $imageName);
             $data['avatar'] = $imageName;
 
             if ($user_current->avatar && file_exists($image_path)) {
                 unlink($image_path);
             }
-      
         }
         News::where('uuid', $id)->update($data);
-      
-       return redirect()->route('admin.news.index')->with('success', 'Cập nhật bài viết thành công.');
+
+        return redirect()
+            ->route('admin.news.index')
+            ->with('success', 'Cập nhật bài viết thành công.');
     }
 
     /**
@@ -133,10 +136,21 @@ class NewsController extends Controller
      */
     public function destroy(string $id)
     {
-        $news =  News::where('uuid', $id);
-        if ($news->exists()) {
+        $news = News::where('uuid', $uuid)->first();
+
+        if ($news) {
+            // Delete the news image
+            $imagePath = public_path('images/news/' . $news->avatar);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
+            // Delete the news article
             $news->delete();
-            return redirect()->route('admin.news.index')->with('success', 'Xóa bài viết thành công.');
+
+            return redirect()
+                ->route('admin.news.index')
+                ->with('success', 'Xóa bài viết thành công.');
         } else {
             abort(404);
         }

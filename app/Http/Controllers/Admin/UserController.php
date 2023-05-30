@@ -119,13 +119,22 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        $user = User::where('uuid', $id);
-        $history_user = DB::table('history')->where('user_id', $id);
-        $save_post = DB::table('save_post')->where('user_id', $id);
-        if ($user->exists()) {
+        $user = User::where('uuid', $uuid)->first();
+        $imagePath = public_path('images/users') . '/' . $user->avatar;
+
+        if ($user) {
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+
             $user->delete();
-            $history_user->delete();
-            $save_post->delete();
+            DB::table('history')
+                ->where('user_id', $id)
+                ->delete();
+            DB::table('save_post')
+                ->where('user_id', $id)
+                ->delete();
+
             return redirect()
                 ->route('admin.categories.index')
                 ->with('success', 'Xóa người dùng thành công.');
