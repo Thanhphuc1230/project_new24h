@@ -174,18 +174,5 @@ class NewsController extends Controller
             return back()->with('success', 'Bạn đã lưu bài viết này rồi');
         }
     }
-
-    public function deleteHistory($uuid_history)
-    {
-        dd(123);
-        // $history_user = DB::table('history')->where('uuid', $uuid_history);
-        // if ($history_user->exists()) {
-        //     $history_user->delete();
-        //     return redirect()
-        //         ->back()
-        //         ->with('success', 'Xoá lịch sử xem bài viết thành công');
-        // } else {
-        //     dd(123);
-        // }
-    }
+  
 }

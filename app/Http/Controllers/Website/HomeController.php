@@ -14,53 +14,13 @@ class HomeController extends Controller
 {
     public function boot_new()
     {
-        $data['local_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 2)
-            ->latest('created_at')
-            ->limit(10)
-            ->get();
-
-        $data['technology_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 6)
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
-
-        $data['health_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 11)
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
-
-        $data['travel_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 7)
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
-
-        $data['culture_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 8)
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
-
-        $data['entertainment_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 9)
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
-        $data['sport_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 10)
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
+        $data['local_news'] = $this->getNewsWhereIn(2, 10);
+        $data['technology_news'] = $this->getNewsWhereIn(6, 5);
+        $data['health_news'] = $this->getNewsWhereIn(11, 5);
+        $data['travel_news'] = $this->getNewsWhereIn(7, 5);
+        $data['culture_news'] = $this->getNewsWhereIn(8, 5);
+        $data['entertainment_news'] = $this->getNewsWhereIn(9, 5);
+        $data['sport_news'] = $this->getNewsWhereIn(10, 5);
 
         $data['most_views'] = News::select('uuid', 'avatar', 'title', 'new_view')
             ->where('status', 1)
@@ -71,7 +31,17 @@ class HomeController extends Controller
         return $data;
     }
 
-    public function getIdCategory($id)
+    private function getNewsWhereIn($whereIn, $limit){
+        return News::with('category')
+        ->where('status', 1)
+        ->where('where_in', $whereIn)
+        ->latest('created_at')
+        ->limit($limit)
+        ->get();
+
+    }
+
+    private function getIdCategory($id)
     {
         $data['new_category'] = Category::select('name_cate', 'id_category')
             ->where('id_category', $id)
@@ -94,12 +64,8 @@ class HomeController extends Controller
 
         $data = [];
 
-        $data['breaking_news_left'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 1) 
-            ->limit(4)
-            ->latest('created_at')
-            ->get();
+        $data['breaking_news_left'] =$this->getNewsWhereIn(1, 4);
+        
         $uuidOfLeftNews = $data['breaking_news_left']->pluck('uuid')->toArray();
         $data['breaking_news_right'] = News::with('category')
             ->where('status', 1)
@@ -109,32 +75,14 @@ class HomeController extends Controller
             ->latest('created_at')
             ->get();
 
-        $data['nation_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 3)
-            ->latest('created_at')
-            ->limit(5)
-            ->get();
-        $data['law_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 4)
-            ->latest('created_at')
-            ->limit(9)
-            ->get();
-        //get value of status_cate
-        // $data['statusOfLaw'] = $data['law_news']->first()->category->status_cate;
-        $data['business_news'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 5)
-            ->latest('created_at')
-            ->limit(9)
-            ->get();
-        $data['entertainmentAndCulture'] = News::with('category')
-            ->where('status', 1)
-            ->where('where_in', 9)
-            ->latest('created_at')
-            ->limit(4)
-            ->get();
+        $data['nation_news'] = $this->getNewsWhereIn(3, 5);
+      
+        $data['law_news'] = $this->getNewsWhereIn(4, 9);
+   
+        $data['business_news'] = $this->getNewsWhereIn(5, 9);
+
+        $data['entertainmentAndCulture'] =  $this->getNewsWhereIn(9, 4);
+          
 
         $data['boot_new'] = $this->boot_new();
 
@@ -225,12 +173,6 @@ class HomeController extends Controller
  
         return view('website.modules.category.hot_new');
     }
-
-    public function getUuidHotNews($uuidOfHotNews){
-
-        return $uuidOfHotNews;
-    }
-    
 
     function loadMoreData(Request $request)
     {
