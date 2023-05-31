@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Mail\VerifyEmail;
 use Illuminate\Support\Facades\Mail;
+use Image;
 class ProfileController extends Controller
 {   
     public function profile(){
@@ -27,17 +28,26 @@ class ProfileController extends Controller
         $data = $request->except('_token');
         $data['updated_at'] = new \DateTime();
 
-        if (empty($request->avatar)) {
-            $data['avatar'] = $user_current->avatar;
-        } else {
+        if ($request->hasFile('avatar')) {
             $image_path = public_path('images/users') . '/' . $user_current->avatar;
             $imageName = time() . '-' . $request->avatar->getClientOriginalName();
+    
             $request->avatar->move(public_path('images/users'), $imageName);
+    
+            // Resize the avatar image
+            $destinationPath = public_path('images/users');
+            $imgFile = Image::make($destinationPath . '/' . $imageName);
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save();
+    
             $data['avatar'] = $imageName;
-            //delete old images
+    
             if ($user_current->avatar && file_exists($image_path)) {
                 unlink($image_path);
             }
+        } else {
+            $data['avatar'] = $user_current->avatar;
         }
         User::where('uuid', $uuid)->update($data);
 

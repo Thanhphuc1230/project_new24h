@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Image;
 class NewsController extends Controller
 {
     /**
@@ -55,11 +56,23 @@ class NewsController extends Controller
             $data['status'] = 0;
         }
 
+       
+
         $data['created_at'] = new \DateTime();
         $data['uuid'] = Str::uuid();
         $data['uuid_author'] = Auth::user()->uuid;
-        $imageName = time() . '-' . $request->avatar->getClientOriginalName();
-        $request->avatar->move(public_path('images/news'), $imageName);
+
+        $image = $request->avatar;
+        $imageName = time() . '-' . $image->getClientOriginalName();
+
+        $destinationPath = public_path('/images/users');
+        $imgFile = Image::make($image->getRealPath());
+        $imgFile
+            ->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })
+            ->save($destinationPath . '/' . $imageName);
+
         $data['avatar'] = $imageName;
 
         News::insert($data);
@@ -111,18 +124,27 @@ class NewsController extends Controller
         $data = $request->except('_token');
 
         $data['updated_at'] = new \DateTime();
-        if (empty($request->avatar)) {
-            $data['avatar'] = $new_current->avatar;
-        } else {
+
+        if ($request->hasFile('avatar')) {
             $image_path = public_path('images/news') . '/' . $new_current->avatar;
-
             $imageName = time() . '-' . $request->avatar->getClientOriginalName();
+    
             $request->avatar->move(public_path('images/news'), $imageName);
+    
+            // Resize the avatar image
+            $destinationPath = public_path('images/news');
+            $imgFile = Image::make($destinationPath . '/' . $imageName);
+            $imgFile->resize(150, 150, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save();
+    
             $data['avatar'] = $imageName;
-
-            if ($user_current->avatar && file_exists($image_path)) {
+    
+            if ($new_current->avatar && file_exists($image_path)) {
                 unlink($image_path);
             }
+        } else {
+            $data['avatar'] = $new_current->avatar;
         }
         News::where('uuid', $id)->update($data);
 
@@ -134,19 +156,19 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($uuid)
     {
-        $news = News::where('uuid', $uuid)->first();
+        $new = News::where('uuid', $uuid)->first();
 
-        if ($news) {
-            // Delete the news image
-            $imagePath = public_path('images/news/' . $news->avatar);
+        if ($new) {
+            // Delete image new
+            $imagePath = public_path('images/news/' . $new->avatar);
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }
 
-            // Delete the news article
-            $news->delete();
+            // Delete the new
+            $new->delete();
 
             return redirect()
                 ->route('admin.news.index')
