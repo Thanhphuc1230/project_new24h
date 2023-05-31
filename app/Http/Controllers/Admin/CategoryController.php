@@ -17,7 +17,7 @@ class CategoryController extends AdminBaseController
 {   
     public function index()
     {    
-        $data['categories'] = Category::select('uuid','name_cate', 'status_cate', 'created_at')->get();
+        $data['categories'] = Category::select('uuid','name_cate', 'status_cate', 'created_at')->paginate(10);
         $data['category_selected'] = Category::select('id_category', 'name_cate')->where('parent_id', 1)->get();
         return view('admin.modules.category.index',$data);
     }

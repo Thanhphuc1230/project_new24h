@@ -16,7 +16,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data['users'] = User::select('uuid', 'fullname', 'email', 'avatar', 'created_at', 'level', 'status_user')->get();
+        $data['users'] = User::select('uuid', 'fullname', 'email', 'avatar', 'created_at', 'level', 'status_user')
+        ->paginate(10);
         return view('admin.modules.user.index', $data);
     }
     /**
@@ -118,7 +119,7 @@ class UserController extends Controller
             $data['avatar'] = $user_current->avatar;
         }
 
-        
+
 
         User::where('uuid', $id)->update($data);
         return redirect()

@@ -178,6 +178,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="paginate-table">
+                        {!! $categories->links() !!}
+                    </div>
                 </div>
             </div>
             {{-- end content --}}

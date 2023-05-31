@@ -208,6 +208,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="paginate-table">
+                    {!! $users->links() !!}
+                </div>
             </div>
         </div>
     </div>

@@ -90,6 +90,9 @@
                             </tbody>
                         </table>
                     </div>
+                    <div class="paginate-table">
+                        {!! $comments->links() !!}
+                    </div>
                 </div>
             </div>
             {{-- end content --}}

@@ -34,13 +34,13 @@ class NewsController extends Controller
                 ->select('news.*', 'categories.name_cate')
                 ->orderBy('categories.name_cate', 'asc')
                 ->where('uuid_author', Auth::user()->uuid)
-                ->get();
+                ->paginate(10);
         } else {
             $data['news'] = DB::table('news')
                 ->join('categories', 'news.category_id', '=', 'categories.id_category')
                 ->select('news.*', 'categories.name_cate')
                 ->orderBy('categories.name_cate', 'asc')
-                ->get();
+                ->paginate(10);
         }
 
         return view('admin.modules.news.index', $data);

@@ -21,7 +21,7 @@ class CommentController extends Controller
         $data['comments'] = Comment::join('news', 'comments.post_id_comment', '=', 'news.uuid')
         ->join('users', 'comments.user_id_comment', '=', 'users.uuid')
         ->select('comments.*', 'news.title', 'users.email')
-        ->get();
+        ->paginate(10);
 
         return view('admin.modules.comment.index',$data);
     }
