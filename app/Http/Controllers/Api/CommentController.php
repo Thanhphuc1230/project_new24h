@@ -1,25 +1,27 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Comment;
-class CommentController extends Controller
+class CommentController extends BaseController
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
-    public function index()
-    {   
+    public function index(Request $request)
+    {
         $comment = Comment::join('news', 'comments.post_id_comment', '=', 'news.uuid')
             ->join('users', 'comments.user_id_comment', '=', 'users.uuid')
             ->select('comments.*', 'news.title', 'users.email')
             ->get();
-        return response()->json([
-            'comment' => $comment,
-        ]);
+        $responseData = [
+            'status code' => 200,
+            'data' => $comment,
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
@@ -31,19 +33,18 @@ class CommentController extends Controller
         $data['uuid'] = Str::uuid();
         $comment = Comment::create($data);
 
-        return response()->json(
-            [
-                'message' => 'comment saved successfully!',
-                'comment' => $comment,
-            ],
-            200,
-        );
+        $responseData = [
+            'status code' => 200,
+            'categories' => $comment,
+            'message' => 'create comment success',
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($uuid)
+    public function show(Request $request, $uuid)
     {
         $comment = Comment::where('uuid', $uuid)->first();
         if (!$comment) {
@@ -55,9 +56,10 @@ class CommentController extends Controller
             );
         }
 
-        return response()->json([
+        $responseData = [
+            'status code ' => 200,
             'comment' => $comment,
-        ]);
+        ];
     }
     /**
      * Update the specified resource in storage.
@@ -77,13 +79,12 @@ class CommentController extends Controller
         $data = $request->all();
         $comment->update($data);
 
-        return response()->json(
-            [
-                'message' => 'Comment updated successfully!',
-                'comment' => $comment,
-            ],
-            200,
-        );
+        $responseData = [
+            'status code ' => 200,
+            'message' => 'comment updated successfully!',
+            'comment' => $comment,
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
@@ -103,11 +104,10 @@ class CommentController extends Controller
 
         $comment->delete();
 
-        return response()->json(
-            [
-                'message' => 'Comment deleted successfully!',
-            ],
-            200,
-        );
+        $responseData = [
+            'status code ' => 200,
+            'message' => 'comment deleted successfully!',
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 }

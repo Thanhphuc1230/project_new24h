@@ -1,23 +1,25 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-class UserController extends Controller
+class UserController extends BaseController
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = User::all();
-        return response()->json([
-            'user' => $user,
-        ]);
+        $responseData = [
+            'status code' => 200,
+            'data' => $user,
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
@@ -30,19 +32,19 @@ class UserController extends Controller
         $data['password'] = Hash::make($request->password);
         $user = User::create($data);
 
-        return response()->json(
-            [
-                'message' => 'User saved successfully!',
-                'user' => $user,
-            ],
-            200,
-        );
+        $responseData = [
+            'status code' => 200,
+            'data' => $user,
+            'message' => 'create user success',
+        ];
+
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($uuid)
+    public function show(Request $request, $uuid)
     {
         $user = User::where('uuid', $uuid)->first();
         if (!$user) {
@@ -54,9 +56,12 @@ class UserController extends Controller
             );
         }
 
-        return response()->json([
-            'user' => $user,
-        ]);
+        $responseData = [
+            'status code ' => 200,
+            'data' => $user,
+        ];
+
+        return $this->checkAuthorization($request, $responseData);
     }
     /**
      * Update the specified resource in storage.
@@ -78,19 +83,18 @@ class UserController extends Controller
         $data['password'] = Hash::make($request->password);
         $user->update($data);
 
-        return response()->json(
-            [
-                'message' => 'User updated successfully!',
-                'user' => $user,
-            ],
-            200,
-        );
+        $responseData = [
+            'status code ' => 200,
+            'message' => 'user updated successfully!',
+            'data' => $user,
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($uuid)
+    public function destroy(Request $request, $uuid)
     {
         $user = User::where('uuid', $uuid)->first();
         if (!$user) {
@@ -104,11 +108,10 @@ class UserController extends Controller
 
         $user->delete();
 
-        return response()->json(
-            [
-                'message' => 'User deleted successfully!',
-            ],
-            200,
-        );
+        $responseData = [
+            'status code ' => 200,
+            'message' => 'user deleted successfully!',
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 }

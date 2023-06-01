@@ -1,22 +1,24 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\News;
 use Illuminate\Support\Str;
-class NewController extends Controller
+class NewController extends BaseController
 {
-     /**
+    /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $news = News::all();
-        return response()->json([
-            'news' => $news,
-        ]);
+        $responseData = [
+            'status code' => 200,
+            'data' => $news,
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
@@ -28,19 +30,18 @@ class NewController extends Controller
         $data['uuid'] = Str::uuid();
         $news = News::create($data);
 
-        return response()->json(
-            [
-                'message' => 'News saved successfully!',
-                'news' => $news,
-            ],
-            200,
-        );
+        $responseData = [
+            'status code' => 200,
+            'categories' => $news,
+            'message' => 'create news success',
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($uuid)
+    public function show(Request $request, $uuid)
     {
         $news = News::where('uuid', $uuid)->first();
         if (!$news) {
@@ -52,9 +53,11 @@ class NewController extends Controller
             );
         }
 
-        return response()->json([
+        $responseData = [
+            'status code ' => 200,
             'news' => $news,
-        ]);
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
     /**
      * Update the specified resource in storage.
@@ -75,13 +78,13 @@ class NewController extends Controller
         $data = $request->all();
         $news->update($data);
 
-        return response()->json(
-            [
-                'message' => 'news updated successfully!',
-                'category' => $news,
-            ],
-            200,
-        );
+        $responseData = [
+            'status code ' => 200,
+            'message' => 'news updated successfully!',
+            'news' => $news,
+        ];
+
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
@@ -101,11 +104,10 @@ class NewController extends Controller
 
         $news->delete();
 
-        return response()->json(
-            [
-                'message' => 'News deleted successfully!',
-            ],
-            200,
-        );
+        $responseData = [
+            'status code ' => 200,
+            'message' => 'news deleted successfully!',
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 }

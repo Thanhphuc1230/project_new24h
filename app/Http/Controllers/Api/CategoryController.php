@@ -37,7 +37,7 @@ class CategoryController extends BaseController
 
         $responseData = [
             'status code' => 200,
-            'categories' => $categories,
+            'data' => $categories,
             'message' => "create categories success",
         ];
     
@@ -88,7 +88,7 @@ class CategoryController extends BaseController
         $responseData = [
             'status code ' => 200,
             'message' => 'Category updated successfully!',
-            'category' => $category,
+            'data' => $category,
         ];
         return $this->checkAuthorization($request, $responseData);
     }
@@ -113,7 +113,7 @@ class CategoryController extends BaseController
         $responseData = [
         'status code ' => 200,
         'message' => 'Category deleted successfully!',
-    ];
+        ];
 
         return $this->checkAuthorization($request, $responseData);
     }

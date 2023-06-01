@@ -58,15 +58,15 @@ class LoginController extends Controller
             );
         }
     }
-    public function refreshToken(Request $request){
+    public function refreshToken(Request $request)
+    {
         $token = $request->header('token');
-        $checkTokenExit = SessionUser::where('token',$token)->first();
-        
+        $checkTokenExit = SessionUser::where('token', $token)->first();
+
         //get time in session user
         $carbonDateTime = Carbon::parse($checkTokenExit->token_expried);
-        if(!empty($checkTokenExit)){
-            
-            if($carbonDateTime->timestamp < time()){
+        if (!empty($checkTokenExit)) {
+            if ($carbonDateTime->timestamp < time()) {
                 $checkTokenExit->update([
                     'token' => Str::random(40),
                     'refresh_token' => Str::random(40),
@@ -75,24 +75,31 @@ class LoginController extends Controller
                 ]);
             }
         }
-        
+
         $dataSessionNew = SessionUser::find($checkTokenExit->id);
-        return response()->json([
-            'code' => 401,
-            'data' => $dataSessionNew,
-            'message' => 'refresh token success',
-        ], 200);
+        return response()->json(
+            [
+                'code' => 401,
+                'data' => $dataSessionNew,
+                'message' => 'refresh token success',
+            ],
+            200,
+        );
     }
-    public function deleteToken(Request $request){
+    public function deleteToken(Request $request)
+    {
         $token = $request->header('token');
-        $checkTokenExit = SessionUser::where('token',$token)->first();
-        if(!empty($checkTokenExit)){
+        $checkTokenExit = SessionUser::where('token', $token)->first();
+        if (!empty($checkTokenExit)) {
             $checkTokenExit->delete();
         }
-        return response()->json([
-            'code' => 401,
-            'data' => $dataSessionNew,
-            'message' => 'detele token success',
-        ], 200);
+        return response()->json(
+            [
+                'code' => 401,
+                'data' => $dataSessionNew,
+                'message' => 'detele token success',
+            ],
+            200,
+        );
     }
 }
