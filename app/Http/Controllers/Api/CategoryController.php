@@ -1,22 +1,28 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use App\Http\Controllers\Api\BaseController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Str;
-class CategoryController extends Controller
-{
+use App\Models\SessionUser;
+class CategoryController extends BaseController
+{   
+    
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {   
         $categories = Category::all();
-        return response()->json([
-            'categories' => $categories,
-        ]);
+        $responseData = [
+            'status code' => 200,
+            'data' => $categories,
+        ];
+
+    return $this->checkAuthorization($request, $responseData);
+       
     }
 
     /**
@@ -26,21 +32,22 @@ class CategoryController extends Controller
     {
         $data = $request->all();
         $data['uuid'] = Str::uuid();
+        $data['status_cate'] = 0;
         $categories = Category::create($data);
 
-        return response()->json(
-            [
-                'message' => 'categories saved successfully!',
-                'categories' => $categories,
-            ],
-            200,
-        );
+        $responseData = [
+            'status code' => 200,
+            'categories' => $categories,
+            'message' => "create categories success",
+        ];
+    
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($uuid)
+    public function show(Request $request ,$uuid)
     {
         $category = Category::where('uuid', $uuid)->first();
         if (!$category) {
@@ -48,13 +55,16 @@ class CategoryController extends Controller
                 [
                     'message' => 'Category not found',
                 ],
-                404,
+                404
             );
         }
-
-        return response()->json([
+    
+        $responseData = [
+            'status code ' => 200,
             'categories' => $category,
-        ]);
+        ];
+    
+        return $this->checkAuthorization($request, $responseData);
     }
     /**
      * Update the specified resource in storage.
@@ -65,7 +75,7 @@ class CategoryController extends Controller
 
         if (!$category) {
             return response()->json(
-                [
+                [   
                     'message' => 'Category not found.',
                 ],
                 404,
@@ -75,19 +85,18 @@ class CategoryController extends Controller
         $data = $request->all();
         $category->update($data);
 
-        return response()->json(
-            [
-                'message' => 'Category updated successfully!',
-                'category' => $category,
-            ],
-            200,
-        );
+        $responseData = [
+            'status code ' => 200,
+            'message' => 'Category updated successfully!',
+            'category' => $category,
+        ];
+        return $this->checkAuthorization($request, $responseData);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($uuid)
+    public function destroy(Request $request,$uuid)
     {
         $category = Category::where('uuid', $uuid)->first();
         if (!$category) {
@@ -101,11 +110,11 @@ class CategoryController extends Controller
 
         $category->delete();
 
-        return response()->json(
-            [
-                'message' => 'Category deleted successfully!',
-            ],
-            200,
-        );
+        $responseData = [
+        'status code ' => 200,
+        'message' => 'Category deleted successfully!',
+    ];
+
+        return $this->checkAuthorization($request, $responseData);
     }
 }

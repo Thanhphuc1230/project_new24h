@@ -14,17 +14,12 @@ use Illuminate\Support\Facades\Auth;
 
 
 class CategoryController extends AdminBaseController
-{   
-    private function view_admin (string $page, array $data = []) {
-        return view("admin.modules.category" . "." . $page, $data);
-    }
-
+ {
     public function index()
     {    
         $data['categories'] = Category::select('uuid','name_cate', 'status_cate', 'created_at')->paginate(10);
         $data['category_selected'] = Category::select('id_category', 'name_cate')->where('parent_id', 1)->get();
-
-        return $this->view_admin('index',$data);
+        return view('admin.modules.category.index',$data);
     }
 
     /**
@@ -42,7 +37,7 @@ class CategoryController extends AdminBaseController
         ];
         Category::create($category);
         
-        return $this->view_admin('index',[] )->with('success', 'Thêm chủ đề thành công');
+        return redirect()->back()->with('success', 'Thêm chủ đề thành công');
     }
 
     public function status_categories($uuid,$status){
@@ -90,7 +85,7 @@ class CategoryController extends AdminBaseController
 
         if ($category->exists()) {
             $category->delete();
-            return redirect()->route('admin.categories.index')->with('success', 'Xóa chủ đề thành công.');
+            return back()->with('success', 'Xóa chủ đề thành công.');
         } else {
             abort(404);
         }

@@ -170,9 +170,7 @@ class NewsController extends Controller
             // Delete the new
             $new->delete();
 
-            return redirect()
-                ->route('admin.news.index')
-                ->with('success', 'Xóa bài viết thành công.');
+            return back()->with('success', 'Xóa bài viết thành công.');
         } else {
             abort(404);
         }

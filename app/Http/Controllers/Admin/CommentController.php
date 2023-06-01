@@ -86,9 +86,9 @@ class CommentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
-        $new = DB::table('comments')->where('id',$id);
+        $new = DB::table('comments')->where('uuid',$uuid);
 
         if ($new->exists()) {
             $new->delete();
