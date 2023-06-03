@@ -55,9 +55,6 @@ class NewsController extends Controller
         if (Auth::user()->level !== 1) {
             $data['status'] = 0;
         }
-
-       
-
         $data['created_at'] = new \DateTime();
         $data['uuid'] = Str::uuid();
         $data['uuid_author'] = Auth::user()->uuid;
@@ -84,10 +81,6 @@ class NewsController extends Controller
 
     public function status_news($uuid, $status)
     {
-        if (Auth::user()->level !== 1) {
-            session()->flash('error_level', 'Bạn không đủ quyền hạn để thưc hiện');
-            return redirect()->route('admin.news.index');
-        }
         News::where('uuid', $uuid)->update(['status' => $status]);
 
         return redirect()
@@ -98,9 +91,9 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $uuid)
     {
-        $new = News::where('uuid', $id);
+        $new = News::where('uuid', $uuid);
 
         if ($new->exists()) {
             $data['new'] = $new->first();
@@ -117,9 +110,9 @@ class NewsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(NewsRequest $request, string $id)
+    public function update(NewsRequest $request, string $uuid)
     {
-        $new_current = News::where('uuid', $id)->first();
+        $new_current = News::where('uuid', $uuid)->first();
 
         $data = $request->except('_token');
 

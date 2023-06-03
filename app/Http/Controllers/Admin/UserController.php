@@ -78,9 +78,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, string $id)
+    public function update(UserRequest $request, string $uuid)
     {
-        $user_current = User::where('uuid', $id)->first();
+        $user_current = User::where('uuid', $uuid)->first();
         $data = $request->except('_token', 'password_confirmation');
         $data['updated_at'] = new \DateTime();
 
@@ -129,7 +129,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
         $user = User::where('uuid', $uuid)->first();
         $imagePath = public_path('images/users') . '/' . $user->avatar;

@@ -14,10 +14,6 @@ class CommentController extends Controller
      */
     public function index()
     {   
-        if (Auth::user()->level !== 1) {
-            session()->flash('error_level', 'Bạn không đủ quyền truy cập');
-            return redirect()->route('admin.news.index');
-        }
         $data['comments'] = Comment::join('news', 'comments.post_id_comment', '=', 'news.uuid')
         ->join('users', 'comments.user_id_comment', '=', 'users.uuid')
         ->select('comments.*', 'news.title', 'users.email')
@@ -34,22 +30,6 @@ class CommentController extends Controller
         Comment::where('uuid',$uuid)->update(['status_comment'=>$status]);
 
         return redirect()->back()->with('success', 'Xét duyệt comment thành công');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**

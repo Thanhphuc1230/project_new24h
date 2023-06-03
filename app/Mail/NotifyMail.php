@@ -27,7 +27,7 @@ class NotifyMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Notify Mail',
+            subject: 'Thông báo xác nhận tạo tài khoản tại Tuoitre.asia',
         );
     }
 

@@ -27,7 +27,6 @@ class CategoryController extends AdminBaseController
      */
     public function store(CategoryRequest $request)
     {
-        
         $category = [
             'name_cate' => $request->name_cate,
             'uuid' =>  Str::uuid(),
