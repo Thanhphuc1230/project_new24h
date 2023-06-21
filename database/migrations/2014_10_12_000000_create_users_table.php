@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('provider',50)->nullable();
             $table->string('provider_id')->nullable();
             $table->tinyInteger('level')->default(3)->comment('1:Admin - 2:Staff - 3:User');
+            $table->string('position_staff',100)->nullable();
             $table->string('avatar')->nullable();
             $table->tinyInteger('status_user')->default(1);
             $table->rememberToken();
@@ -36,5 +37,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
+        Schema::dropIfExists('staff_position');
     }
 };

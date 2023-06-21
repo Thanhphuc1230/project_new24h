@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\CommentController;
 use App\Http\Controllers\Admin\ProfileController as PController;
 use App\Http\Controllers\Admin\CrawlerController;
 use App\Http\Controllers\Admin\AdminBaseController;
+use App\Http\Controllers\Admin\PositionStaffController;
+
 
 use App\Http\Controllers\Website\HomeController;
 use App\Http\Controllers\Website\NewsController as NController;
@@ -84,8 +86,19 @@ Route::prefix('admin')->name('admin.')->middleware('check_login')->group(functio
     );
     Route::controller(UserController::class)->prefix('users')->name('users.')->group(function () {
         Route::get('/profile', 'profile')->name('profile');
-        Route::get('/', 'index')->name('index');
+        Route::get('/','index')->name('index');
+        Route::get('/list', 'list')->name('list');
         Route::get('/status_user/{uuid}/{status}', 'status_user')->name('status_user');
+        Route::post('/store', 'store')->name('store');
+        Route::get('/edit/{uuid}', 'edit')->name('edit');
+        Route::post('/update/{uuid}', 'update')->name('update');
+        Route::get('/destroy/{uuid}', 'destroy')->name('destroy');
+
+    });
+    Route::controller(PositionStaffController::class)->prefix('position')->name('position.')->group(function () {
+        Route::get('/','index')->name('index');
+        Route::get('/list', 'list')->name('list');
+        Route::get('/status_position/{uuid}/{status}', 'status_position')->name('status_position');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{uuid}', 'edit')->name('edit');
         Route::post('/update/{uuid}', 'update')->name('update');

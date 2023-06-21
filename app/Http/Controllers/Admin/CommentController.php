@@ -14,8 +14,8 @@ class CommentController extends Controller
      */
     public function index()
     {   
-        $data['comments'] = Comment::join('news', 'comments.post_id_comment', '=', 'news.uuid')
-        ->join('users', 'comments.user_id_comment', '=', 'users.uuid')
+        $data['comments'] = Comment::join('news', 'comments.post_uuid_comment', '=', 'news.uuid')
+        ->join('users', 'comments.user_uuid_comment', '=', 'users.uuid')
         ->select('comments.*', 'news.title', 'users.email')
         ->paginate(10);
 
@@ -37,8 +37,8 @@ class CommentController extends Controller
      */
     public function edit(string $id)
     {
-        $comment = Comment::join('news', 'comments.post_id_comment', '=', 'news.uuid')
-        ->join('users', 'comments.user_id_comment', '=', 'users.uuid')
+        $comment = Comment::join('news', 'comments.post_uuid_comment', '=', 'news.uuid')
+        ->join('users', 'comments.user_uuid_comment', '=', 'users.uuid')
         ->select('comments.*', 'news.title', 'users.email')
         ->where('comments.uuid', $id)
         ->first();

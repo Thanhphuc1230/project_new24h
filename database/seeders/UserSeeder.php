@@ -14,7 +14,6 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-
         DB::table('users')->insert([
             'uuid' => Str::uuid(),
             'fullname' => 'Admin',

@@ -170,7 +170,7 @@
                                 <td>
                                     @php
                                         if ($user->status_user == 0) {
-                                            if (session('user_check')) {
+                                            if (session('admin_check')) {
                                                 echo '<a onclick="return confirm(\'Xác nhận kích hoạt người dùng ?\')"
                                             href="' .
                                                     route('admin.user.status_user', ['uuid' => $user->uuid, 'status' => 1]) .
@@ -180,7 +180,7 @@
                                                 echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="status_btn" style="background:#FA8072!important">Unactive</a>';
                                             }
                                         } else {
-                                            if (session('user_check')) {
+                                            if (session('admin_check')) {
                                                 echo '<a onclick="return confirm(\'Xác nhận tắt kích hoạt bài viết ?\')"
                                             href="' .
                                                     route('admin.user.status_user', ['uuid' => $user->uuid, 'status' => 0]) .

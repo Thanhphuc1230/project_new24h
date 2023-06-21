@@ -18,8 +18,17 @@ class UserController extends Controller
     public function index()
     {
         $data['users'] = User::select('uuid', 'fullname', 'email', 'avatar', 'created_at', 'level', 'status_user')
+        ->where('level',3)
         ->paginate(10);
         return view('admin.modules.user.index', $data);
+    }
+
+    public function list()
+    {
+        $data['users'] = User::select('uuid', 'fullname', 'email', 'avatar', 'created_at', 'level', 'status_user')
+        ->where('level','!=',3)
+        ->paginate(10);
+        return view('admin.modules.user.listStaff',$data);
     }
     /**
      * Store a newly created resource in storage.

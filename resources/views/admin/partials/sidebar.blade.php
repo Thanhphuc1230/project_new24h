@@ -59,12 +59,36 @@
             </a>
         </li>
         <li class="">
-            <a aria-expanded="false" href="{{ route('admin.users.index') }}">
+            <a class="has-arrow" aria-expanded="false">
                 <div class="nav_icon_small">
                     <img src="{{ asset('style/img/menu-icon/5.svg') }}" alt="">
                 </div>
                 <div class="nav_title">
                     <span>Users</span>
+                </div>
+            </a>
+            <ul class="mm-collapse" style="height: 5px;">
+                <li><a href="{{ route('admin.users.index') }}">Người dùng</a></li>
+                <li><a href="{{ route('admin.users.list') }}">Nhân viên</a></li>
+            </ul>
+        </li>
+        <li class="">
+            <a aria-expanded="false" href="{{ route('admin.position.index') }}">
+                <div class="nav_icon_small">
+                    <img src="{{ asset('style/img/menu-icon/5.svg') }}" alt="">
+                </div>
+                <div class="nav_title">
+                    <span>Phân Quyền</span>
+                </div>
+            </a>
+        </li>
+        <li class="">
+            <a aria-expanded="false" href="{{ route('admin.position.index') }}">
+                <div class="nav_icon_small">
+                    <img src="{{ asset('style/img/menu-icon/5.svg') }}" alt="">
+                </div>
+                <div class="nav_title">
+                    <span>Bộ phận</span>
                 </div>
             </a>
         </li>
@@ -78,17 +102,5 @@
                 </div>
             </a>
         </li>
-
-
-
-
-
-
-
-
-
-
-
-
     </ul>
 </nav>

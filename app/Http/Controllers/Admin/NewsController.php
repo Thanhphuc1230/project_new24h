@@ -79,12 +79,8 @@ class NewsController extends Controller
             ->with('success', 'Đã đăng bài viết thành công');
     }
 
-    public function status_news($uuid, $status)
-    {
-        News::where('uuid', $uuid)->update(['status' => $status]);
-        $mess = ($status == 1) ? 'Kích hoạt' : 'Tắt kích hoạt';
-        return redirect()->back()->with('success', $mess . ' sản phẩm thành công');
-    }
+                                                
+
 
     public function hotNew($uuid,$hotNew){
         News::where('uuid', $uuid)->update(['hot_new' => $hotNew]);
