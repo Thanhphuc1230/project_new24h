@@ -15,16 +15,15 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        $now = Carbon::now()->toDateTimeString();
 
         DB::table('categories')->insert([
             [
                 'name_cate' => 'Trang chủ',
                 'uuid' => Str::uuid(),
                 'parent_id' => 1,
-                'status_cate' => 1,
+                'status_cate' => 0,
                 'link'=>null,
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Thời sự',
@@ -32,7 +31,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/thoi-su.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Thế giới',
@@ -40,7 +39,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/the-gioi.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Pháp luật',
@@ -48,7 +47,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/phap-luat.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Kinh doanh',
@@ -56,7 +55,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/kinh-doanh.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Công nghệ',
@@ -64,7 +63,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/cong-nghe.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Du lịch',
@@ -72,7 +71,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/du-lich.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Văn hóa',
@@ -80,7 +79,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/van-hoa.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Giải trí',
@@ -88,7 +87,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/giai-tri.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Thể thao',
@@ -96,7 +95,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 1,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/the-thao.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Sức Khỏe',
@@ -104,7 +103,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 10,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/suc-khoe.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Xã hội',
@@ -112,7 +111,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 2,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/thoi-su/xa-hoi.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Phóng sự',
@@ -120,7 +119,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 2,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/thoi-su/phong-su.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Bút bi',
@@ -128,7 +127,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 2,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/thoi-su/but-bi.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Thời tiết',
@@ -136,7 +135,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 2,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/thoi-su/thoi-tiet.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Bình luận',
@@ -144,7 +143,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 3,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/thoi-su/binh-luan.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Muôn màu',
@@ -152,7 +151,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 3,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/the-gioi/muon-mau.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Hồ sơ',
@@ -160,7 +159,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 3,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/the-gioi/ho-so.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Chuyện pháp đình',
@@ -168,7 +167,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 4,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/phap-luat/chuyen-phap-dinh.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Tư vấn',
@@ -176,7 +175,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 4,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/phap-luat/tu-van.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Pháp lý',
@@ -184,7 +183,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 4,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/phap-luat/phap-ly.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Tài chính',
@@ -192,7 +191,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 5,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/kinh-doanh/tai-chinh.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Doanh Nghiệp',
@@ -200,7 +199,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 5,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/kinh-doanh/doanh-nghiep.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Đầu tư',
@@ -208,7 +207,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 5,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/kinh-doanh/dau-tu.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Thiết bị',
@@ -216,7 +215,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 6,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/cong-nghe/thiet-bi.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Chuyển đổi số',
@@ -224,7 +223,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 6,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/cong-nghe/chuyen-doi-so.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Cầu nối',
@@ -232,7 +231,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 6,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/cong-nghe/cau-noi.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Nhịp sống số',
@@ -240,7 +239,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 6,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/cong-nghe/nhip-song-so.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Cơ hội du lịch',
@@ -248,7 +247,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 7,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/du-lich/co-hoi-du-lich.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Quê hương',
@@ -256,7 +255,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 7,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/du-lich/que-huong.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Sách',
@@ -264,7 +263,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 8,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/van-hoa/van-hoc-sach.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Đời sống',
@@ -272,7 +271,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 8,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/van-hoa/doi-song.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Ẩm thực',
@@ -280,7 +279,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 8,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/van-hoa/am-thuc.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Nghe gì hôm nay',
@@ -288,7 +287,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 9,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/giai-tri/nghe-gi-hom-nay.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Âm nhạc',
@@ -296,7 +295,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 9,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/giai-tri/am-nhac.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Điện ảnh',
@@ -304,7 +303,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 9,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/giai-tri/dien-anh.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Bóng đá',
@@ -312,7 +311,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 10,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/the-thao/bong-da.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Bóng rổ',
@@ -320,7 +319,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 10,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/the-thao/bong-ro.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Võ thuật',
@@ -328,7 +327,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 10,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/the-thao/vo-thuat.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Dinh Dưỡng',
@@ -336,7 +335,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 11,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/suc-khoe/dinh-duong.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Biết để khỏe',
@@ -344,7 +343,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 11,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/suc-khoe/biet-de-khoe.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
             [
                 'name_cate' => 'Phòng mạch',
@@ -352,7 +351,7 @@ class CategorySeeder extends Seeder
                 'parent_id' => 11,
                 'status_cate' => 1,
                 'link'=>'https://tuoitre.vn/suc-khoe/phong-mach.htm',
-                'created_at' => $now,
+                'created_at' => new \DateTime(),
             ],
            
         ]);

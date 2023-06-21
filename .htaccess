@@ -27,3 +27,5 @@
   AddHandler application/x-httpd-alt-php81 .php .php8 .phtml
 </IfModule>
 # php -- END cPanel-generated handler, do not edit
+
+php_value max_execution_time 120

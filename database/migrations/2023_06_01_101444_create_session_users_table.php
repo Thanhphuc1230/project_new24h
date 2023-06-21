@@ -18,8 +18,10 @@ return new class extends Migration
             $table->string('refresh_token');
             $table->dateTime('token_expried');
             $table->dateTime('refresh_token_expried');
-            $table->string('user_uuid');
+            $table->uuid('user_uuid');
             $table->timestamps();
+
+            $table->foreign('user_uuid')->references('uuid')->on('users');
         });
     }
 

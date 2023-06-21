@@ -13,18 +13,23 @@ return new class extends Migration
     {
         Schema::create('news', function (Blueprint $table) {
             $table->id('id_new');
-            $table->uuid();
+            $table->uuid('uuid')->unique();
             $table->string('title');
-            $table->string('avatar')->nullable();;
+            $table->string('avatar')->nullable();
             $table->text('intro');
             $table->text('content');
             $table->string('author');
+            $table->uuid('uuid_author');
             $table->unsignedTinyInteger('status');
             $table->unsignedTinyInteger('where_in');
+            $table->unsignedTinyInteger('hot_new')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->unsignedInteger('views')->default(0);
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('category_id')->references('id_category')->on('categories');
+            $table->foreign('uuid_author')->references('uuid')->on('users');
         });
     }
 

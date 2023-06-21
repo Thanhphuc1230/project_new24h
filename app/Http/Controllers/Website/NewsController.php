@@ -45,7 +45,7 @@ class NewsController extends Controller
        
         if (!$sessionView) {
             Session::put($sessionKey, true);
-        $news->increment('new_view');
+        $news->increment('views');
         }
         // end session
 
@@ -54,7 +54,7 @@ class NewsController extends Controller
             ->where('uuid', $uuid)
             ->first();
         $data['count_comment'] = DB::table('comments')
-            ->where('post_id_comment', $uuid)
+            ->where('post_uuid_comment', $uuid)
             ->where('status_comment', 1)
             ->count();
         $category_id = $data['detail_new']->category_id;
@@ -62,9 +62,9 @@ class NewsController extends Controller
         $data['category_header'] = $this->getChildCategory($category_id);
         //sidebar right of detail
         $data['news_updated'] = DB::table('news')
-            ->select('uuid', 'avatar', 'title', 'new_view')
+            ->select('uuid', 'avatar', 'title', 'views')
             ->where('status', 1)
-            ->orderByDesc('new_view')
+            ->orderByDesc('views')
             ->limit(6)
             ->get();
         $uuidOfNewUpdated = $data['news_updated']->pluck('uuid')->toArray();
@@ -98,13 +98,13 @@ class NewsController extends Controller
             ->get();
         //show comments
         $data['comments_user'] = DB::table('comments')
-            ->join('users', 'users.uuid', '=', 'comments.user_id_comment')
-            ->select('users.fullname', 'users.avatar', 'comments.comment', 'comments.post_id_comment', 'comments.created_at')
-            ->where('comments.post_id_comment', $uuid)
+            ->join('users', 'users.uuid', '=', 'comments.user_uuid_comment')
+            ->select('users.fullname', 'users.avatar', 'comments.comment', 'comments.post_uuid_comment', 'comments.created_at')
+            ->where('comments.post_uuid_comment', $uuid)
             ->where('comments.status_comment', 1)
             ->paginate(4);
         //count comment of post
-        $data['count_comments'] = Comment::where('post_id_comment', $uuid)
+        $data['count_comments'] = Comment::where('post_uuid_comment', $uuid)
             ->where('status_comment', 1)
             ->count();
 
@@ -118,14 +118,14 @@ class NewsController extends Controller
         //make history for user
         if (Auth::user()) {
             $history = DB::table('history')
-                ->where('id_post', $uuid)
-                ->where('user_id', Auth::user()->uuid)
+                ->where('uuid_post', $uuid)
+                ->where('user_uuid', Auth::user()->uuid)
                 ->first();
             if (!$history) {
                 $history_user = [
                     'uuid' => Str::uuid(),
-                    'id_post' => $uuid,
-                    'user_id' => Auth::user()->uuid,
+                    'uuid_post' => $uuid,
+                    'user_uuid' => Auth::user()->uuid,
                     'status_history' => 1,
                     'created_at' => now(),
                 ];
@@ -142,8 +142,8 @@ class NewsController extends Controller
         } else {
             $data['uuid'] = Str::uuid();
             $data['comment'] = $request->comments;
-            $data['user_id_comment'] = Auth::user()->uuid;
-            $data['post_id_comment'] = $id;
+            $data['user_uuid_comment'] = Auth::user()->uuid;
+            $data['post_uuid_comment'] = $id;
             $data['created_at'] = new \DateTime();
             $data['status_comment'] = 0;
         }
@@ -156,15 +156,15 @@ class NewsController extends Controller
     public function savePost($uuid_post)
     {
         $post_save = DB::table('save_post')
-            ->where('id_post', $uuid_post)
-            ->where('user_id', Auth::user()->uuid)
+            ->where('uuid_post', $uuid_post)
+            ->where('user_uuid', Auth::user()->uuid)
             ->count();
 
         if ($post_save == 0) {
             $data = [
                 'uuid' => Str::uuid(),
-                'id_post' => $uuid_post,
-                'user_id' => Auth::user()->uuid,
+                'uuid_post' => $uuid_post,
+                'user_uuid' => Auth::user()->uuid,
                 'status_save' => 1,
                 'created_at' => new \DateTime(),
             ];

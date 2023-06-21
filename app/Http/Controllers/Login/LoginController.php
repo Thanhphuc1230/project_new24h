@@ -129,7 +129,7 @@ class LoginController extends Controller
             ->first();
     
         if ($previousToken) {
-            return back()->with('error', 'Email sent, please try again in 5 minutes.');
+            return redirect()->route('getLogin')->with('error', 'Email đã được gửi, Vui lòng thử lại sau 5 phút.');
         }
         $token = \Str::random(64);
         \DB::table('password_reset_tokens')->insert([
@@ -146,7 +146,7 @@ class LoginController extends Controller
             $message->to($request->email, 'Your name')->subject('Reset Password');
         });
 
-        return back()->with('success', 'Chúng tôi đã gửi link reset mật khẩu qua email, vui lòng kiểm tra email!');
+        return redirect()->route('getLogin')->with('success', 'Chúng tôi đã gửi link reset mật khẩu qua email, vui lòng kiểm tra email!');
     }
     public function showResetFrom(Request $request, $token = null)
     {

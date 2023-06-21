@@ -9,6 +9,10 @@
                 placeholder="E-mail Address" required>
         </div>
         <div class="wrap-input100 validate-input" data-validate="Enter password">
+            <input class="form-control" type="text" name="email" value="{{ $email ?? old('email') }}"
+                placeholder="E-mail Address" required disabled>
+        </div>
+        <div class="wrap-input100 validate-input" data-validate="Enter password">
             <input class="input100" type="password" name="password" placeholder="Enter password">
             <span class="focus-input100" data-placeholder="&#xe80f;"></span>
         </div>

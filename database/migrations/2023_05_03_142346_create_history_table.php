@@ -14,10 +14,13 @@ return new class extends Migration
         Schema::create('history', function (Blueprint $table) {
             $table->id('id_history');
             $table->uuid();
-            $table->string('id_post');
-            $table->string('user_id');
+            $table->uuid('uuid_post');
+            $table->uuid('user_uuid');
             $table->unsignedTinyInteger('status_history');
             $table->timestamps();
+
+            $table->foreign('uuid_post')->references('uuid')->on('news');
+            $table->foreign('user_uuid')->references('uuid')->on('users');
         });
     }
 

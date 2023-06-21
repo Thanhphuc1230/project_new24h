@@ -50,6 +50,5 @@
 <link rel="stylesheet" href="{{ asset('style/css/jquery.dataTables.min.css')}}">
 <link rel="stylesheet" href="{{asset('style/js/jquery.dataTables.min.js')}}">
 <link rel="stylesheet" href="{{asset('style/js/myscript.js')}}">
-
 <script src="{{ asset('style/vendors/ckeditor/ckeditor.js')}}"></script>
 

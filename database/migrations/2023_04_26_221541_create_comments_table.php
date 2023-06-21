@@ -15,10 +15,13 @@ return new class extends Migration
             $table->id('id_comment');
             $table->uuid();
             $table->string('comment');
-            $table->string('user_id_comment');
+            $table->string('user_uuid_comment');
             $table->unsignedTinyInteger('status_comment');
-            $table->string('post_id_comment');
+            $table->string('post_uuid_comment');
             $table->timestamps();
+
+            $table->foreign('user_uuid_comment')->references('uuid')->on('users');
+            $table->foreign('post_uuid_comment')->references('uuid')->on('news');
         });
     }
 

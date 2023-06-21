@@ -134,7 +134,6 @@
                     </div>
                 </div>
                 <div class="QA_table mb_30">
-
                     <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper no-footer">
 
                         <table class="table  dataTable no-footer dtr-inline" id='my-table' role="grid"
@@ -163,6 +162,9 @@
                                     <th scope="col" class="sorting" tabindex="0" aria-controls="DataTables_Table_1"
                                         rowspan="1" colspan="1" style="width: 127px;"
                                         aria-label="Lesson: activate to sort column ascending">Tác giả</th>
+                                    <th scope="col" class="sorting" tabindex="0" aria-controls="DataTables_Table_1"
+                                        rowspan="1" colspan="1" style="width: 127px;"
+                                        aria-label="Lesson: activate to sort column ascending">Hot new</th>
                                     <th scope="col" class="sorting" tabindex="0" aria-controls="DataTables_Table_1"
                                         rowspan="1" colspan="1" style="width: 127px;"
                                         aria-label="Lesson: activate to sort column ascending">Updated_at</th>
@@ -242,7 +244,7 @@
                                         <td>
                                             @php
                                                 if ($new->status == 0) {
-                                                    if (session('user_check')) {
+                                                    if (session('admin_check')) {
                                                         echo '<a onclick="return confirm(\'Xác nhận kích hoạt bài viết ?\')"
                                             href="' .
                                                             route('admin.news.status_news', ['uuid' => $new->uuid, 'status' => 1]) .
@@ -252,7 +254,7 @@
                                                         echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="status_btn" style="background:#FA8072!important">Unactive</a>';
                                                     }
                                                 } else {
-                                                    if (session('user_check')) {
+                                                    if (session('admin_check')) {
                                                         echo '<a onclick="return confirm(\'Xác nhận tắt kích hoạt bài viết ?\')"
                                             href="' .
                                                             route('admin.news.status_news', ['uuid' => $new->uuid, 'status' => 0]) .
@@ -266,6 +268,25 @@
 
                                         </td>
                                         <td>{{ $new->author }}</td>
+                                        <td>
+                                            @if (session('admin_check'))
+                                                @if ($new->hot_new == 1)
+                                                    <a onclick="return confirm('Xác nhận bật hot new bài viết ?')" href="{{route('admin.news.hotNew',['uuid' => $new->uuid,'hotNew' => 0])}}"><i class="ti-check"></i></a>
+                                                @else
+                                                    <a onclick="return confirm('Xác nhận tắt hot new bài viết ?')" href="{{route('admin.news.hotNew',['uuid' => $new->uuid,'hotNew' => 1])}}"><i class="ti-close"></i></a>
+                                                @endif
+                                            @else
+                                                @if ($new->hot_new == 1)
+                                                    <a type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModalCenterCheck"><i
+                                                            class="ti-check"></i></a>
+                                                @else
+                                                    <a type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModalCenterCheck"><i
+                                                            class="ti-close"></i></a>
+                                                @endif
+                                            @endif
+                                        </td>
                                         <td>
                                             @if ($new->updated_at == null)
                                                 {{ date('d/m/Y H:i:s', strtotime($new->created_at)) }}

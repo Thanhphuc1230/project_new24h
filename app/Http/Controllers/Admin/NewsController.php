@@ -18,7 +18,7 @@ class NewsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
         $data['categories_select'] = Category::select('id_category', 'name_cate', 'parent_id')
             ->where('id_category', '>', 1)
             ->where('status_cate', 1)
@@ -82,10 +82,15 @@ class NewsController extends Controller
     public function status_news($uuid, $status)
     {
         News::where('uuid', $uuid)->update(['status' => $status]);
+        $mess = ($status == 1) ? 'Kích hoạt' : 'Tắt kích hoạt';
+        return redirect()->back()->with('success', $mess . ' sản phẩm thành công');
+    }
 
-        return redirect()
-            ->back()
-            ->with('success', 'Kích hoạt sản phẩm thành công');
+    public function hotNew($uuid,$hotNew){
+        News::where('uuid', $uuid)->update(['hot_new' => $hotNew]);
+
+        $mess = ($hotNew == 1) ? 'Kích hoạt' : 'Tắt kích hoạt';
+        return redirect()->back()->with('success', $mess . ' hot new bài viết thành công');
     }
 
     /**
@@ -154,13 +159,10 @@ class NewsController extends Controller
         $new = News::where('uuid', $uuid)->first();
 
         if ($new) {
-            // Delete image new
             $imagePath = public_path('images/news/' . $new->avatar);
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }
-
-            // Delete the new
             $new->delete();
 
             return back()->with('success', 'Xóa bài viết thành công.');

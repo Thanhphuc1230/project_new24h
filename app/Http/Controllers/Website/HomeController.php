@@ -22,9 +22,9 @@ class HomeController extends Controller
         $data['entertainment_news'] = $this->getNewsWhereIn(9, 5);
         $data['sport_news'] = $this->getNewsWhereIn(10, 5);
 
-        $data['most_views'] = News::select('uuid', 'avatar', 'title', 'new_view')
+        $data['most_views'] = News::select('uuid', 'avatar', 'title', 'views')
             ->where('status', 1)
-            ->orderByDesc('new_view')
+            ->orderByDesc('views')
             ->limit(20)
             ->get();
 
@@ -64,13 +64,18 @@ class HomeController extends Controller
 
         $data = [];
 
-        $data['breaking_news_left'] =$this->getNewsWhereIn(1, 4);
+        $data['breaking_news_left'] = News::with('category')
+        ->where('status', 1)
+        ->where('hot_new', 1)
+        ->limit(4)
+        ->latest('created_at')
+        ->get();
         
         $uuidOfLeftNews = $data['breaking_news_left']->pluck('uuid')->toArray();
         $data['breaking_news_right'] = News::with('category')
             ->where('status', 1)
             ->whereNotIn('uuid', $uuidOfLeftNews)
-            ->where('where_in', 1)
+            ->where('hot_new', 1)
             ->limit(4)
             ->latest('created_at')
             ->get();
@@ -180,7 +185,7 @@ class HomeController extends Controller
             $last_id = $request->id_new;
             if ($last_id == 0) {
                 $news = News::with('category')
-                    ->where('where_in', 1)
+                    ->where('hot_new', 1)
                     ->where('status', 1)
                     ->selectRaw('*, TIMESTAMPDIFF(SECOND, created_at, "' . Carbon::now() . '") as time_diff')
                     ->orderBy('id_new', 'DESC')
@@ -189,7 +194,7 @@ class HomeController extends Controller
             } else {
                 $news = DB::table('news')
                     ->where('id_new', '<', $last_id)
-                    ->where('where_in', 1)
+                    ->where('hot_new', 1)
                     ->where('status', 1)
                     ->selectRaw('*, TIMESTAMPDIFF(SECOND, created_at, "' . Carbon::now() . '") as time_diff')
                     ->orderBy('id_new', 'DESC')

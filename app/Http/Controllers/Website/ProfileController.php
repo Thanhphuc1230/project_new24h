@@ -26,20 +26,20 @@ class ProfileController extends Controller
         $uuid = Auth::user()->uuid;
         $data['profile'] = User::where('uuid', $uuid)->first();
         $data['comments'] = DB::table('comments')
-            ->join('news', 'comments.post_id_comment', '=', 'news.uuid')
+            ->join('news', 'comments.post_uuid_comment', '=', 'news.uuid')
             ->select('news.uuid', 'news.title', 'comments.uuid as Cuuid', 'comments.comment', 'comments.status_comment', 'comments.created_at')
-            ->where('comments.user_id_comment', $uuid)
+            ->where('comments.user_uuid_comment', $uuid)
             ->get();
         $data['history'] = DB::table('history')
-            ->join('news', 'history.id_post', '=', 'news.uuid')
+            ->join('news', 'history.uuid_post', '=', 'news.uuid')
             ->select('news.uuid', 'news.title', 'history.created_at', 'history.uuid as Huuid')
-            ->where('history.user_id', $uuid)
+            ->where('history.user_uuid', $uuid)
             ->get();
         
         $data['save_post'] = DB::table('save_post')
-            ->join('news', 'save_post.id_post', '=', 'news.uuid')
+            ->join('news', 'save_post.uuid_post', '=', 'news.uuid')
             ->select('news.uuid', 'news.title', 'save_post.created_at', 'save_post.uuid as Suuid')
-            ->where('save_post.user_id', $uuid)
+            ->where('save_post.user_uuid', $uuid)
             ->get();
         return view('website.modules.account.profile', $data);
     }
@@ -87,7 +87,7 @@ class ProfileController extends Controller
     public function editComment($uuid)
     {   
         $data['comment_user'] = DB::table('comments')
-            ->join('news', 'comments.post_id_comment', '=', 'news.uuid')
+            ->join('news', 'comments.post_uuid_comment', '=', 'news.uuid')
             ->select('news.uuid', 'news.title', 'comments.uuid as Cuuid', 'comments.comment', 'comments.status_comment', 'comments.created_at')
             ->where('comments.uuid', $uuid)
             ->first();

@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Image;
+use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     /**
@@ -55,9 +56,8 @@ class UserController extends Controller
     {
         User::where('uuid', $uuid)->update(['status_user' => $status]);
 
-        return redirect()
-            ->back()
-            ->with('success', 'Người dùng đã bị chặn đăng nhập');
+        $mess = ($status == 1) ? 'Kích hoạt' : 'Chặn';
+        return redirect()->back()->with('success', $mess . ' người dùng thành công');
     }
 
     /**
@@ -121,7 +121,7 @@ class UserController extends Controller
 
 
 
-        User::where('uuid', $id)->update($data);
+        User::where('uuid', $uuid)->update($data);
         return redirect()
             ->route('admin.users.index')
             ->with('success', 'Successfully updated');

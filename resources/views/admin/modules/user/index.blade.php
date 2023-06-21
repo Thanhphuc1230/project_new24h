@@ -82,7 +82,9 @@
                                                 <h6 class="card-subtitle mb-2">Level</h6>
                                                 <select class="form-select" name="level">
                                                     <option selected="">Choose...</option>
-                                                    <option value="2" {{ old('level')==2 ? 'selected' : '' }}>User
+                                                    <option value="3" {{ old('level')==3 ? 'selected' : '' }}>User
+                                                    </option>
+                                                    <option value="2" {{ old('level')==2 ? 'selected' : '' }}>Staff
                                                     </option>
                                                     <option value="1" {{ old('level')==1 ? 'selected' : '' }}>Admin
                                                     </option>
@@ -153,15 +155,17 @@
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @php
-                                    if($user->level == 1){
-                                    @endphp
-                                    Admin
-                                    @php
+                                    switch ($user->level) {
+                                        case 1:
+                                            echo 'admin';
+                                            break;
+                                        case 2:
+                                            echo 'staff';
+                                            break;
+                                        default:
+                                            echo 'users';
                                     }
-                                    else{
                                     @endphp
-                                    User
-                                    @php } @endphp
                                     </td>
                                 <td>
                                     @php

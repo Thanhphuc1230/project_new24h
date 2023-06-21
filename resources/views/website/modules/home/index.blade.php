@@ -185,7 +185,7 @@
                                                 <h4 class="ellipsis"><a
                                                         href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">{{ html_entity_decode($item->title) }}</a>
                                                 </h4>
-                                                <p class="ellipsis"><i class="fas fa-eye"></i> {{ $item->new_view }} views
+                                                <p class="ellipsis"><i class="fas fa-eye"></i> {{ $item->views }} views
                                                 </p>
                                             </div>
                                         </div>
