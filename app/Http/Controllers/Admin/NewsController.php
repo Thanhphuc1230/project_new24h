@@ -18,29 +18,45 @@ class NewsController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {   
-        $data['categories_select'] = Category::select('id_category', 'name_cate', 'parent_id')
-            ->where('id_category', '>', 1)
-            ->where('status_cate', 1)
-            ->get();
-        $data['select_where_in'] = Category::select('id_category', 'name_cate', 'parent_id')
-            ->where('id_category', '>', 1)
-            ->where('status_cate', 1)
-            ->where('parent_id', 1)
-            ->get();
+    {
+        $positionStaff = DB::table('position')
+            ->where('uuid_staff', Auth::user()->uuid)
+            ->value('category_id');
+
+        $positionStaff = json_decode($positionStaff);
+        $positionStaffUuid = DB::table('position')->where('uuid_staff',Auth::user()->uuid)->value('position_staff');
+        $check = DB::table('staff_position')->where('uuid',$positionStaffUuid)->value('position');
+
         if (Auth::user()->level !== 1) {
-            $data['news'] = DB::table('news')
+            if($check == 'Kiểm duyệt'){
+                $data['news'] = DB::table('news')
+                ->join('categories', 'news.category_id', '=', 'categories.id_category')
+                ->select('news.*', 'categories.name_cate')
+                ->whereIn('category_id',$positionStaff)
+                ->orderBy('categories.name_cate', 'asc')
+                ->paginate(10);
+            }else{
+                $data['news'] = DB::table('news')
                 ->join('categories', 'news.category_id', '=', 'categories.id_category')
                 ->select('news.*', 'categories.name_cate')
                 ->orderBy('categories.name_cate', 'asc')
                 ->where('uuid_author', Auth::user()->uuid)
                 ->paginate(10);
+            }
+            $data['categories_select'] = Category::select('id_category', 'name_cate', 'parent_id')
+                ->whereIn('id_category', $positionStaff)
+                ->where('status_cate', 1)
+                ->get();
         } else {
             $data['news'] = DB::table('news')
                 ->join('categories', 'news.category_id', '=', 'categories.id_category')
                 ->select('news.*', 'categories.name_cate')
                 ->orderBy('categories.name_cate', 'asc')
                 ->paginate(10);
+            $data['categories_select'] = Category::select('id_category', 'name_cate', 'parent_id')
+                ->where('id_category','!=',1)
+                ->where('status_cate', 1)
+                ->get();
         }
 
         return view('admin.modules.news.index', $data);
@@ -62,7 +78,7 @@ class NewsController extends Controller
         $image = $request->avatar;
         $imageName = time() . '-' . $image->getClientOriginalName();
 
-        $destinationPath = public_path('/images/users');
+        $destinationPath = public_path('/images/news');
         $imgFile = Image::make($image->getRealPath());
         $imgFile
             ->resize(150, 150, function ($constraint) {
@@ -83,15 +99,20 @@ class NewsController extends Controller
     {
         News::where('uuid', $uuid)->update(['status' => $status]);
 
-        $mess = ($status == 1) ? 'Kích hoạt' : 'Tắt';
-        return redirect()->back()->with('success', $mess . ' bài viết thành công');
-    }                                             
+        $mess = $status == 1 ? 'Kích hoạt' : 'Tắt';
+        return redirect()
+            ->back()
+            ->with('success', $mess . ' bài viết thành công');
+    }
 
-    public function hotNew($uuid,$hotNew){
+    public function hotNew($uuid, $hotNew)
+    {
         News::where('uuid', $uuid)->update(['hot_new' => $hotNew]);
 
-        $mess = ($hotNew == 1) ? 'Kích hoạt' : 'Tắt kích hoạt';
-        return redirect()->back()->with('success', $mess . ' hot new bài viết thành công');
+        $mess = $hotNew == 1 ? 'Kích hoạt' : 'Tắt kích hoạt';
+        return redirect()
+            ->back()
+            ->with('success', $mess . ' hot new bài viết thành công');
     }
 
     /**
@@ -100,13 +121,17 @@ class NewsController extends Controller
     public function edit(string $uuid)
     {
         $new = News::where('uuid', $uuid);
+        $positionStaff = DB::table('position')
+            ->where('uuid_staff', Auth::user()->uuid)
+            ->value('category_id');
 
+        $positionStaff = json_decode($positionStaff);
         if ($new->exists()) {
             $data['new'] = $new->first();
-            $data['category_selected'] = Category::select('id_category', 'name_cate', 'parent_id')
-                ->where('id_category', '>', 1)
-                ->where('status_cate', 1)
-                ->get();
+            $data['categories_select'] = Category::select('id_category', 'name_cate', 'parent_id')
+            ->whereIn('id_category', $positionStaff)
+            ->where('status_cate', 1)
+            ->get();
             return view('admin.modules.news.edit', $data);
         } else {
             abort(404);
@@ -127,25 +152,27 @@ class NewsController extends Controller
         if ($request->hasFile('avatar')) {
             $image_path = public_path('images/news') . '/' . $new_current->avatar;
             $imageName = time() . '-' . $request->avatar->getClientOriginalName();
-    
+
             $request->avatar->move(public_path('images/news'), $imageName);
-    
+
             // Resize the avatar image
             $destinationPath = public_path('images/news');
             $imgFile = Image::make($destinationPath . '/' . $imageName);
-            $imgFile->resize(150, 150, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save();
-    
+            $imgFile
+                ->resize(150, 150, function ($constraint) {
+                    $constraint->aspectRatio();
+                })
+                ->save();
+
             $data['avatar'] = $imageName;
-    
+
             if ($new_current->avatar && file_exists($image_path)) {
                 unlink($image_path);
             }
         } else {
             $data['avatar'] = $new_current->avatar;
         }
-        News::where('uuid', $id)->update($data);
+        News::where('uuid', $uuid)->update($data);
 
         return redirect()
             ->route('admin.news.index')
@@ -158,14 +185,13 @@ class NewsController extends Controller
     public function destroy($uuid)
     {
         $new = News::where('uuid', $uuid)->first();
-
         if ($new) {
             $imagePath = public_path('images/news/' . $new->avatar);
             if (file_exists($imagePath)) {
                 unlink($imagePath);
             }
+            DB::table('history')->where('uuid_post', $uuid)->delete();
             $new->delete();
-
             return back()->with('success', 'Xóa bài viết thành công.');
         } else {
             abort(404);

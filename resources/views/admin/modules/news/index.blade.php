@@ -56,9 +56,8 @@
                                                 <div class="mb-3">
                                                     <h6 class="card-subtitle mb-2">Ví trị trang chủ</h6>
                                                     <select class="form-select" name="where_in">
-                                                        <option selected="" value="1">Hot news</option>
-                                                        @foreach ($select_where_in as $category)
-                                                            <option value="{{ $category->id_category }}">
+                                                        @foreach ($categories_select as $category)
+                                                            <option selected="" value="{{ $category->id_category }}">
                                                                 {{ $category->name_cate }}</option>
                                                         @endforeach
                                                         <option selected="" value="0">Không lên trang chính</option>
@@ -181,10 +180,6 @@
                                         <td>{{ $new->name_cate }}
                                         </td>
                                         <td> @switch($new->where_in)
-                                                @case(1)
-                                                    Hot news
-                                                @break
-
                                                 @case(2)
                                                     Thời sự
                                                 @break
@@ -220,7 +215,6 @@
                                                 @case(10)
                                                     Thể thao
                                                 @break
-
                                                 @default
                                                     Sức khỏe
                                             @endswitch

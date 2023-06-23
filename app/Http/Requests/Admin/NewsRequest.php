@@ -27,14 +27,14 @@ class NewsRequest extends FormRequest
             'intro' => 'required|unique:news,intro',
             'content' => 'required|unique:news,content',
             'author' => 'required',
-            'avatar' => $uuid ? 'nullable' : 'required', // Make "avatar" field optional
+            'avatar' => 'required', 
         ];
         
-        // If we are updating an existing news item, we need to add the UUID to the unique rule
         if ($uuid) {
             $rules['title'] .= ",$uuid,uuid";
             $rules['intro'] .= ",$uuid,uuid";
             $rules['content'] .= ",$uuid,uuid";
+            $rules['avatar'] .= ",$uuid,uuid";
         }
 
         return $rules;

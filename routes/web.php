@@ -143,7 +143,7 @@ Route::prefix('admin')->name('admin.')->middleware('check_login')->group(functio
 
     Route::controller(NewsController::class)->prefix('news')->name('news.')->group(function () {
         Route::get('/', 'index')->name('index');
-        Route::get('/status_news/{uuid}/{status}', 'status_news')->name('status_news');
+        Route::middleware('check_position')->get('/status_news/{uuid}/{status}', 'status_news')->name('status_news');
         Route::get('/hotNew/{uuid}/{hotNew}', 'hotNew')->name('hotNew');
         Route::post('/store', 'store')->name('store');
         Route::get('/edit/{uuid}', 'edit')->name('edit');

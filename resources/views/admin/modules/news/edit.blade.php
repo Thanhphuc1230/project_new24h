@@ -30,7 +30,7 @@
                 <div class="mb-3">
                     <h6 class="card-subtitle mb-2">Thuộc nhóm</h6>
                     <select class="form-select" name="category_id">
-                        @foreach ($category_selected as $category_option)
+                        @foreach ($categories_select as $category_option)
                             <option value="{{ $category_option->id_category }}"
                                 {{ old('category_id', $new->category_id) == $category_option->id_category ? 'selected' : '' }}>
                                 {{ $category_option->name_cate }}
@@ -41,20 +41,12 @@
                 <div class="mb-3">
                     <h6 class="card-subtitle mb-2">Vị trí</h6>
                     <select class="form-select" name="where_in">
-                        {{ $new->where_in }}
-                        <option value="1" {{ $new->where_in == 1 ? 'selected' : '' }}>Hot news</option>
-                        <option value="2" {{ $new->where_in == 2 ? 'selected' : '' }}>Tin thời sự</option>
-                        <option value="3" {{ $new->where_in == 3 ? 'selected' : '' }}>Tin thế giới</option>
-                        <option value="4" {{ $new->where_in == 4 ? 'selected' : '' }}>Tin pháp luật</option>
-                        <option value="5" {{ $new->where_in == 5 ? 'selected' : '' }}>Tin kinh doanh</option>
-                        <option value="6" {{ $new->where_in == 6 ? 'selected' : '' }}>Tin công nghệ</option>
-                        <option value="7" {{ $new->where_in == 7 ? 'selected' : '' }}>Tin du lịch</option>
-                        <option value="8" {{ $new->where_in == 8 ? 'selected' : '' }}>Tin văn hóa</option>
-                        <option value="9" {{ $new->where_in == 9 ? 'selected' : '' }}>Tin giải trí</option>
-                        <option value="10" {{ $new->where_in == 10 ? 'selected' : '' }}>Tin thể thao</option>
-                        <option value="11" {{ $new->where_in == 11 ? 'selected' : '' }}>Tin sức khỏe</option>
-                        <option value="0" {{ $new->where_in == 0 ? 'selected' : '' }}>Không lên trang chính
-                        </option>
+                        @foreach ($categories_select as $category_option)
+                            <option value="{{ $category_option->id_category }}"
+                                {{ old('where_in', $new->where_in) == $category_option->id_category ? 'selected' : '' }}>
+                                {{ $category_option->name_cate }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="mb-3">
