@@ -83,7 +83,7 @@
             </a>
         </li>
         <li class="">
-            <a aria-expanded="false" href="{{ route('admin.position.index') }}">
+            <a aria-expanded="false" href="{{ route('admin.positionStaff.index') }}">
                 <div class="nav_icon_small">
                     <img src="{{ asset('style/img/menu-icon/5.svg') }}" alt="">
                 </div>

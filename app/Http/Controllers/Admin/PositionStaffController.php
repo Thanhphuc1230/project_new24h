@@ -11,7 +11,7 @@ class PositionStaffController extends Controller
 {
     public function index(){
         $data['position'] = PositionStaff::paginate(10);
-        return view('admin.modules.position.index',$data);
+        return view('admin.modules.positionStaff.index',$data);
     }
 
     public function store(PositionRequest $request){
@@ -39,7 +39,7 @@ class PositionStaffController extends Controller
         if ($position->exists()) {
             $data['position'] = $position->first();
            
-            return view('admin.modules.position.edit', $data);
+            return view('admin.modules.positionStaff.edit', $data);
         } else {
             abort(404);
         }
@@ -50,7 +50,7 @@ class PositionStaffController extends Controller
         $data['updated_at'] = new \DateTime();
         PositionStaff::where('uuid', $uuid)->update($data);
 
-       return redirect()->route('admin.position.index')->with('success', 'Cập nhật chủ đề thành công.');
+       return redirect()->route('admin.positionStaff.index')->with('success', 'Cập nhật chủ đề thành công.');
     }
 
     public function destroy($uuid){

@@ -118,62 +118,49 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr role="row" class="odd">
-                                    @foreach ($categories as $cate)
+                                @foreach ($categories as $cate)
+                                    <tr role="row" class="odd">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $cate->name_cate }}</td>
                                         <td>
                                             @php
-                                                if ($cate->status_cate == 0) {
-                                                    if (session('admin_check')) {
-                                                        echo '<a onclick="return confirm(\'Xác nhận kích hoạt nhãn hàng ?\')"href="' . route('admin.categories.status_categories', ['uuid' => $cate->uuid, 'status' => 1]) . '"class="status_btn" style="background:#FA8072!important">Unactive</a>';
-                                                    } else {
-                                                        echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="status_btn" style="background:#FA8072!important">Unactive</a>';
-                                                    }
-                                                } else {
-                                                    if (session('admin_check')) {
-                                                        echo '<a onclick="return confirm(\'Xác nhận tắt kích hoạt nhãn hàng ?\')"href="' . route('admin.categories.status_categories', ['uuid' => $cate->uuid, 'status' => 0]) . '"class="status_btn">Active</a>';
-                                                    } else {
-                                                        echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck"class="status_btn">Active</a>';
-                                                    }
-                                                }
+                                                $status = $cate->status_cate;
+                                                $admin_check = session('admin_check');
+                                                $uuid = $cate->uuid;
+                                                
+                                                $confirmText = $status == 0 ? "Xác nhận kích hoạt nhãn hàng ?" : "Xác nhận tắt kích hoạt nhãn hàng ?";
+                                                $activeText = $status == 0 ? "Unactive" : "Active";
+                                                $activeClass = "status_btn" . ($admin_check ? ' unactive' : '');
+                                                $statusUrl = $admin_check ? route('admin.categories.status_categories', ['uuid' => $uuid, 'status' => $status ? 0 : 1]) : '#exampleModalCenterCheck';
                                             @endphp
-
+                                            
+                                            <a onclick="return confirm('{{ $confirmText }}')"
+                                               href="{{ $statusUrl }}" class="{{ $activeClass }}">
+                                                {{ $activeText }}
+                                            </a>
                                         </td>
-
-                                        <td>
-                                            {{ date('d/m/Y', strtotime($cate->created_at)) }}
-                                        </td>
-
+                                        <td>{{ date('d/m/Y', strtotime($cate->created_at)) }}</td>
                                         <td>
                                             <div class="action_btns d-flex">
-                                                @php
-                                                    if (session('admin_check')) {
-                                                        echo '<a href="' .
-                                                            route('admin.categories.edit', ['uuid' => $cate->uuid]) .
-                                                            '" class="action_btn mr_10">
+                                                @if ($admin_check)
+                                                    <a href="{{ route('admin.categories.edit', ['uuid' => $cate->uuid]) }}" class="action_btn mr_10">
                                                         <i class="far fa-edit"></i>
-                                                    </a>';
-                                                        echo '<a onclick="return confirm(\'Xác nhận xóa nhãn hàng ?\')"
-                                                        href="' .
-                                                            route('admin.categories.destroy', ['uuid' => $cate->uuid]) .
-                                                            '" class="action_btn">
+                                                    </a>
+                                                    <a onclick="return confirm('Xác nhận xóa nhãn hàng ?')"
+                                                       href="{{ route('admin.categories.destroy', ['uuid' => $cate->uuid]) }}" class="action_btn">
                                                         <i class="fas fa-trash"></i>
-                                                    </a>';
-                                                    } else {
-                                                        echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck"
-                                                        class="action_btn mr_10">
+                                                    </a>
+                                                @else
+                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="action_btn mr_10">
                                                         <i class="far fa-edit"></i>
-                                                    </a>';
-                                                        echo '<a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck"
-                                                        class="action_btn">
+                                                    </a>
+                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="action_btn">
                                                         <i class="fas fa-trash"></i>
-                                                    </a>';
-                                                    }
-                                                @endphp
+                                                    </a>
+                                                @endif
                                             </div>
                                         </td>
-                                </tr>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

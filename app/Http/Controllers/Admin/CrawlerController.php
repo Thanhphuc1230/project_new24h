@@ -13,7 +13,6 @@ class CrawlerController extends Controller
     public function featchAllTuoiTre()
 {
     $categories = DB::table('categories')
-        ->where('parent_id', '!=', 1)
         ->where('status_cate', 1)
         ->get();
 
@@ -27,7 +26,11 @@ class CrawlerController extends Controller
             $where_in = $category->parent_id;
         }
 
-        $html = file_get_html($link);
+        try {
+            $html = file_get_html($link);
+        } catch (\Exception $e) {
+            continue; 
+        }
 
         if (!$html) {
             continue;
