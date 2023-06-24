@@ -10,6 +10,16 @@
             <div class="white_box_tittle list_header">
                 <h3>User-list</h3>
                 <div class="box_right d-flex lms_block">
+                    <div class="serach_field_2">
+                        <div class="search_inner">
+                            <form action="{{ route('admin.users.index') }}" method="GET">
+                                <div class="search_field">
+                                    <input type="text" name="search" placeholder="Search content here...">
+                                </div>
+                                <button type="submit"> <i class="ti-search"></i> </button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-lg-12">
@@ -213,7 +223,7 @@
                     </table>
                 </div>
                 <div class="paginate-table">
-                    {!! $users->links() !!}
+                    {!! $users->appends(request()->except('page'))->links() !!}
                 </div>
             </div>
         </div>

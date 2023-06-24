@@ -12,12 +12,21 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {   
-        $data['comments'] = Comment::join('news', 'comments.post_uuid_comment', '=', 'news.uuid')
-        ->join('users', 'comments.user_uuid_comment', '=', 'users.uuid')
-        ->select('comments.*', 'news.title', 'users.email')
-        ->paginate(10);
+        $searchQuery = $request->query('search');
+    
+        $query = Comment::join('news', 'comments.post_uuid_comment', '=', 'news.uuid')
+            ->join('users', 'comments.user_uuid_comment', '=', 'users.uuid')
+            ->select('comments.*', 'news.title', 'users.email');
+        
+        if ($searchQuery) {
+            $query->where(function ($innerQuery) use ($searchQuery) {
+                $innerQuery->where('news.title', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('users.email', 'like', '%' . $searchQuery . '%');
+            });
+        }
+        $data['comments'] = $query->paginate(10);
 
         return view('admin.modules.comment.index',$data);
     }

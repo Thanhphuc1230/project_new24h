@@ -4,13 +4,26 @@
 @section('content')
     <div class="white_card card_height_100 mb_30">
         <div class="white_card_header">
-            @include('admin.partials.error')
         </div>
         <div class="white_card_body">
             <div class="QA_section">
                 <div class="white_box_tittle list_header">
-                    <h3>Danh sách tin tức</h3>
+                    <h4>News List </h4>
+                    <div class="box_right d-flex lms_block">
+                        <div class="serach_field_2">
+                            <div class="search_inner">
+                                <form action="{{ route('admin.news.index') }}" method="GET">
+                                    <div class="search_field">
+                                        <input type="text" name="search" placeholder="Search content here...">
+                                    </div>
+                                    <button type="submit"> <i class="ti-search"></i> </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button class="btn btn-outline-primary mb-3" id="goBackButton" onclick="goBack()"><i class="fas fa-arrow-circle-left"></i></button>
+
                 <div class="col-lg-12">
                     <div class="white_card card_height_100 mb_30">
                         <div class="white_card_body">
@@ -231,7 +244,7 @@
                                                     echo '<img src="' . asset('images/news/' . $avatar) . '" width="50px">';
                                                 }
                                             @endphp
-                                        </td>
+                                        </td> 
                                         <td
                                             style="display:inline-block;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;max-width: 20ch;">
                                             {{ html_entity_decode($new->title) }}</td>
@@ -307,7 +320,7 @@
                         </table>
                     </div>
                     <div class="paginate-table">
-                        {!! $news->links() !!}
+                        {!! $news->appends(request()->except('page'))->links() !!}
                     </div>
                 </div>
             </div>

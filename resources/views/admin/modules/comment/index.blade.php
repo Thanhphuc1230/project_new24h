@@ -8,8 +8,22 @@
         <div class="white_card_body">
             <div class="QA_section">
                 <div class="white_box_tittle list_header">
-                    <h3>Danh sách comment</h3>
+                    <h4>Comment List </h4>
+                    <div class="box_right d-flex lms_block">
+                        <div class="serach_field_2">
+                            <div class="search_inner">
+                                <form action="{{ route('admin.comment.index') }}" method="GET">
+                                    <div class="search_field">
+                                        <input type="text" name="search" placeholder="Search content here...">
+                                    </div>
+                                    <button type="submit"> <i class="ti-search"></i> </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button class="btn btn-outline-primary mb-3" id="goBackButton" onclick="goBack()"><i class="fas fa-arrow-circle-left"></i></button>
+
                 <div class="QA_table mb_30">
                     <div id="DataTables_Table_1_wrapper" class="dataTables_wrapper no-footer">
                         <table class="table dataTable no-footer dtr-inline" id='my-table' role="grid"
@@ -91,7 +105,7 @@
                         </table>
                     </div>
                     <div class="paginate-table">
-                        {!! $comments->links() !!}
+                        {!! $comments->appends(request()->except('page'))->links() !!}
                     </div>
                 </div>
             </div>

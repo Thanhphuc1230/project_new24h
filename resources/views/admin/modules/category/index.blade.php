@@ -8,8 +8,22 @@
         <div class="white_card_body">
             <div class="QA_section">
                 <div class="white_box_tittle list_header">
-                    <h3>Danh sách chủ đề</h3>
+                    <h4>Category List </h4>
+                    <div class="box_right d-flex lms_block">
+                        <div class="serach_field_2">
+                            <div class="search_inner">
+                                <form action="{{ route('admin.categories.index') }}" method="GET">
+                                    <div class="search_field">
+                                        <input type="text" name="search" placeholder="Search content here...">
+                                    </div>
+                                    <button type="submit"> <i class="ti-search"></i> </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <button class="btn btn-outline-primary mb-3" id="goBackButton" onclick="goBack()"><i class="fas fa-arrow-circle-left"></i></button>
+
                 <div class="col-lg-12">
                     <div class="white_card card_height_100 mb_30">
                         <div class="white_card_body">
@@ -128,14 +142,14 @@
                                                 $admin_check = session('admin_check');
                                                 $uuid = $cate->uuid;
                                                 
-                                                $confirmText = $status == 0 ? "Xác nhận kích hoạt nhãn hàng ?" : "Xác nhận tắt kích hoạt nhãn hàng ?";
-                                                $activeText = $status == 0 ? "Unactive" : "Active";
-                                                $activeClass = "status_btn" . ($admin_check ? ' unactive' : '');
+                                                $confirmText = $status == 0 ? 'Xác nhận kích hoạt nhãn hàng ?' : 'Xác nhận tắt kích hoạt nhãn hàng ?';
+                                                $activeText = $status == 0 ? 'Unactive' : 'Active';
+                                                $activeClass = 'status_btn' . ($admin_check ? ' unactive' : '');
                                                 $statusUrl = $admin_check ? route('admin.categories.status_categories', ['uuid' => $uuid, 'status' => $status ? 0 : 1]) : '#exampleModalCenterCheck';
                                             @endphp
-                                            
-                                            <a onclick="return confirm('{{ $confirmText }}')"
-                                               href="{{ $statusUrl }}" class="{{ $activeClass }}">
+
+                                            <a onclick="return confirm('{{ $confirmText }}')" href="{{ $statusUrl }}"
+                                                class="{{ $activeClass }}">
                                                 {{ $activeText }}
                                             </a>
                                         </td>
@@ -143,18 +157,23 @@
                                         <td>
                                             <div class="action_btns d-flex">
                                                 @if ($admin_check)
-                                                    <a href="{{ route('admin.categories.edit', ['uuid' => $cate->uuid]) }}" class="action_btn mr_10">
+                                                    <a href="{{ route('admin.categories.edit', ['uuid' => $cate->uuid]) }}"
+                                                        class="action_btn mr_10">
                                                         <i class="far fa-edit"></i>
                                                     </a>
                                                     <a onclick="return confirm('Xác nhận xóa nhãn hàng ?')"
-                                                       href="{{ route('admin.categories.destroy', ['uuid' => $cate->uuid]) }}" class="action_btn">
+                                                        href="{{ route('admin.categories.destroy', ['uuid' => $cate->uuid]) }}"
+                                                        class="action_btn">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
                                                 @else
-                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="action_btn mr_10">
+                                                    <a type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModalCenterCheck"
+                                                        class="action_btn mr_10">
                                                         <i class="far fa-edit"></i>
                                                     </a>
-                                                    <a type="button" data-bs-toggle="modal" data-bs-target="#exampleModalCenterCheck" class="action_btn">
+                                                    <a type="button" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModalCenterCheck" class="action_btn">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
                                                 @endif
@@ -166,11 +185,13 @@
                         </table>
                     </div>
                     <div class="paginate-table">
-                        {!! $categories->links() !!}
+                        {!! $categories->appends(request()->except('page'))->links() !!}
                     </div>
                 </div>
+
             </div>
             {{-- end content --}}
         </div>
     </div>
+    
 @endsection

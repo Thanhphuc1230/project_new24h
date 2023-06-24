@@ -15,19 +15,40 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data['users'] = User::select('uuid', 'fullname', 'email', 'avatar', 'created_at', 'level', 'status_user')
-        ->where('level',3)
-        ->paginate(10);
+        $searchQuery = $request->query('search');
+
+        $query = User::query()->where('level', 3);
+
+        if ($searchQuery) {
+            $query->where(function ($innerQuery) use ($searchQuery) {
+                $innerQuery->where('fullname', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('email', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        $data['users'] = $query->paginate(10);
         return view('admin.modules.user.index', $data);
     }
 
-    public function list()
-    {
-        $data['users'] = User::select('uuid', 'fullname', 'email', 'avatar', 'created_at', 'level', 'status_user')
-        ->where('level','!=',3)
-        ->paginate(10);
+    public function list(Request $request)
+    {   
+
+        $searchQuery = $request->query('search');
+
+        $query = User::query()->where('level','!=', 3);
+
+        if ($searchQuery) {
+            $query->where(function ($innerQuery) use ($searchQuery) {
+                $innerQuery->where('fullname', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('email', 'like', '%' . $searchQuery . '%');
+            });
+        }
+
+        $data['users'] = $query->paginate(10);
+
+     
         return view('admin.modules.user.listStaff',$data);
     }
     /**

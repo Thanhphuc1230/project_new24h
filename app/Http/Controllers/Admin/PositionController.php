@@ -10,7 +10,7 @@ use App\Models\PositionStaff;
 use App\Models\Position;
 class PositionController extends Controller
 {
-    public function index(){
+    public function index(Request $request){
 
         $data['category_selected'] = Category::select('id_category', 'name_cate')->where('parent_id', 1)->where('status_cate',1)->get();
         $data['position'] = PositionStaff::select('uuid', 'position')->where('status_position',1)->get();
@@ -20,8 +20,20 @@ class PositionController extends Controller
         $data['position_staff'] = \DB::table('position')
         ->join('users','position.uuid_staff','=','users.uuid')
         ->join('staff_position','position.position_staff','=','staff_position.uuid')
-        ->select('users.fullname','position.uuid','position.created_at','position.category_id','position.status_position','staff_position.position')
-        ->get();
+        ->select('users.fullname','position.uuid','position.created_at','position.category_id','position.status_position','staff_position.position');
+
+        $searchQuery = $request->query('search');
+    
+        if ($searchQuery) {
+            $data['position_staff']->where(function ($innerQuery) use ($searchQuery) {
+                $innerQuery->where('users.fullname', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('staff_position.position', 'like', '%' . $searchQuery . '%');
+            });
+        }
+        
+        $data['position_staff'] = $data['position_staff']->paginate(10);
+
+
         return view('admin.modules.position.index',$data);
     }
 

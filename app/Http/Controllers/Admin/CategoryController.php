@@ -12,14 +12,29 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 
-
 class CategoryController extends AdminBaseController
- {
-    public function index()
-    {    
-        $data['categories'] = Category::select('uuid','name_cate', 'status_cate', 'created_at')->paginate(10);
-        $data['category_selected'] = Category::select('id_category', 'name_cate')->where('parent_id', 1)->get();
-        return view('admin.modules.category.index',$data);
+{
+    public function index(Request $request)
+    {
+        $query = Category::select('uuid', 'name_cate', 'status_cate', 'created_at');
+
+        // Perform search if the search query is provided
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name_cate', 'LIKE', "%{$searchTerm}%")
+                    ->orWhere('status_cate', '=', ($searchTerm === 'active' ? 1 : 0));
+            });
+        }
+
+        $categories = $query->paginate(10);
+
+        $data['categories'] = $categories;
+        $data['category_selected'] = Category::select('id_category', 'name_cate')
+            ->where('parent_id', 1)
+            ->get();
+
+        return view('admin.modules.category.index', $data);
     }
 
     /**
@@ -29,34 +44,38 @@ class CategoryController extends AdminBaseController
     {
         $category = [
             'name_cate' => $request->name_cate,
-            'uuid' =>  Str::uuid(),
+            'uuid' => Str::uuid(),
             'status_cate' => $request->status_cate,
             'parent_id' => $request->parent_id,
-            'created_at' => Carbon::now(), 
+            'created_at' => Carbon::now(),
         ];
         Category::create($category);
-        
-        return redirect()->back()->with('success', 'Thêm chủ đề thành công');
+
+        return redirect()
+            ->back()
+            ->with('success', 'Thêm chủ đề thành công');
     }
 
-    public function status_categories($uuid,$status){
-      
-        Category::where('uuid',$uuid)->update(['status_cate'=>$status]);
+    public function status_categories($uuid, $status)
+    {
+        Category::where('uuid', $uuid)->update(['status_cate' => $status]);
 
-        return redirect()->back()->with('success', 'Kích hoạt sản phẩm thành công');
+        return redirect()
+            ->back()
+            ->with('success', 'Kích hoạt sản phẩm thành công');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
-    {   
-        $category =Category::where('uuid', $id);
-        
+    {
+        $category = Category::where('uuid', $id);
+
         if ($category->exists()) {
             $data['category'] = $category->first();
-            $data['category_selected']= Category::all();
-            return view('admin.modules.category.edit',$data);
+            $data['category_selected'] = Category::all();
+            return view('admin.modules.category.edit', $data);
         } else {
             abort(404);
         }
@@ -66,20 +85,21 @@ class CategoryController extends AdminBaseController
      * Update the specified resource in storage.
      */
     public function update(CategoryRequest $request, string $id)
-    {   
+    {
         $data = $request->except('_token');
         $data['updated_at'] = new \DateTime();
         Category::where('uuid', $id)->update($data);
 
-       return redirect()->route('admin.categories.index')->with('success', 'Cập nhật chủ đề thành công.');
-
+        return redirect()
+            ->route('admin.categories.index')
+            ->with('success', 'Cập nhật chủ đề thành công.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {   
+    {
         $category = Category::where('uuid', $id);
 
         if ($category->exists()) {

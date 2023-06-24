@@ -61,9 +61,19 @@
 
 <script src="{{ asset('style/js/custom.js') }}"></script>
 
-
 <script>
-    $(document).ready(function() {
-        $('#my-table').DataTable();
-    });
+    function goBack() {
+        window.history.back();
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams);
+    const searchQuery = urlParams.get('search');
+    if (searchQuery) {
+        // Display the "Go Back" button
+        document.getElementById('goBackButton').style.display = 'block';
+    } else {
+        // Hide the "Go Back" button
+        document.getElementById('goBackButton').style.display = 'none';
+    }
 </script>

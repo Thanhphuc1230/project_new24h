@@ -17,8 +17,9 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index(Request $request)
+    {   
+        //check position staff
         $positionStaff = DB::table('position')
             ->where('uuid_staff', Auth::user()->uuid)
             ->value('category_id');
@@ -26,20 +27,21 @@ class NewsController extends Controller
         $positionStaff = json_decode($positionStaff);
         $positionStaffUuid = DB::table('position')->where('uuid_staff',Auth::user()->uuid)->value('position_staff');
         $check = DB::table('staff_position')->where('uuid',$positionStaffUuid)->value('position');
+        
+        //search
+        $searchQuery = $request->query('search');
+        //create query
+        $query = DB::table('news')
+        ->join('categories', 'news.category_id', '=', 'categories.id_category')
+        ->select('news.*', 'categories.name_cate')
+        ->orderBy('categories.name_cate', 'asc');
 
         if (Auth::user()->level !== 1) {
             if($check == 'Kiểm duyệt'){
-                $data['news'] = DB::table('news')
-                ->join('categories', 'news.category_id', '=', 'categories.id_category')
-                ->select('news.*', 'categories.name_cate')
-                ->whereIn('category_id',$positionStaff)
-                ->orderBy('categories.name_cate', 'asc')
+                $data['news'] = $query->whereIn('category_id',$positionStaff)
                 ->paginate(10);
             }else{
-                $data['news'] = DB::table('news')
-                ->join('categories', 'news.category_id', '=', 'categories.id_category')
-                ->select('news.*', 'categories.name_cate')
-                ->orderBy('categories.name_cate', 'asc')
+                $data['news'] = $query
                 ->where('uuid_author', Auth::user()->uuid)
                 ->paginate(10);
             }
@@ -48,16 +50,24 @@ class NewsController extends Controller
                 ->where('status_cate', 1)
                 ->get();
         } else {
-            $data['news'] = DB::table('news')
-                ->join('categories', 'news.category_id', '=', 'categories.id_category')
-                ->select('news.*', 'categories.name_cate')
-                ->orderBy('categories.name_cate', 'asc')
-                ->paginate(10);
+            $data['news'] = $query->paginate(10);
             $data['categories_select'] = Category::select('id_category', 'name_cate', 'parent_id')
                 ->where('id_category','!=',1)
                 ->where('status_cate', 1)
                 ->get();
         }
+
+        if ($searchQuery) {
+            $query->where(function ($innerQuery) use ($searchQuery) {
+                $innerQuery->where('categories.name_cate', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('news.title', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('news.intro', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('news.status', '=', ($searchQuery === 'active' ? 1 : 0));;
+            });
+        }
+        
+        $data['news'] = $query->paginate(10);
+
 
         return view('admin.modules.news.index', $data);
     }
@@ -87,7 +97,7 @@ class NewsController extends Controller
             ->save($destinationPath . '/' . $imageName);
 
         $data['avatar'] = $imageName;
-
+        
         News::insert($data);
 
         return redirect()
