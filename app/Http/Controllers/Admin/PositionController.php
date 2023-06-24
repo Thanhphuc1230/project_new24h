@@ -48,9 +48,14 @@ class PositionController extends Controller
     public function store(Request $request){
 
         $data= $request->all();
-        $category_id = $request->input('category_id');
-
-        $data['category_id'] = json_encode($category_id);
+        $array =$request->input('category_id');
+        //check $array co trung lap nhau hem
+        $category_id = collect($array)->duplicates();
+        if ($category_id->count() > 0) {
+            return back()
+            ->with('error', 'Không thể phân quyền vị trí giống nhau');
+        }
+        $data['category_id'] = json_encode($array) ;
         $data['uuid'] = \Str::uuid();
         Position::create($data);
 
