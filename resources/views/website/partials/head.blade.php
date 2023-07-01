@@ -20,6 +20,7 @@
         as="image" fetchpriority="high">
     <!-- Mobile Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Site Title  -->
     <title>@yield('module', 'Trang chủ') </title>
@@ -33,7 +34,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-
+    <script src="https://kit.fontawesome.com/9d4570d54a.js" crossorigin="anonymous"></script>
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ asset('website/css/bootstrap.min.css') }} ">
     <link rel="stylesheet" href="{{ asset('website/css/main.css') }} ">

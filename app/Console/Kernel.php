@@ -12,7 +12,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command('app:new-command')->everyMinute()->name('task1');
+        $schedule->command('app:new-command')->everyMinute()->name('craw dữ liệu từ trang web tuoitre.vn');
     }
 
     /**
