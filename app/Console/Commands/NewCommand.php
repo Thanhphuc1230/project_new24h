@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Http\Controllers\Admin\CrawlerController;
-require_once app_path() . '../Library/simple_html_dom.php';
+require_once app_path() . '/Library/simple_html_dom.php';
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -129,6 +129,7 @@ class NewCommand extends Command
                     'author' => 'Tuoi Tre',
                     'uuid_author' => 'ca24ce99-cb8b-4a48-bafe-668f151d7f97',
                     'status' => 1,
+                    'hot_new' =>random_int(0, 1),
                     'views' => 0,
                     'where_in' => $where_in,
                     'category_id' => $category_id,

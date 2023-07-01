@@ -150,7 +150,7 @@ class HomeController extends Controller
     private function getTimeAgoString($seconds) {
         $minutes = floor($seconds / 60);
         if ($minutes < 1) {
-            return 'less than a minute ago';
+            return 'Chưa tới 1 phút';
         } else if ($minutes == 1) {
             return '1 phút trước';
         } else if ($minutes < 60) {

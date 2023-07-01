@@ -34,7 +34,7 @@
                             </div>
                             <div class="entry-main">
                                 <div class="post-meta-elements">
-                                    <div class="post-meta-author"> <i class="fa fa-user"></i><a >By
+                                    <div class="post-meta-author"> <i class="fa fa-user"></i><a>By
                                             {{ $detail_new->author }}</a> </div>
                                     <div class="post-meta-date"> <i
                                             class="fa fa-calendar"></i>{{ date('d-m-Y h:i A', strtotime($detail_new->created_at)) }}
@@ -46,7 +46,27 @@
                                     <div class="post-meta-comments"> <i class="fas fa-eye"></i>
                                         {{ $detail_new->new_view }} views
                                     </div>
-
+                                    {{-- save post --}}
+                                    @if (!Auth::user())
+                                        <a href="{{ route('website.checkUser') }}"><i class="fa-regular fa-bookmark"></i>
+                                            @else
+                                                @php
+                                                    $userSave = \DB::table('save_post')
+                                                        ->where('uuid_post', $detail_new->uuid)
+                                                        ->where('user_uuid', Auth::user()->uuid)
+                                                        ->exists();
+                                                @endphp
+                                                <div class="post-meta-comments">
+                                                    @if ($userSave)
+                                                        <a href="#"
+                                                            onclick="deleteSavePost('{{ $detail_new->uuid }}')"><i
+                                                                class="fa-sharp fa-solid fa-bookmark"></i></a>
+                                                    @else
+                                                        <a href="#" onclick="savePost('{{ $detail_new->uuid }}')"><i
+                                                                class="fa-regular fa-bookmark"></i></a>
+                                                    @endif
+                                                </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="entry-main">
@@ -58,26 +78,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="post-meta-comments">
-                            @if (!Auth::user())
-                                <a href="{{ route('website.checkUser') }}" type="button"
-                                    class="btn btn-primary btn-black">Lưu bài viết</a>
-                            @else
-                                <form action="{{ route('website.savePost', ['uuid' => $detail_new->uuid]) }}"
-                                    method="post">
-                                    @csrf
-                                    <button class="btn btn-primary btn-black" type="submit">Lưu bài viết
-                                    </button>
-                                </form>
-                            @endif
-                        </div>
                         <div class="comment-section">
                             <h4>Chia sẻ bài viết</h4>
                             <div class="social-btn-sp">
                                 {!! $shareButtons !!}
                             </div>
                         </div>
-
                         <!--  End .post -->
 
                         <!--  Begin .comment-section -->
@@ -268,7 +274,7 @@
                                         <p><a
                                                 href="{{ route('website.detailNew', ['name_post' => Str::of($item->title)->slug('-'), 'uuid' => $item->uuid]) }}">
                                                 {{ Str::words($item->intro, 20) }}</a></p>
-    
+
                                         <div> <a href="{{ route('website.category_news', ['name_cate' => Str::of($item['category']->name_cate)->slug('-'), 'uuid' => $item['category']->uuid]) }}"
                                                 target="_blank"><span
                                                     class="read-more">{{ $item['category']->name_cate }}</span></a>
@@ -277,10 +283,10 @@
                                 </div>
                                 <!-- End .item-->
                             @endforeach
-    
+
                         </div>
                         <div class="button-load-more"><a
-                                href="{{ route('website.category_news', ['name_cate' => Str::of($detail_new['category']->name_cate)->slug('-'), 'uuid' =>$detail_new['category']->uuid]) }}"
+                                href="{{ route('website.category_news', ['name_cate' => Str::of($detail_new['category']->name_cate)->slug('-'), 'uuid' => $detail_new['category']->uuid]) }}"
                                 type="button" class="btn btn-default active">Xem thêm</a></div>
                         <!--========== End .NEWS ==========-->
                     </div>
@@ -290,5 +296,53 @@
         </section>
 
     </div>
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.post-meta-comments a', function(event) {
+                event.preventDefault();
+                var uuid = '{{ $detail_new->uuid }}';
+                if ($(this).find('i').hasClass('fa-regular')) {
+                    savePost(uuid);
+                } else {
+                    deleteSavePost(uuid);
+                }
+            });
+        });
+
+        function savePost(uuid) {
+            $.ajax({
+                url: '{{ route('website.savePost', ['uuid' => $detail_new->uuid]) }}',
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $('.post-meta-comments a i').removeClass('fa-regular fa-bookmark').addClass(
+                        'fa-solid fa-bookmark');
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        function deleteSavePost(uuid) {
+            $.ajax({
+                url: '/deleteSavePost/' + uuid,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    $('.post-meta-comments a i').removeClass('fa-solid fa-bookmark').addClass(
+                        'fa-regular fa-bookmark');
+                },
+                error: function(xhr, status, error) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+    </script>
+
     @include('website.partials.copyrights')
 @endsection

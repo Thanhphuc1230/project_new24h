@@ -23,7 +23,10 @@ class ProfileController extends Controller
 
     public function profile()
     {   
-        $uuid = Auth::user()->uuid;
+        
+        if (empty($uuid = optional(Auth::user())->uuid)) {
+            return redirect()->route('website.index')->with('success', 'Hiện tại bạn chưa đăng nhập');
+        } 
         $data['profile'] = User::where('uuid', $uuid)->first();
         $data['comments'] = DB::table('comments')
             ->join('news', 'comments.post_uuid_comment', '=', 'news.uuid')
