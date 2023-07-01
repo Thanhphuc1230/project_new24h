@@ -155,20 +155,24 @@ class NewsController extends Controller
 
     public function savePost($uuid)
     {
-        $post_save = DB::table('save_post')
-            ->where('uuid_post', $uuid)
-            ->where('user_uuid', Auth::user()->uuid)
-            ->count();
+        $existingSave = DB::table('save_post')
+        ->where('uuid_post', $uuid)
+        ->where('user_uuid', Auth::user()->uuid)
+        ->first();
 
-            $data = [
-                'uuid' => Str::uuid(),
-                'uuid_post' => $uuid,
-                'user_uuid' => Auth::user()->uuid,
-                'status_save' => 1,
-                'created_at' => new \DateTime(),
-            ];
-            DB::table('save_post')->insert($data);
-            return response()->json(['success' => 'Đã lưu bài viết thành công']);
+        if ($existingSave) {
+            return response()->json(['success' => 'Bài viết đã được lưu trước đó.']);
+        }
+
+        $data = [
+            'uuid' => Str::uuid(),
+            'uuid_post' => $uuid,
+            'user_uuid' => Auth::user()->uuid,
+            'status_save' => 1,
+            'created_at' => new \DateTime(),
+        ];
+        DB::table('save_post')->insert($data);
+        return response()->json(['success' => 'Đã lưu bài viết thành công']);
     }
 
     public function deleteSavePost($uuid){
